@@ -1,9 +1,13 @@
 ﻿using PS3Lib;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace PS3ManagerAPI
 {
