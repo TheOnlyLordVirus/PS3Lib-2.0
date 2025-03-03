@@ -57,7 +57,7 @@ public class CCAPI : IPlaystationApi
 
     public string GetConsoleId()
     {
-        return 
+        return "";
     }
 
     public void SetConsoleId()

@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,7 +13,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +23,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
@@ -35,7 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,34 +45,37 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  
   <ItemGroup>
-	<Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.Designer.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.resx" />
-	<Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.Designer.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.resx" />
-	<Compile Include="PS3Lib\api\PS3MAPI\LogDialog.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\LogDialog.Designer.cs" />
-	<Compile Include="PS3Lib\api\PS3MAPI\LogDialog.resx" />
-	<Compile Include="PS3Lib\api\PS3MAPI\PS3MAPI.cs" />
-	
+    <Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.Designer.cs" />
+    <Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.resx" />
+    <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.Designer.cs" />
+    <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.resx" />
+    <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.Designer.cs" />
+    <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.resx" />
+    <Compile Include="PS3Lib\api\PS3MAPI\PS3MAPI.cs" />
     <Compile Include="PS3Lib\api\CCAPI.cs" />
-	<Compile Include="PS3Lib\api\ConsoleList.cs" />
-	<Compile Include="PS3Lib\api\ConsoleList.Designer.cs" />
-	<Compile Include="PS3Lib\api\ConsoleList.resx" />
-	<Compile Include="PS3Lib\api\PS3API.cs" />
-	<Compile Include="PS3Lib\api\TMAPI.cs" />
-	<Compile Include="PS3Lib\api\TMAPI_NET.cs" />
-	
-	<Compile Include="PS3Lib\extra\ArrayBuilder.cs" />
-	<Compile Include="PS3Lib\extra\Extensions.cs" />
+    <Compile Include="PS3Lib\api\ConsoleList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PS3Lib\api\ConsoleList.Designer.cs" />
+    <Compile Include="PS3Lib\api\ConsoleList.resx" />
+    <Compile Include="PS3Lib\api\PS3API.cs" />
+    <Compile Include="PS3Lib\api\TMAPI.cs" />
+    <Compile Include="PS3Lib\api\TMAPI_NET.cs" />
+    <Compile Include="PS3Lib\extra\ArrayBuilder.cs" />
+    <Compile Include="PS3Lib\extra\Extensions.cs" />
   </ItemGroup>
-  
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
