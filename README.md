@@ -1,4 +1,5 @@
 Based on the work done by the scene member iMCSx from FM|T (French Modding Team).
+https://github.com/iMCSx/PS3Lib
 
 This project aims to add PS3MAPI to the PS3 lib, and to add a interface for the underlying API's for convinence. 
 
