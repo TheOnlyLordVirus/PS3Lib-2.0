@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PS3Lib2.Enums;
+namespace PS3Lib2.Tmapi;
 
-enum RingBuzzer
+internal class TMAPI_API_WRAPPER
 {
-    Continuous = 0,
-    Single = 1,
-    Double = 2,
-    Triple = 3,
+
 }

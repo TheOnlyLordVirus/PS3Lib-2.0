@@ -1,14 +1,16 @@
-﻿namespace PS3LibNew.Interfaces;
+﻿namespace PS3Lib2.Interfaces;
 
 internal interface IPlaystationApi : IMemoryApi
 {
+    bool IsConnected { get; }
+
     bool Connect();
 
     bool Connect(string ip);
 
     bool Disconnect();
 
-    bool Connected { get; }
+    void ShutDown();
 
     void RingBuzzer();
 
@@ -16,9 +18,9 @@ internal interface IPlaystationApi : IMemoryApi
 
     string GetConsoleId();
 
-    void SetConsoleId();
+    void SetIdps(string consoleId);
 
-    void ShutDown();
+    void SetPsid(string psid);
 
-    void GetTemprature();
+    void GetTemprature(ref int cell, ref int rsx);
 }

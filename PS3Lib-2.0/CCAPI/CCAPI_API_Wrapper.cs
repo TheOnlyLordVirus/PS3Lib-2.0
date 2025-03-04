@@ -1,22 +1,25 @@
-﻿using Microsoft.Win32;
-using PS3LibNew.Enums;
-using PS3LibNew.Interfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace CCAPI;
+using Microsoft.Win32;
 
+using PS3Lib2.Interfaces;
+
+using ConsoleControlApi = CCAPI.CCAPI;
+
+
+namespace PS3Lib2.Capi;
 
 internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
 {
     private readonly string _dllPath;
 
-    private readonly CCAPI _consoleControllApi;
+    private readonly ConsoleControlApi _consoleControllApi;
 
-    public CCAPI ConsoleControlApi { get => _consoleControllApi; }
-    public bool Connected => ConsoleControlApi.IsConnected();
+    public ConsoleControlApi ConsoleControlApi { get => _consoleControllApi; }
+    public bool IsConnected => ConsoleControlApi.IsConnected();
 
 
     public CCAPI_API_Wrapper()
@@ -50,7 +53,7 @@ internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
             return;
         }
 
-        _consoleControllApi = new CCAPI(_dllPath);
+        _consoleControllApi = new ConsoleControlApi(_dllPath);
     }
 
     public bool Connect() 
@@ -65,98 +68,151 @@ internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
 
     public bool Disconnect() { return ConsoleControlApi.Disconnect() != 0; }
 
-    public void RingBuzzer() { ConsoleControlApi.RingBuzzer(CCAPI.BuzzerType.Triple); }
+    // TODO: Create standard Enums for the wrappers / interfaces (Buzzer, Shutdown, restart, led color, ect, ect.) 
+    public void RingBuzzer() { ConsoleControlApi.RingBuzzer(ConsoleControlApi.BuzzerType.Single); }
 
-    public void VshNotify(string message) { throw new NotImplementedException(); }
+    public void VshNotify(string message/*Notify icon type enum here too.*/) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
 
-    public string GetConsoleId() { throw new NotImplementedException(); }
+    // TODO: GetConsoleID
+    public string GetConsoleId() { return string.Empty; }
 
-    public void SetConsoleId() { throw new NotImplementedException(); }
+    public void SetIdps(string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
 
-    public void ShutDown() { throw new NotImplementedException(); }
+    public void SetPsid(string psid) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, psid); }
 
-    public void GetTemprature() { throw new NotImplementedException(); }
+    public void ShutDown() { ConsoleControlApi.Shutdown(ConsoleControlApi.ShutdownMode.Shutdown); }
 
-    public void AttachProccess(uint proccessId) { throw new NotImplementedException(); }
+    public void GetTemprature(ref int cell, ref int rsx) { ConsoleControlApi.GetTemperature(ref cell, ref rsx); }
 
-    // General Read / Write
+    public bool AttachGameProcess()
+    {
+        return ConsoleControlApi.AttachGameProcess();
+    }
 
-    public void ReadMemory(uint offset, uint size, out byte[] bytes) { throw new NotImplementedException(); }
-    public byte[] ReadMemory(uint offset, uint size) { throw new NotImplementedException(); }
+    public void AttachProccess(uint proccessId) 
+    { 
+        ConsoleControlApi.AttachProcess(proccessId);
+    }
+
+    #region Read / Write
+
+    public void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; ConsoleControlApi.ReadMemory(address, size, bytes); }
+    public byte[] ReadMemory(uint address, uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }
 
     // Bytes
 
-    public void ReadMemoryI8(uint addr, out sbyte ret) { throw new NotImplementedException(); }
-    public sbyte ReadMemoryI8(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryI8(uint address, out sbyte ret) { ret = ConsoleControlApi.ReadMemoryI8(address); }
+    public sbyte ReadMemoryI8(uint address) { return ConsoleControlApi.ReadMemoryI8(address); }
 
-    public void ReadMemoryU8(uint addr, out byte ret) { throw new NotImplementedException(); }
-    public byte ReadMemoryU8(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryU8(uint address, out byte ret) { ret = ConsoleControlApi.ReadMemoryU8(address); }
+    public byte ReadMemoryU8(uint address) { return ConsoleControlApi.ReadMemoryU8(address); }
 
     // Shorts
 
-    public void ReadMemoryI16(uint addr, out short ret) { throw new NotImplementedException(); }
-    public short ReadMemoryI16(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryI16(uint address, out short ret) 
+    {
+        byte[] data = new byte[sizeof(short)];
+        int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(short), data);
+        Array.Reverse(data);
+        ret = BitConverter.ToInt16(data, 0);
+    }
 
-    public void ReadMemoryU16(uint addr, out ushort ret) { throw new NotImplementedException(); }
-    public ushort ReadMemoryU16(uint addr) { throw new NotImplementedException(); }
+    public short ReadMemoryI16(uint address) 
+    {
+        byte[] data = new byte[sizeof(short)];
+        int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(short), data);
+        Array.Reverse(data);
+        return BitConverter.ToInt16(data, 0);
+
+    }
+
+    public void ReadMemoryU16(uint address, out ushort ret)
+    {
+        byte[] data = new byte[sizeof(ushort)];
+        int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(ushort), data);
+        Array.Reverse(data);
+        ret = BitConverter.ToUInt16(data, 0);
+    }
+
+    public ushort ReadMemoryU16(uint address)
+    {
+        byte[] data = new byte[sizeof(ushort)];
+        int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(ushort), data);
+        Array.Reverse(data);
+        return BitConverter.ToUInt16(data, 0);
+
+    }
 
     // Ints
 
-    public void ReadMemoryI32(uint addr, out int ret) { throw new NotImplementedException(); }
-    public int ReadMemoryI32(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryI32(uint address, out int ret) { ret = ConsoleControlApi.ReadMemoryI32(address); }
+    public int ReadMemoryI32(uint address) { return ConsoleControlApi.ReadMemoryI32(address); }
 
-    public void ReadMemoryU32(uint addr, out uint ret) { throw new NotImplementedException(); }
-    public uint ReadMemoryU32(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryU32(uint address, out uint ret) { ret = ConsoleControlApi.ReadMemoryU32(address); }
+    public uint ReadMemoryU32(uint address) { return ConsoleControlApi.ReadMemoryU32(address); }
 
     // Floats
 
-    public void ReadMemoryF32(uint addr, out float ret) { throw new NotImplementedException(); }
-    public float ReadMemoryF32(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryF32(uint address, out float ret) { ret = ConsoleControlApi.ReadMemoryF32(address); }
+    public float ReadMemoryF32(uint address) { return ConsoleControlApi.ReadMemoryF32(address); }
 
     // Longs
 
-    public void ReadMemoryI64(uint addr, out long ret) { throw new NotImplementedException(); }
-    public long ReadMemoryI64(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryI64(uint address, out long ret) { ret = ConsoleControlApi.ReadMemoryI64(address); }
+    public long ReadMemoryI64(uint address) { return ConsoleControlApi.ReadMemoryI64(address); }
 
-    public void ReadMemoryU64(uint addr, out ulong ret) { throw new NotImplementedException(); }
-    public ulong ReadMemoryU64(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryU64(uint address, out ulong ret) { ret = ConsoleControlApi.ReadMemoryU64(address); }
+    public ulong ReadMemoryU64(uint address) { return ConsoleControlApi.ReadMemoryU64(address); }
 
     // Doubles
 
-    public void ReadMemoryF64(uint addr, out double ret) { throw new NotImplementedException(); }
-    public double ReadMemoryF64(uint addr) { throw new NotImplementedException(); }
+    public void ReadMemoryF64(uint address, out double ret) { ret = ConsoleControlApi.ReadMemoryF64(address); }
+    public double ReadMemoryF64(uint address) { return ConsoleControlApi.ReadMemoryF64(address); }
 
     // String
 
-    public string ReadMemoryString(uint addr) { throw new NotImplementedException(); }
-
-    #region Write Memory
-
-    public void WriteMemory(uint offset, byte[] bytes) { throw new NotImplementedException(); }
-
-    public void WriteMemoryI8(uint addr, sbyte i) { throw new NotImplementedException(); }
-    public void WriteMemoryU8(uint addr, byte i) { throw new NotImplementedException(); }
-
-    public void WriteMemoryI16(uint addr, short i) { throw new NotImplementedException(); }
-    public void WriteMemoryU16(uint addr, ushort i) { throw new NotImplementedException(); }
-
-    public void WriteMemoryI32(uint addr, int i) { throw new NotImplementedException(); }
-    public void WriteMemoryU32(uint addr, uint i) { throw new NotImplementedException(); }
-
-    public void WriteMemoryF32(uint addr, float f) { throw new NotImplementedException(); }
-
-    public void WriteMemoryI64(uint addr, long i) { throw new NotImplementedException(); }
-    public void WriteMemoryU64(uint addr, ulong i) { throw new NotImplementedException(); }
-
-    public void WriteMemoryF64(uint addr, double d) { throw new NotImplementedException(); }
-
-    public void WriteMemoryString(uint addr, string s) { throw new NotImplementedException(); }
+    public string ReadMemoryString(uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
     #endregion
 
+    #region Write Memory
+
+    public void WriteMemory(uint address, byte[] bytes) { ConsoleControlApi.WriteMemory(address, (uint)bytes.Length, bytes); }
+
+    public void WriteMemoryI8(uint address, sbyte i) { ConsoleControlApi.WriteMemoryI8(address, i); }
+    public void WriteMemoryU8(uint address, byte i) { ConsoleControlApi.WriteMemoryU8(address, i); }
+
+    public void WriteMemoryI16(uint address, short i) { ConsoleControlApi.WriteMemory(address, sizeof(short), BitConverter.GetBytes(i)); }
+    public void WriteMemoryU16(uint address, ushort i) { ConsoleControlApi.WriteMemory(address, sizeof(ushort), BitConverter.GetBytes(i)); }
+
+    public void WriteMemoryI32(uint address, int i) { ConsoleControlApi.WriteMemoryI32(address, i); }
+    public void WriteMemoryU32(uint address, uint i) { ConsoleControlApi.WriteMemoryU32(address, i); }
+
+    public void WriteMemoryF32(uint address, float f) { ConsoleControlApi.WriteMemoryF32(address, f); }
+
+    public void WriteMemoryI64(uint address, long i) { ConsoleControlApi.WriteMemoryI64(address, i); }
+    public void WriteMemoryU64(uint address, ulong i) { ConsoleControlApi.WriteMemoryU64(address, i); }
+
+    public void WriteMemoryF64(uint address, double d) { ConsoleControlApi.WriteMemoryF64(address, d); }
+
+    public void WriteMemoryString(uint address, string s) { ConsoleControlApi.WriteMemoryString(address, s); }
+
+    #endregion
+
+    [DllImport("kernel32.dll")]
+    static extern bool FreeLibrary(IntPtr a);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+    public static extern IntPtr GetModuleHandle(string lpModuleName);
+
     public void Dispose()
     {
+        IntPtr ccapiHandle = GetModuleHandle("CCAPI.dll");
 
+        if (ccapiHandle == IntPtr.Zero)
+            return;
+
+        FreeLibrary(ccapiHandle);
     }
 }
 

@@ -43,6 +43,7 @@
     <Compile Include="CCAPI\CCAPI_API_Wrapper.cs" />
     <Compile Include="PS3MAPI\PS3MAPI.cs" />
     <Compile Include="TMAPI\TMAPI.cs" />
+    <Compile Include="TMAPI\TMAPI_API_WRAPPER.cs" />
     <Compile Include="TMAPI\TMAPI_NET.cs" />
   </ItemGroup>
   <ItemGroup>
