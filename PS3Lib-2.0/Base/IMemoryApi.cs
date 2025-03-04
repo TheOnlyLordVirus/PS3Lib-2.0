@@ -1,84 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PS3LibNew.Interfaces;
 
-namespace PS3LibNew.Interfaces
+internal interface IMemoryApi
 {
-    internal interface IMemoryApi
-    {
-        void AttachProccess(uint proccessId);
+    public void AttachProccess(uint proccessId);
 
-        // General Read / Write
+    // General Read / Write
 
-        void ReadMemory(uint offset, uint size, out byte[] bytes);
-        //byte[] ReadMemory(uint offset, uint size);
+    public void ReadMemory(uint offset, uint size, out byte[] bytes);
+    public byte[] ReadMemory(uint offset, uint size);
 
-        //// Bytes
+    // Bytes
 
-        //void ReadMemoryI8(uint addr, out sbyte ret);
-        //sbyte ReadMemoryI8(uint addr);
+    public void ReadMemoryI8(uint addr, out sbyte ret);
+    public sbyte ReadMemoryI8(uint addr);
 
-        //void ReadMemoryU8(uint addr, out byte ret);
-        //byte ReadMemoryU8(uint addr);
+    public void ReadMemoryU8(uint addr, out byte ret);
+    public byte ReadMemoryU8(uint addr);
 
-        //// Shorts
+    // Shorts
 
-        //void ReadMemoryI16(uint addr, out short ret);
-        //short ReadMemoryI16(uint addr);
+    public void ReadMemoryI16(uint addr, out short ret);
+    public short ReadMemoryI16(uint addr);
 
-        //void ReadMemoryU16(uint addr, out ushort ret);
-        //ushort ReadMemoryU16(uint addr);
+    public void ReadMemoryU16(uint addr, out ushort ret);
+    public ushort ReadMemoryU16(uint addr);
 
-        //// Ints
+    // Ints
 
-        //void ReadMemoryI32(uint addr, out int ret);
-        //int ReadMemoryI32(uint addr);
+    public void ReadMemoryI32(uint addr, out int ret);
+    public int ReadMemoryI32(uint addr);
 
-        //void ReadMemoryU32(uint addr, out uint ret);
-        //uint ReadMemoryU32(uint addr);
+    public void ReadMemoryU32(uint addr, out uint ret);
+    public uint ReadMemoryU32(uint addr);
 
-        //// Floats
+    // Floats
 
-        //void ReadMemoryF32(uint addr, out float ret);
-        //float ReadMemoryF32(uint addr);
+    public void ReadMemoryF32(uint addr, out float ret);
+    public float ReadMemoryF32(uint addr);
 
-        //// Longs
+    // Longs
 
-        //void ReadMemoryI64(uint addr, out long ret);
-        //long ReadMemoryI64(uint addr);
+    public void ReadMemoryI64(uint addr, out long ret);
+    public long ReadMemoryI64(uint addr);
 
-        //void ReadMemoryU64(uint addr, out ulong ret);
-        //ulong ReadMemoryU64(uint addr);
+    public void ReadMemoryU64(uint addr, out ulong ret);
+    public ulong ReadMemoryU64(uint addr);
 
-        //// Doubles
+    // Doubles
 
-        //void ReadMemoryF64(uint addr, out double ret);
-        //double ReadMemoryF64(uint addr);
+    public void ReadMemoryF64(uint addr, out double ret);
+    public double ReadMemoryF64(uint addr);
 
-        //// String
+    // String
 
-        //string ReadMemoryString(uint addr);
+    public string ReadMemoryString(uint addr);
 
-        void WriteMemory(uint offset, byte[] bytes);
+    public void WriteMemory(uint offset, byte[] bytes);
 
-        //void WriteMemoryI8(uint addr, sbyte i);
-        //void WriteMemoryU8(uint addr, byte i);
+    public void WriteMemoryI8(uint addr, sbyte i);
+    public void WriteMemoryU8(uint addr, byte i);
 
-        //void WriteMemoryI16(uint addr, short i);
-        //void WriteMemoryU16(uint addr, ushort i);
+    public void WriteMemoryI16(uint addr, short i);
+    public void WriteMemoryU16(uint addr, ushort i);
 
-        //void WriteMemoryI32(uint addr, int i);
-        //void WriteMemoryU32(uint addr, uint i);
+    public void WriteMemoryI32(uint addr, int i);
+    public void WriteMemoryU32(uint addr, uint i);
 
-        //void WriteMemoryF32(uint addr, float f);
+    public void WriteMemoryF32(uint addr, float f);
 
-        //void WriteMemoryI64(uint addr, long i);
-        //void WriteMemoryU64(uint addr, ulong i);
+    public void WriteMemoryI64(uint addr, long i);
+    public void WriteMemoryU64(uint addr, ulong i);
 
-        //void WriteMemoryF64(uint addr, double d);
+    public void WriteMemoryF64(uint addr, double d);
 
-        //void WriteMemoryString(uint addr, string s);
-    }
+    public void WriteMemoryString(uint addr, string s);
 }

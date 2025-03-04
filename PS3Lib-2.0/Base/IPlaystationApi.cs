@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PS3LibNew.Interfaces;
 
-namespace PS3LibNew.Interfaces
+internal interface IPlaystationApi : IMemoryApi
 {
-    internal interface IPlaystationApi : IMemoryApi
-    {
-        bool Connect();
+    bool Connect();
 
-        bool Connect(string ip);
+    bool Connect(string ip);
 
-        bool Disconnect();
+    bool Disconnect();
 
-        bool Connected { get; }
+    bool Connected { get; }
 
-        void RingBuzzer();
+    void RingBuzzer();
 
-        void VshNotify(string message);
+    void VshNotify(string message);
 
-        string GetConsoleId();
+    string GetConsoleId();
 
-        void SetConsoleId();
+    void SetConsoleId();
 
-        void ShutDown();
+    void ShutDown();
 
-        void GetTemprature();
-
-
-    }
+    void GetTemprature();
 }

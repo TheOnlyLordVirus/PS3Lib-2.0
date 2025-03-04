@@ -11,404 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-using PS3LibNew.Interfaces;
 
-public class CCAPI : IPlaystationApi
+namespace CCAPI;
+
+public class CCAPI
 {
-    public bool Connected
-    {
-        get
-        {
-            int state = 0;
-            int res = CCAPIGetConnectionStatus(ref state);
-            return (res == OK) && (state != 0);
-        }
-    }
-
-    public bool Connect()
-    {
-        throw new NotImplementedException();
-
-        // TODO: Get the IP from some sort of interface / window.
-        string ip = null;
-
-        return CCAPIConnectConsole(ip).Equals(1) ? true : false;
-    }
-
-    public bool Connect(string ip)
-    {
-        return CCAPIConnectConsole(ip).Equals(1) ? true : false;
-    }
-
-    public bool Disconnect()
-    {
-        return CCAPIDisconnectConsole().Equals(1) ? true : false;
-    }
-
-    public void RingBuzzer()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void VshNotify(string message)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string GetConsoleId()
-    {
-        return "";
-    }
-
-    public void SetConsoleId()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void ShutDown()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GetTemprature()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AttachProccess(uint proccessId)
-    {
-        throw new NotImplementedException();
-    }
-
-    #region ReadMemory
-
-    public void ReadMemory(uint addr, uint size, out byte[] bytes)
-    {
-        byte[] data = new byte[size];
-        bytes = BitConverter.GetBytes(CCAPIGetMemory(ProcessId, (ulong)addr, size, data));
-    }
-
-    /*
-    public byte[] ReadMemory(uint addr, uint size)
-    {
-        byte[] data = new byte[size];
-        return BitConverter.GetBytes(CCAPIGetMemory(ProcessId, (ulong)addr, size, data));
-    }
-
-    // sbyte
-    public void ReadMemoryI8(uint addr, out sbyte ret)
-    {
-        uint size = sizeof(sbyte);
-        byte[] data = new byte[size];
-        ret = (sbyte)CCAPIGetMemory(ProcessId, (ulong)addr, size, data);
-    }
-
-    public sbyte ReadMemoryI8(uint addr)
-    {
-        uint size = sizeof(sbyte);
-        byte[] data = new byte[size];
-        data = BitConverter.GetBytes(CCAPIGetMemory(ProcessId, (ulong)addr, size, data));
-        return (sbyte)data[0];
-    }
-
-
-
-    // byte
-    public void ReadMemoryU8(uint addr, out byte ret)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ret = (byte)ReadMemory(addr, sizeof(byte), data);
-    }
-
-    public byte ReadMemoryU8(uint addr)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ReadMemory(addr, sizeof(byte), data);
-        return data[0];
-    }
-
-
-
-    // short
-    public void ReadMemoryI16(uint addr, out short ret)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ret = (short)ReadMemory(addr, sizeof(byte), data);
-    }
-
-    public short ReadMemoryI16(uint addr)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ReadMemory(addr, sizeof(byte), data);
-        return data[0];
-    }
-
-
-
-    // ushort
-    public void ReadMemoryU16(uint addr, out ushort ret)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ret = (ushort)ReadMemory(addr, sizeof(byte), data);
-    }
-
-    public ushort ReadMemoryU16(uint addr)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        ReadMemory(addr, sizeof(byte), data);
-        return data[0];
-    }
-
-
-
-    // Int
-    public void ReadMemoryI32(uint addr, out int ret)
-    {
-        byte[] data = new byte[sizeof(int)];
-        ret = ReadMemory(addr, sizeof(int), data);
-        Array.Reverse(data);
-    }
-
-    public int ReadMemoryI32(uint addr)
-    {
-        byte[] data = new byte[sizeof(int)];
-        ReadMemory(addr, sizeof(int), data);
-        Array.Reverse(data);
-        return BitConverter.ToInt32(data, 0);
-    }
-
-
-
-    // Uint
-    public void ReadMemoryU32(uint addr, out uint ret)
-    {
-        byte[] data = new byte[sizeof(uint)];
-        ret = (uint)ReadMemory(addr, sizeof(uint), data);
-        Array.Reverse(data);
-    }
-
-    public uint ReadMemoryU32(uint addr)
-    {
-        byte[] data = new byte[sizeof(uint)];
-        ReadMemory(addr, sizeof(uint), data);
-        Array.Reverse(data);
-        return BitConverter.ToUInt32(data, 0);
-    }
-
-
-
-    // Float
-    public void ReadMemoryF32(uint addr, out float ret)
-    {
-        byte[] data = new byte[sizeof(float)];
-        ret = ReadMemory(addr, sizeof(float), data);
-        Array.Reverse(data);
-    }
-
-    public float ReadMemoryF32(uint addr)
-    {
-        byte[] data = new byte[sizeof(float)];
-        ReadMemory(addr, sizeof(float), data);
-        Array.Reverse(data);
-        return BitConverter.ToSingle(data, 0);
-    }
-
-
-
-    // Long
-    public void ReadMemoryI64(uint addr, out long ret)
-    {
-        byte[] data = new byte[sizeof(long)];
-        ret = ReadMemory(addr, sizeof(long), data);
-        Array.Reverse(data);
-    }
-
-    public long ReadMemoryI64(uint addr)
-    {
-        byte[] data = new byte[sizeof(long)];
-        ReadMemory(addr, sizeof(long), data);
-        Array.Reverse(data);
-        return BitConverter.ToInt64(data, 0);
-    }
-
-
-
-    // ulong
-    public void ReadMemoryU64(uint addr, out ulong ret)
-    {
-        byte[] data = new byte[sizeof(ulong)];
-        ret = (ulong)ReadMemory(addr, sizeof(ulong), data);
-        Array.Reverse(data);
-    }
-
-    public ulong ReadMemoryU64(uint addr)
-    {
-        byte[] data = new byte[sizeof(ulong)];
-        ReadMemory(addr, sizeof(ulong), data);
-        Array.Reverse(data);
-        return BitConverter.ToUInt64(data, 0);
-    }
-
-
-
-    // Double
-    public void ReadMemoryF64(uint addr, out double ret)
-    {
-        byte[] data = new byte[sizeof(double)];
-        ret = ReadMemory(addr, sizeof(double), data);
-        Array.Reverse(data);
-    }
-
-    public double ReadMemoryF64(uint addr)
-    {
-        byte[] data = new byte[sizeof(double)];
-        ReadMemory(addr, sizeof(double), data);
-        Array.Reverse(data);
-        return BitConverter.ToDouble(data, 0);
-    }
-
-
-    // String
-    public string ReadMemoryString(uint addr)
-    {
-        string s = "";
-
-        while (true)
-        {
-            byte[] chunk = new byte[0x100];
-            int r = ReadMemory(addr, (uint)chunk.Length, chunk);
-            if (r != OK)
-            {
-                break;
-            }
-            else
-            {
-                for (int i = 0; i < chunk.Length; i++)
-                {
-                    if (chunk[i] == 0)
-                    {
-                        s += Encoding.ASCII.GetString(chunk, 0, i);
-                        goto end;
-                    }
-                }
-
-                addr += (uint)chunk.Length;
-                s += Encoding.ASCII.GetString(chunk);
-            }
-        }
-
-    end:
-
-        return s;
-    }
-    */
-
-    #endregion
-
-    #region WriteMemory
-
-    public int WriteMemory(uint addr, uint size, byte[] data)
-    {
-        return CCAPISetMemory(ProcessId, (ulong)addr, size, data);
-    }
-
-    public void WriteMemory(uint offset, byte[] bytes)
-    {
-        WriteMemory(offset, (uint)(bytes.Length * sizeof(byte)), bytes);
-    }
-
-    /*
-    // sByte
-    public void WriteMemoryI8(uint addr, sbyte i)
-    {
-        byte[] data = new byte[sizeof(sbyte)];
-        data[0] = (byte)i;
-        WriteMemory(addr, sizeof(sbyte), data);
-    }
-
-    // Byte
-    public void WriteMemoryU8(uint addr, byte i)
-    {
-        byte[] data = new byte[sizeof(byte)];
-        data[0] = i;
-        WriteMemory(addr, sizeof(byte), data);
-    }
-
-    // Short
-    public void WriteMemoryI16(uint addr, short i)
-    {
-        byte[] data = new byte[sizeof(sbyte)];
-        data[0] = (byte)i;
-        WriteMemory(addr, sizeof(sbyte), data);
-    }
-
-    // Ushort
-    public void WriteMemoryU16(uint addr, ushort i)
-    {
-        byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(byte), data);
-    }
-
-    // Int
-    public void WriteMemoryI32(uint addr, int i)
-    {
-        byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(int), data);
-    }
-
-    // Uint
-    public void WriteMemoryU32(uint addr, uint i)
-    {
-        byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(uint), data);
-    }
-
-    // Float
-    public void WriteMemoryF32(uint addr, float f)
-    {
-        byte[] data = BitConverter.GetBytes(f);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(float), data);
-    }
-
-    // Long
-    public void WriteMemoryI64(uint addr, long i)
-    {
-        byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(long), data);
-    }
-
-    // ULong
-    public void WriteMemoryU64(uint addr, ulong i)
-    {
-        byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(long), data);
-    }
-
-    // Double
-    public void WriteMemoryF64(uint addr, double d)
-    {
-        byte[] data = BitConverter.GetBytes(d);
-        Array.Reverse(data);
-        WriteMemory(addr, sizeof(double), data);
-    }
-
-    // String
-    public void WriteMemoryString(uint addr, string s)
-    {
-        byte[] b = System.Text.Encoding.ASCII.GetBytes(s + "\0");
-        WriteMemory(addr, (uint)b.Length, b);
-    }
-    */
-
-    #endregion
-
-
 
     public struct ProcessInfo
     {
@@ -487,6 +94,7 @@ public class CCAPI : IPlaystationApi
 
         LibLoaded = Init(libpath);
     }
+
     private bool Init(string libpath)
     {
 
@@ -563,62 +171,68 @@ public class CCAPI : IPlaystationApi
 
         return true;
     }
-
     ~CCAPI()
     {
         LibLoaded = false;
     }
-
     public bool GetLibraryState()
     {
         return LibLoaded;
     }
-
+    public bool IsConnected()
+    {
+        int state = 0;
+        int res = CCAPIGetConnectionStatus(ref state);
+        return (res == OK) && (state != 0);
+    }
+    public int Connect(string ip)
+    {
+        return CCAPIConnectConsole(ip);
+    }
+    public int Disconnect()
+    {
+        return CCAPIDisconnectConsole();
+    }
     public int GetDllVersion()
     {
         return CCAPIGetDllVersion();
     }
-
-
     public List<ConsoleInfo> GetConsoleList()
     {
         List<ConsoleInfo> list = new List<ConsoleInfo>();
 
-        IntPtr name = Marshal.AllocHGlobal((512 * sizeof(char)));
-        IntPtr ip   = Marshal.AllocHGlobal((512 * sizeof(char)));
+        IntPtr name = malloc(512 * sizeof(char));
+        IntPtr ip   = malloc(512 * sizeof(char));
 
         for (int i=0;i<CCAPIGetNumberOfConsoles();i++)
         {
             ConsoleInfo c = new ConsoleInfo();
             CCAPIGetConsoleInfo(i,name,ip);
-            c.name = Marshal.PtrToStringAnsi(name);
-            c.ip = Marshal.PtrToStringAnsi(ip);
+            c.name = ptr2String(name);
+            c.ip = ptr2String(ip);
             list.Add(c);
         }
 
-        Marshal.FreeHGlobal(name);
-        Marshal.FreeHGlobal(ip);
+        free(name);
+        free(ip);
 
         return list;
     }
-
-
-
     public List<ProcessInfo> GetProcessList()
     {
         List<ProcessInfo> list = new List<ProcessInfo>();
 
-        IntPtr ProcessIds = Marshal.AllocHGlobal((sizeof(uint) * 32));
+        IntPtr ProcessIds = malloc(sizeof(uint) * 32);
         uint NProcessIds = 32;
         int ret = CCAPIGetProcessList(ref NProcessIds,ProcessIds);
         if (ret != OK)
         {
-            Marshal.FreeHGlobal(ProcessIds);
+            free(ProcessIds);
             return list;
         }
         else
         {
-            IntPtr pName = Marshal.AllocHGlobal((512 * sizeof(char)));
+            IntPtr pName = malloc(512 * sizeof(char));
 
             for (uint i = 0; i < NProcessIds ;i++)
             {
@@ -627,38 +241,31 @@ public class CCAPI : IPlaystationApi
                 ret = CCAPIGetProcessName(pid,pName);
                 if (ret != OK)
                 {
-                    Marshal.FreeHGlobal(ProcessIds);
-                    Marshal.FreeHGlobal(pName);
+                    free(ProcessIds);
+                    free(pName);
                     return list;
                 }
                 else
                 {
                     ProcessInfo info = new ProcessInfo();
                     info.pid = pid;
-                    info.name = Marshal.PtrToStringAnsi(pName);
+                    info.name = ptr2String(pName);
                     list.Add(info);
                 }
             }
-            Marshal.FreeHGlobal(pName);
-            Marshal.FreeHGlobal(ProcessIds);
+            free(pName);
+            free(ProcessIds);
             return list;
         }
     }
-
-
-
     public uint GetAttachedProcess()
     {
         return ProcessId;
     }
-
-
     public void AttachProcess(uint ProcessId)
     {
         this.ProcessId = ProcessId;
     }
-
-
     public bool AttachGameProcess()
     {
         List<ProcessInfo> list = GetProcessList();
@@ -672,7 +279,22 @@ public class CCAPI : IPlaystationApi
         }
         return false;
     }
-
+    public int ReadMemory(ulong addr, uint size, byte[] data)
+    {
+        return CCAPIGetMemory(ProcessId, addr, size, data);
+    }
+    public int ReadMemory(uint addr, uint size, byte[] data)
+    {
+        return CCAPIGetMemory(ProcessId, (ulong) addr, size, data);
+    }
+    public int WriteMemory(ulong addr, uint size, byte[] data)
+    {
+        return CCAPISetMemory(ProcessId, addr, size, data);
+    }
+    public int WriteMemory(uint addr, uint size, byte[] data)
+    {
+        return CCAPISetMemory(ProcessId, (ulong)addr, size, data);
+    }
     public int GetTemperature(ref int cell, ref int rsx)
     {
         return CCAPIGetTemperature(ref cell, ref rsx);
@@ -717,8 +339,6 @@ public class CCAPI : IPlaystationApi
     {
         return CCAPIVshNotify((int)icon, msg);
     }
-
-
     public int GetFirmwareInfo(ref int firmware, ref int ccapiVersion, ref ConsoleType consoleType)
     {
         int cType = 0;
@@ -727,6 +347,201 @@ public class CCAPI : IPlaystationApi
         return ret;
     }
 
+    public sbyte ReadMemoryI8(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(sbyte)];
+        ret = ReadMemory(addr, sizeof(sbyte), data);
+        return (sbyte)data[0];
+    }
+    public sbyte ReadMemoryI8(uint addr)
+    {
+        byte[] data = new byte[sizeof(sbyte)];
+        ReadMemory(addr, sizeof(sbyte), data);
+        return (sbyte)data[0];
+    }
+    public byte ReadMemoryU8(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(byte)];
+        ret = ReadMemory(addr, sizeof(byte), data);
+        return data[0];
+    }
+    public byte ReadMemoryU8(uint addr)
+    {
+        byte[] data = new byte[sizeof(byte)];
+        ReadMemory(addr, sizeof(byte), data);
+        return data[0];
+    }
+    public int ReadMemoryI32(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(int)];
+        ret = ReadMemory(addr, sizeof(int), data);
+        Array.Reverse(data);
+        return BitConverter.ToInt32(data, 0);
+    }
+    public int ReadMemoryI32(uint addr)
+    {
+        byte[] data = new byte[sizeof(int)];
+        ReadMemory(addr, sizeof(int), data); 
+        Array.Reverse(data);
+        return BitConverter.ToInt32(data,0);       
+    }
+    public uint ReadMemoryU32(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(uint)];
+        ret = ReadMemory(addr, sizeof(uint), data);
+        Array.Reverse(data);
+        return BitConverter.ToUInt32(data, 0);
+    }
+    public uint ReadMemoryU32(uint addr)
+    {
+        byte[] data = new byte[sizeof(uint)];
+        ReadMemory(addr, sizeof(uint), data);
+        Array.Reverse(data);
+        return BitConverter.ToUInt32(data, 0);
+    }
+    public float ReadMemoryF32(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(float)];
+        ret = ReadMemory(addr, sizeof(float), data);
+        Array.Reverse(data);
+        return BitConverter.ToSingle(data, 0);
+    }
+    public float ReadMemoryF32(uint addr)
+    {
+        byte[] data = new byte[sizeof(float)];
+        ReadMemory(addr, sizeof(float), data);
+        Array.Reverse(data);
+        return BitConverter.ToSingle(data, 0);
+    }
+    public long ReadMemoryI64(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(long)];
+        ret = ReadMemory(addr, sizeof(long), data);
+        Array.Reverse(data);
+        return BitConverter.ToInt64(data, 0);
+    }
+    public long ReadMemoryI64(uint addr)
+    {
+        byte[] data = new byte[sizeof(long)];
+        ReadMemory(addr, sizeof(long), data);
+        Array.Reverse(data);
+        return BitConverter.ToInt64(data, 0);
+    }
+    public ulong ReadMemoryU64(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(ulong)];
+        ret = ReadMemory(addr, sizeof(ulong), data);
+        Array.Reverse(data);
+        return BitConverter.ToUInt64(data, 0);
+    }
+    public ulong ReadMemoryU64(uint addr)
+    {
+        byte[] data = new byte[sizeof(ulong)];
+        ReadMemory(addr, sizeof(ulong), data);
+        Array.Reverse(data);
+        return BitConverter.ToUInt64(data, 0);
+    }
+    public double ReadMemoryF64(uint addr, out int ret)
+    {
+        byte[] data = new byte[sizeof(double)];
+        ret = ReadMemory(addr, sizeof(double), data);
+        Array.Reverse(data);
+        return BitConverter.ToDouble(data, 0);
+    }
+    public double ReadMemoryF64(uint addr)
+    {
+        byte[] data = new byte[sizeof(double)];
+        ReadMemory(addr, sizeof(double), data);
+        Array.Reverse(data);
+        return BitConverter.ToDouble(data, 0);
+    }
+    public string ReadMemoryString(uint addr)
+    {
+        string s = "";
+
+        while(true)
+        {
+            byte[] chunk = new byte[0x100];
+            int r = ReadMemory(addr,(uint)chunk.Length,chunk);
+            if (r != OK)
+            {
+                break;
+            }
+            else
+            {
+                for (int i = 0;i < chunk.Length; i++)
+                {
+                    if (chunk[i] == 0)
+                    {
+                        s += Encoding.ASCII.GetString(chunk,0,i);
+                        goto end;
+                    }
+                }
+
+                addr += (uint) chunk.Length;
+                s += Encoding.ASCII.GetString(chunk);
+            }
+        }
+
+        end:
+        
+        return s;
+    }
+
+    //write
+    public int WriteMemoryI8(uint addr, sbyte i)
+    {
+        byte[] data = new byte[sizeof(sbyte)];
+        data[0] = (byte)i;
+        return WriteMemory(addr, sizeof(sbyte), data);
+    }
+    public int WriteMemoryU8(uint addr, byte i)
+    {
+        byte[] data = new byte[sizeof(byte)];
+        data[0] = i;
+        return WriteMemory(addr, sizeof(byte), data);
+    }
+    public int WriteMemoryI32(uint addr, int i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(int), data);
+    }
+    public int WriteMemoryU32(uint addr, uint i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(uint), data);
+    }
+    public int WriteMemoryF32(uint addr, float f)
+    {
+        byte[] data = BitConverter.GetBytes(f);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(float), data);
+    }
+    public int WriteMemoryI64(uint addr, long i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(long), data);
+    }
+    public int WriteMemoryU64(uint addr, ulong i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(long), data);
+    }
+    public int WriteMemoryF64(uint addr, double d)
+    {
+        byte[] data = BitConverter.GetBytes(d);
+        Array.Reverse(data);
+        return WriteMemory(addr, sizeof(double), data);
+    }
+    public int WriteMemoryString(uint addr, string s)
+    {
+        byte[] b = System.Text.Encoding.ASCII.GetBytes(s+"\0");
+        return WriteMemory(addr,(uint)b.Length,b);
+    }
     public static string FirmwareToString(int firmware)
     {
         int l = (firmware >> 12) & 0xFF;
@@ -734,8 +549,6 @@ public class CCAPI : IPlaystationApi
 
         return String.Format("{0:X}.{1:X}",h,l);
     }
-
-
     public static string ConsoleTypeToString(ConsoleType cType)
     {
         string s = "UNK";
@@ -760,8 +573,6 @@ public class CCAPI : IPlaystationApi
 
         return s;
     }
-
-
     public static byte[] StringToArray(string s)
     {
         if (s.Length == 0)
@@ -782,8 +593,6 @@ public class CCAPI : IPlaystationApi
 
         return b;
     }
-
-
     public const int OK = 0;
     public const int ERROR = -1;
 
@@ -791,6 +600,18 @@ public class CCAPI : IPlaystationApi
     private IntPtr LibHandle;
     private bool LibLoaded;
 
+    private IntPtr malloc(int n)
+    {
+        return Marshal.AllocHGlobal(n);
+    }
+    private void free(IntPtr p)
+    {
+        Marshal.FreeHGlobal(p);
+    }
+    private string ptr2String(IntPtr p)
+    {
+        return Marshal.PtrToStringAnsi(p);
+    }
     private T readFromBuffer<T>(IntPtr ptr, uint off)
     {
         return (T) Marshal.PtrToStructure(new IntPtr(ptr.ToInt64() + off), typeof(T));

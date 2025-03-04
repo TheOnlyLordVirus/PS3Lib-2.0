@@ -35,24 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CCAPI\ArrayBuilder.cs" />
-    <Compile Include="CCAPI\Extensions.cs" />
-    <Compile Include="PS3MAPI\AttachDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PS3MAPI\AttachDialog.Designer.cs" />
-    <Compile Include="CCAPI\CCAPI.cs" />
+    <Compile Include="Base\.NET\IsExternalInit.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\IMemoryApi.cs" />
     <Compile Include="Base\IPlaystationApi.cs" />
-    <Compile Include="PS3MAPI\ConnectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PS3MAPI\ConnectDialog.Designer.cs" />
-    <Compile Include="PS3MAPI\LogDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PS3MAPI\LogDialog.Designer.cs" />
+    <Compile Include="CCAPI\CCAPI.cs" />
+    <Compile Include="CCAPI\CCAPI_API_Wrapper.cs" />
     <Compile Include="PS3MAPI\PS3MAPI.cs" />
     <Compile Include="TMAPI\TMAPI.cs" />
     <Compile Include="TMAPI\TMAPI_NET.cs" />
@@ -72,5 +60,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
