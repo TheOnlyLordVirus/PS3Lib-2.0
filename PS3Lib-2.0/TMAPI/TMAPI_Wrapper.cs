@@ -146,6 +146,19 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
 
     public string ReadMemoryString(uint address) => throw new NotImplementedException();
 
+
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 
     #region Write Memory

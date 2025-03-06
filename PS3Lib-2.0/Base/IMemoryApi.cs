@@ -1,4 +1,8 @@
-﻿namespace PS3Lib2.Interfaces;
+﻿using System;
+
+namespace PS3Lib2.Interfaces;
+
+#nullable enable
 
 internal interface IMemoryApi
 {
@@ -76,4 +80,12 @@ internal interface IMemoryApi
     public string ReadMemoryString(uint address);
 
     public void WriteMemoryString(uint address, string s);
+
+    public bool TryPatternScan
+       (in byte?[] patternInput, 
+        in uint patternSearchStartAddress, 
+        in uint patternSearchEndAddress, 
+        out uint? startingAddress, 
+        out byte[]? dataRead, 
+        out uint? length);
 }

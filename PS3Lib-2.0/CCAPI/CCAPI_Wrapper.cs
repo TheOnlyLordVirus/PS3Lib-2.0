@@ -174,6 +174,18 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public string ReadMemoryString(uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 
     #region Write Memory
