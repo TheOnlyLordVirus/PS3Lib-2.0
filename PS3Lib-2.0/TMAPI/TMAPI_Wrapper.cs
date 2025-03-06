@@ -7,10 +7,11 @@ using PS3Lib.NET;
 
 using PS3Lib2.Attributes;
 using PS3Lib2.Exceptions;
+using PS3Lib2.Interfaces;
 
 namespace PS3Lib2.Tmapi;
 
-internal sealed class TMAPI_Wrapper
+internal sealed class TMAPI_Wrapper : IPlaystationApi
 {
     public int ConnectedTarget
     {
