@@ -47,3 +47,5 @@ internal sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IP
 
     public bool HasPartialApiSupport => !_hasFullApiSupport;
 }
+
+

@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\.NET\IsExternalInit.cs" />
+    <Compile Include="Base\Api_Wrapper.cs" />
     <Compile Include="Base\PlaystationApiMethodUnSupportedAttribute.cs" />
     <Compile Include="Base\IMemoryApi.cs" />
     <Compile Include="Base\IPlaystationApi.cs" />
