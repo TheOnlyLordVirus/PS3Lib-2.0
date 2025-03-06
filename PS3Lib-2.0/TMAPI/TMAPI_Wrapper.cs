@@ -11,6 +11,7 @@ using PS3Lib2.Interfaces;
 
 namespace PS3Lib2.Tmapi;
 
+[PlaystationApiSupportAttribute<TMAPI_Wrapper>()]
 internal sealed class TMAPI_Wrapper : IPlaystationApi
 {
     public int ConnectedTarget
@@ -51,7 +52,7 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
         throw new FileNotFoundException($"You must have ps3tmapi_net.dll Installed!");
     }
 
-    [ApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupportedAttribute()]
     public bool Connect()
     {
         throw new NotImplementedException();
@@ -61,22 +62,22 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
 
     public bool Disconnect() => PS3TMAPI.Disconnect(ConnectedTarget) is PS3TMAPI.SNRESULT.SN_S_OK;
 
-    [ApiMethodUnSupportedAttribute()]
-    public void RingBuzzer() => throw new ApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public void RingBuzzer() => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
 
-    [ApiMethodUnSupportedAttribute()]
-    public void VshNotify(string _) => throw new ApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public void VshNotify(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
 
-    [ApiMethodUnSupportedAttribute()]
-    public void SetIdps(string _) => throw new ApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public void SetIdps(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
 
-    [ApiMethodUnSupportedAttribute()]
-    public void SetPsid(string psid) => throw new ApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public void SetPsid(string psid) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
     public void ShutDown() => PS3TMAPI.PowerOff(ConnectedTarget, true);
 
-    [ApiMethodUnSupportedAttribute()]
-    public void GetTemprature(ref int cell, ref int rsx) => throw new ApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
+    [PlaystationApiMethodUnSupportedAttribute()]
+    public void GetTemprature(ref int cell, ref int rsx) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
 
     public bool AttachGameProcess()
     {

@@ -6,11 +6,13 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 using PS3Lib2.Interfaces;
+using PS3Lib2.Attributes;
 
 using ConsoleControlApi = CCAPI.CCAPI;
 
 namespace PS3Lib2.Capi;
 
+[PlaystationApiSupportAttribute<CCAPI_Wrapper>()]
 internal sealed class CCAPI_Wrapper : IPlaystationApi
 {
     private readonly string _dllPath;
@@ -58,6 +60,7 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public bool IsConnected => ConsoleControlApi.IsConnected();
 
+    [PlaystationApiMethodUnSupportedAttribute()]
     public bool Connect() 
     {
         throw new NotImplementedException();
