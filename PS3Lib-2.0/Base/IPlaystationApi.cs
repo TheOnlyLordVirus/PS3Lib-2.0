@@ -1,26 +1,26 @@
-﻿namespace PS3Lib2.Interfaces;
+﻿using System;
 
-internal interface IPlaystationApi : IMemoryApi
+namespace PS3Lib2.Interfaces;
+
+internal interface IPlaystationApi : IMemoryApi, IDisposable
 {
-    bool IsConnected { get; }
+    public bool IsConnected { get; }
 
-    bool Connect();
+    public bool Connect();
 
-    bool Connect(string ip);
+    public bool Connect(string ip);
 
-    bool Disconnect();
+    public bool Disconnect();
 
-    void ShutDown();
+    public void ShutDown();
 
-    void RingBuzzer();
+    public void RingBuzzer();
 
-    void VshNotify(string message);
+    public void VshNotify(string message);
 
-    string GetConsoleId();
+    public void SetIdps(string consoleId);
 
-    void SetIdps(string consoleId);
+    public void SetPsid(string psid);
 
-    void SetPsid(string psid);
-
-    void GetTemprature(ref int cell, ref int rsx);
+    public void GetTemprature(ref int cell, ref int rsx);
 }

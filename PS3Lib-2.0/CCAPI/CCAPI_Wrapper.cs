@@ -9,52 +9,54 @@ using PS3Lib2.Interfaces;
 
 using ConsoleControlApi = CCAPI.CCAPI;
 
-
 namespace PS3Lib2.Capi;
 
-internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
+internal sealed class CCAPI_Wrapper : IPlaystationApi
 {
     private readonly string _dllPath;
 
     private readonly ConsoleControlApi _consoleControllApi;
 
-    public ConsoleControlApi ConsoleControlApi { get => _consoleControllApi; }
-    public bool IsConnected => ConsoleControlApi.IsConnected();
+    public ConsoleControlApi ConsoleControlApi 
+    {   
+        get => _consoleControllApi; 
 
-
-    public CCAPI_API_Wrapper()
-    {
-        RegistryKey Key = Registry
+        init
+        {
+            RegistryKey Key = Registry
                 .CurrentUser
                 .OpenSubKey(@"Software\FrenchModdingTeam\CCAPI\InstallFolder");
 
-        if (Key is null)
-        {
-            MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Dispose();
-            return;
+            if (Key is null)
+            {
+                MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Dispose();
+                return;
+            }
+
+            string Path = Key.GetValue("path") as String;
+
+            if (string.IsNullOrEmpty(Path))
+            {
+                MessageBox.Show("Invalid CCAPI folder, please re-install it.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Dispose();
+                return;
+            }
+
+            _dllPath = Path + @"\CCAPI.dll";
+
+            if (!File.Exists(_dllPath))
+            {
+                MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI.dll not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Dispose();
+                return;
+            }
+
+            _consoleControllApi = new ConsoleControlApi(_dllPath);
         }
-            
-        string Path = Key.GetValue("path") as String;
-
-        if (string.IsNullOrEmpty(Path))
-        {
-            MessageBox.Show("Invalid CCAPI folder, please re-install it.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Dispose();
-            return;
-        }
-
-        _dllPath = Path + @"\CCAPI.dll";
-
-        if (!File.Exists(_dllPath))
-        {
-            MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI.dll not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Dispose();
-            return;
-        }
-
-        _consoleControllApi = new ConsoleControlApi(_dllPath);
     }
+
+    public bool IsConnected => ConsoleControlApi.IsConnected();
 
     public bool Connect() 
     {
@@ -73,9 +75,6 @@ internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
 
     public void VshNotify(string message/*Notify icon type enum here too.*/) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
 
-    // TODO: GetConsoleID
-    public string GetConsoleId() { return string.Empty; }
-
     public void SetIdps(string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
 
     public void SetPsid(string psid) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, psid); }
@@ -84,14 +83,13 @@ internal sealed class CCAPI_API_Wrapper : IPlaystationApi, IDisposable
 
     public void GetTemprature(ref int cell, ref int rsx) { ConsoleControlApi.GetTemperature(ref cell, ref rsx); }
 
-    public bool AttachGameProcess()
-    {
-        return ConsoleControlApi.AttachGameProcess();
-    }
+    public bool AttachGameProcess() => ConsoleControlApi.AttachGameProcess();
 
-    public void AttachProccess(uint proccessId) 
+    public bool AttachProccess(uint proccessId) 
     { 
         ConsoleControlApi.AttachProcess(proccessId);
+
+        return true;
     }
 
     #region Read / Write

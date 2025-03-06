@@ -36,14 +36,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\.NET\IsExternalInit.cs" />
+    <Compile Include="Base\ApiMethodUnSupportedAttribute.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\IMemoryApi.cs" />
     <Compile Include="Base\IPlaystationApi.cs" />
+    <Compile Include="Base\ApiMethodUnSupportedException.cs" />
+    <Compile Include="Base\IPlaystationApiGui.cs" />
     <Compile Include="CCAPI\CCAPI.cs" />
-    <Compile Include="CCAPI\CCAPI_API_Wrapper.cs" />
+    <Compile Include="CCAPI\CCAPI_Wrapper.cs" />
     <Compile Include="PS3MAPI\PS3MAPI.cs" />
     <Compile Include="TMAPI\TMAPI.cs" />
-    <Compile Include="TMAPI\TMAPI_API_WRAPPER.cs" />
+    <Compile Include="TMAPI\TMAPI_Wrapper.cs" />
     <Compile Include="TMAPI\TMAPI_NET.cs" />
   </ItemGroup>
   <ItemGroup>
