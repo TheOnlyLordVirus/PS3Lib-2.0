@@ -9,6 +9,7 @@ using PS3Lib2.Interfaces;
 using PS3Lib2.Attributes;
 
 using ConsoleControlApi = CCAPI;
+using PS3Lib2.Exceptions;
 
 namespace PS3Lib2.Capi;
 
@@ -31,27 +32,25 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
             if (Key is null)
             {
-                MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Dispose();
-                return;
+                throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI is not installed!");
             }
 
             string Path = Key.GetValue("path") as String;
 
             if (string.IsNullOrEmpty(Path))
             {
-                MessageBox.Show("Invalid CCAPI folder, please re-install it.", "CCAPI not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Dispose();
-                return;
+                throw new PlaystationApiObjectInstanceException("Invalid CCAPI folder, please re-install it. CCAPI is not installed!");
+
             }
 
             _dllPath = Path + @"\CCAPI.dll";
 
             if (!File.Exists(_dllPath))
             {
-                MessageBox.Show("You need to install CCAPI 2.60+ to use this library.", "CCAPI.dll not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Dispose();
-                return;
+                throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
             }
 
             _consoleControllApi = new ConsoleControlApi(_dllPath);
