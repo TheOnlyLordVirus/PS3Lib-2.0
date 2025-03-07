@@ -8,7 +8,7 @@ using Microsoft.Win32;
 using PS3Lib2.Interfaces;
 using PS3Lib2.Attributes;
 
-using ConsoleControlApi = CCAPI.CCAPI;
+using ConsoleControlApi = CCAPI;
 
 namespace PS3Lib2.Capi;
 

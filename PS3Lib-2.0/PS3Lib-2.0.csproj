@@ -35,24 +35,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Base\.NET\IsExternalInit.cs" />
-    <Compile Include="Base\Api_Wrapper.cs" />
-    <Compile Include="Base\Extentions.cs" />
-    <Compile Include="Base\PlaystationApiMethodUnSupportedAttribute.cs" />
-    <Compile Include="Base\IMemoryApi.cs" />
-    <Compile Include="Base\IPlaystationApi.cs" />
-    <Compile Include="Base\PlaystationApiMethodUnSupportedException.cs" />
-    <Compile Include="Base\IPlaystationApiGui.cs" />
-    <Compile Include="Base\PlaystationApiSupportAttribute.cs" />
-    <Compile Include="CCAPI\CCAPI.cs" />
-    <Compile Include="CCAPI\CCAPI_Wrapper.cs" />
-    <Compile Include="PS3MAPI\PS3MAPI.cs" />
-    <Compile Include="TMAPI\TMAPI.cs" />
-    <Compile Include="TMAPI\TMAPI_Wrapper.cs" />
-    <Compile Include="TMAPI\TMAPI_NET.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
+    <Compile Include="PS3Lib2\.NET\IsExternalInit.cs" />
+    <Compile Include="PS3Lib2\API_Wrappers\Api_Wrapper.cs" />
+    <Compile Include="PS3Lib2\API_Wrappers\PS3MAPI_Wrapper.cs" />
+    <Compile Include="PS3Lib2\.NET\Extentions.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\PlaystationApiMethodUnSupportedAttribute.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\IMemoryApi.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\IPlaystationApi.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\PlaystationApiMethodUnSupportedException.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\IPlaystationApiGui.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\PlaystationApiSupportAttribute.cs" />
+    <Compile Include="API_Sources\.NET\CCAPI\CCAPI.cs" />
+    <Compile Include="PS3Lib2\API_Wrappers\CCAPI_Wrapper.cs" />
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\AttachDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\AttachDialog.Designer.cs">
+      <DependentUpon>AttachDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\ConnectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\ConnectDialog.Designer.cs">
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\LogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\LogDialog.Designer.cs">
+      <DependentUpon>LogDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="API_Sources\.NET\PS3ManagerAPI\PS3MAPI.cs" />
+    <Compile Include="API_Sources\.NET\PS3TMAPI_NET\TMAPI.cs" />
+    <Compile Include="PS3Lib2\API_Wrappers\TMAPI_Wrapper.cs" />
+    <Compile Include="API_Sources\.NET\PS3TMAPI_NET\TMAPI_NET.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +82,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="API_Sources\Dlls\CCAPI.dll" />
+    <Content Include="API_Sources\Dlls\PS3ManagerAPI.dll" />
+    <Content Include="API_Sources\Dlls\ps3tmapi_net.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

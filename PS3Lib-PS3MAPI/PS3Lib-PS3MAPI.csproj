@@ -50,17 +50,14 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.Designer.cs" />
-    <Compile Include="PS3Lib\api\PS3MAPI\AttachDialog.resx" />
     <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.Designer.cs" />
-    <Compile Include="PS3Lib\api\PS3MAPI\ConnectDialog.resx" />
     <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.Designer.cs" />
-    <Compile Include="PS3Lib\api\PS3MAPI\LogDialog.resx" />
     <Compile Include="PS3Lib\api\PS3MAPI\PS3MAPI.cs" />
     <Compile Include="PS3Lib\api\CCAPI.cs" />
     <Compile Include="PS3Lib\api\ConsoleList.cs">

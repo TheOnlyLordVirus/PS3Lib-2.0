@@ -3,27 +3,25 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using PS3Lib.NET;
-
 using PS3Lib2.Attributes;
 using PS3Lib2.Exceptions;
 using PS3Lib2.Interfaces;
+
+using TargetManagerApi = PS3TMAPI;
 
 namespace PS3Lib2.Tmapi;
 
 [PlaystationApiSupportAttribute<TMAPI_Wrapper>()]
 internal sealed class TMAPI_Wrapper : IPlaystationApi
 {
-    public int ConnectedTarget
-    {
-        get;
-        set;
-    }
+    public uint ProcessId { get; private set; } = 0;
 
-    private const string _libName = "ps3tmapi_net.dll";
-    private readonly string _LibPathX = string.Format(@"C:\Program Files\SN Systems\PS3\bin\ps3tmapi_net.dll", _libName);
-    private readonly string _LibPathX64 = string.Format(@"C:\Program Files (x64)\SN Systems\PS3\bin\ps3tmapi_net.dll", _libName);
-    private readonly string _LibPathX86 = string.Format(@"C:\Program Files (x86)\SN Systems\PS3\bin\ps3tmapi_net.dll", _libName);
+    public int ConnectedTarget { get; set; } = -1;
+
+    private const string _libName = "TargetManagerApi_net.dll";
+    private readonly string _LibPathX = string.Format(@"C:\Program Files\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
+    private readonly string _LibPathX64 = string.Format(@"C:\Program Files (x64)\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
+    private readonly string _LibPathX86 = string.Format(@"C:\Program Files (x86)\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
     private readonly string[] _LibLocations;
 
     private string[] LibLocations
@@ -34,8 +32,8 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
     }
 
     public bool IsConnected => 
-        PS3TMAPI.GetConnectStatus(ConnectedTarget, out PS3TMAPI.ConnectStatus status, out _) is PS3TMAPI.SNRESULT.SN_S_OK && 
-            status is PS3TMAPI.ConnectStatus.Connected;
+        TargetManagerApi.GetConnectStatus(ConnectedTarget, out TargetManagerApi.ConnectStatus status, out _) is TargetManagerApi.SNRESULT.SN_S_OK && 
+            status is TargetManagerApi.ConnectStatus.Connected;
 
     public TMAPI_Wrapper()
     {
@@ -49,7 +47,7 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
                 return;
             }
 
-        throw new FileNotFoundException($"You must have ps3tmapi_net.dll Installed!");
+        throw new FileNotFoundException($"You must have TargetManagerApi_net.dll Installed!");
     }
 
     [PlaystationApiMethodUnSupportedAttribute()]
@@ -58,9 +56,9 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
         throw new NotImplementedException();
     }
 
-    public bool Connect(string ip) => PS3TMAPI.Connect(ConnectedTarget, ip) is PS3TMAPI.SNRESULT.SN_S_OK;
+    public bool Connect(string ip) => TargetManagerApi.Connect(ConnectedTarget, ip) is TargetManagerApi.SNRESULT.SN_S_OK;
 
-    public bool Disconnect() => PS3TMAPI.Disconnect(ConnectedTarget) is PS3TMAPI.SNRESULT.SN_S_OK;
+    public bool Disconnect() => TargetManagerApi.Disconnect(ConnectedTarget) is TargetManagerApi.SNRESULT.SN_S_OK;
 
     [PlaystationApiMethodUnSupportedAttribute()]
     public void RingBuzzer() => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
@@ -74,7 +72,7 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
     [PlaystationApiMethodUnSupportedAttribute()]
     public void SetPsid(string psid) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
-    public void ShutDown() => PS3TMAPI.PowerOff(ConnectedTarget, true);
+    public void ShutDown() => TargetManagerApi.PowerOff(ConnectedTarget, true);
 
     [PlaystationApiMethodUnSupportedAttribute()]
     public void GetTemprature(ref int cell, ref int rsx) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
@@ -82,7 +80,7 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
     public bool AttachGameProcess()
     {
         uint[] pids;
-        PS3TMAPI.GetProcessList(0, out pids);
+        TargetManagerApi.GetProcessList(ConnectedTarget, out pids);
 
         if (pids.Length < 0)
             return false;
@@ -90,13 +88,22 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
         return AttachProccess(pids[0]);
     }
 
-    public bool AttachProccess(uint proccessId) =>
-        (PS3TMAPI.ProcessAttach(ConnectedTarget, PS3TMAPI.UnitType.PPU, proccessId) is PS3TMAPI.SNRESULT.SN_S_OK &&
-            PS3TMAPI.ProcessContinue(ConnectedTarget, proccessId) is PS3TMAPI.SNRESULT.SN_S_OK);
+    public bool AttachProccess(uint processId)
+    {
+        if (TargetManagerApi.ProcessAttach(ConnectedTarget, TargetManagerApi.UnitType.PPU, processId) is TargetManagerApi.SNRESULT.SN_S_OK &&
+            TargetManagerApi.ProcessContinue(ConnectedTarget, processId) is TargetManagerApi.SNRESULT.SN_S_OK)
+        {
+            ProcessId = processId;
+            return true;
+        }
+
+        return false;
+    }
+
 
     #region Read / Write
 
-    public void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; PS3TMAPI.ProcessGetMemory(ConnectedTarget, address, size, bytes); }
+    public void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; TargetManagerApi.ProcessGetMemory(ConnectedTarget, TargetManagerApi.UnitType.PPU, ProcessId, 0, address, ref bytes); }
     public byte[] ReadMemory(uint address, uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }
 
     // Bytes

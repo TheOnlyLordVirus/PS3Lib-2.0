@@ -12,8 +12,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace CCAPI;
-
 public class CCAPI
 {
 
@@ -22,10 +20,10 @@ public class CCAPI
         public uint pid;
         public string name;
     };
-	public struct ConsoleInfo
-	{
-		public string name,ip;
-	};
+    public struct ConsoleInfo
+    {
+        public string name, ip;
+    };
     public enum ConsoleIdType
     {
         Idps = 0,
@@ -94,7 +92,6 @@ public class CCAPI
 
         LibLoaded = Init(libpath);
     }
-
     private bool Init(string libpath)
     {
 
@@ -104,70 +101,70 @@ public class CCAPI
         {
             if (GetLastError() == 193)
             {
-                
+
             }
             return false;
         }
 
-        IntPtr pCCAPIConnectConsole = GetProcAddress(LibHandle,"CCAPIConnectConsole");
-        IntPtr pCCAPIDisconnectConsole = GetProcAddress(LibHandle,"CCAPIDisconnectConsole");
-        IntPtr pCCAPIGetConnectionStatus = GetProcAddress(LibHandle,"CCAPIGetConnectionStatus");
-        IntPtr pCCAPISetBootConsoleIds = GetProcAddress(LibHandle,"CCAPISetBootConsoleIds");
-        IntPtr pCCAPISetConsoleIds = GetProcAddress(LibHandle,"CCAPISetConsoleIds");
-        IntPtr pCCAPISetMemory = GetProcAddress(LibHandle,"CCAPISetMemory");
-        IntPtr pCCAPIGetMemory = GetProcAddress(LibHandle,"CCAPIGetMemory");
-        IntPtr pCCAPIGetProcessList = GetProcAddress(LibHandle,"CCAPIGetProcessList");
-        IntPtr pCCAPIGetProcessName = GetProcAddress(LibHandle,"CCAPIGetProcessName");
-        IntPtr pCCAPIGetTemperature = GetProcAddress(LibHandle,"CCAPIGetTemperature");
-        IntPtr pCCAPIShutdown = GetProcAddress(LibHandle,"CCAPIShutdown");
-        IntPtr pCCAPIRingBuzzer = GetProcAddress(LibHandle,"CCAPIRingBuzzer");
-        IntPtr pCCAPISetConsoleLed = GetProcAddress(LibHandle,"CCAPISetConsoleLed");
-        IntPtr pCCAPIGetFirmwareInfo = GetProcAddress(LibHandle,"CCAPIGetFirmwareInfo");
-        IntPtr pCCAPIVshNotify = GetProcAddress(LibHandle,"CCAPIVshNotify");
-        IntPtr pCCAPIGetNumberOfConsoles = GetProcAddress(LibHandle,"CCAPIGetNumberOfConsoles");
-        IntPtr pCCAPIGetConsoleInfo = GetProcAddress(LibHandle,"CCAPIGetConsoleInfo");
-        IntPtr pCCAPIGetDllVersion = GetProcAddress(LibHandle,"CCAPIGetDllVersion");
+        IntPtr pCCAPIConnectConsole = GetProcAddress(LibHandle, "CCAPIConnectConsole");
+        IntPtr pCCAPIDisconnectConsole = GetProcAddress(LibHandle, "CCAPIDisconnectConsole");
+        IntPtr pCCAPIGetConnectionStatus = GetProcAddress(LibHandle, "CCAPIGetConnectionStatus");
+        IntPtr pCCAPISetBootConsoleIds = GetProcAddress(LibHandle, "CCAPISetBootConsoleIds");
+        IntPtr pCCAPISetConsoleIds = GetProcAddress(LibHandle, "CCAPISetConsoleIds");
+        IntPtr pCCAPISetMemory = GetProcAddress(LibHandle, "CCAPISetMemory");
+        IntPtr pCCAPIGetMemory = GetProcAddress(LibHandle, "CCAPIGetMemory");
+        IntPtr pCCAPIGetProcessList = GetProcAddress(LibHandle, "CCAPIGetProcessList");
+        IntPtr pCCAPIGetProcessName = GetProcAddress(LibHandle, "CCAPIGetProcessName");
+        IntPtr pCCAPIGetTemperature = GetProcAddress(LibHandle, "CCAPIGetTemperature");
+        IntPtr pCCAPIShutdown = GetProcAddress(LibHandle, "CCAPIShutdown");
+        IntPtr pCCAPIRingBuzzer = GetProcAddress(LibHandle, "CCAPIRingBuzzer");
+        IntPtr pCCAPISetConsoleLed = GetProcAddress(LibHandle, "CCAPISetConsoleLed");
+        IntPtr pCCAPIGetFirmwareInfo = GetProcAddress(LibHandle, "CCAPIGetFirmwareInfo");
+        IntPtr pCCAPIVshNotify = GetProcAddress(LibHandle, "CCAPIVshNotify");
+        IntPtr pCCAPIGetNumberOfConsoles = GetProcAddress(LibHandle, "CCAPIGetNumberOfConsoles");
+        IntPtr pCCAPIGetConsoleInfo = GetProcAddress(LibHandle, "CCAPIGetConsoleInfo");
+        IntPtr pCCAPIGetDllVersion = GetProcAddress(LibHandle, "CCAPIGetDllVersion");
 
-       bool loaded = (pCCAPIConnectConsole != IntPtr.Zero)
-            && (pCCAPIDisconnectConsole != IntPtr.Zero)
-            && (pCCAPIGetConnectionStatus != IntPtr.Zero)
-            && (pCCAPISetBootConsoleIds != IntPtr.Zero)
-            && (pCCAPISetConsoleIds != IntPtr.Zero)
-            && (pCCAPISetMemory != IntPtr.Zero)
-            && (pCCAPIGetMemory != IntPtr.Zero)
-            && (pCCAPIGetProcessList != IntPtr.Zero)
-            && (pCCAPIGetProcessName != IntPtr.Zero)
-            && (pCCAPIGetTemperature != IntPtr.Zero)
-            && (pCCAPIShutdown != IntPtr.Zero)
-            && (pCCAPIRingBuzzer != IntPtr.Zero)
-            && (pCCAPISetConsoleLed != IntPtr.Zero)
-            && (pCCAPIGetFirmwareInfo != IntPtr.Zero)
-            && (pCCAPIVshNotify != IntPtr.Zero)
-            && (pCCAPIGetNumberOfConsoles != IntPtr.Zero)
-            && (pCCAPIGetConsoleInfo != IntPtr.Zero)
-            && (pCCAPIGetDllVersion != IntPtr.Zero);
+        bool loaded = (pCCAPIConnectConsole != IntPtr.Zero)
+             && (pCCAPIDisconnectConsole != IntPtr.Zero)
+             && (pCCAPIGetConnectionStatus != IntPtr.Zero)
+             && (pCCAPISetBootConsoleIds != IntPtr.Zero)
+             && (pCCAPISetConsoleIds != IntPtr.Zero)
+             && (pCCAPISetMemory != IntPtr.Zero)
+             && (pCCAPIGetMemory != IntPtr.Zero)
+             && (pCCAPIGetProcessList != IntPtr.Zero)
+             && (pCCAPIGetProcessName != IntPtr.Zero)
+             && (pCCAPIGetTemperature != IntPtr.Zero)
+             && (pCCAPIShutdown != IntPtr.Zero)
+             && (pCCAPIRingBuzzer != IntPtr.Zero)
+             && (pCCAPISetConsoleLed != IntPtr.Zero)
+             && (pCCAPIGetFirmwareInfo != IntPtr.Zero)
+             && (pCCAPIVshNotify != IntPtr.Zero)
+             && (pCCAPIGetNumberOfConsoles != IntPtr.Zero)
+             && (pCCAPIGetConsoleInfo != IntPtr.Zero)
+             && (pCCAPIGetDllVersion != IntPtr.Zero);
 
         if (!loaded)
             return false;
 
-        CCAPIConnectConsole         = (CCAPIConnectConsole_t)           Marshal.GetDelegateForFunctionPointer(pCCAPIConnectConsole,        typeof(CCAPIConnectConsole_t));
-        CCAPIDisconnectConsole      = (CCAPIDisconnectConsole_t)        Marshal.GetDelegateForFunctionPointer(pCCAPIDisconnectConsole,     typeof(CCAPIDisconnectConsole_t));
-        CCAPIGetConnectionStatus    = (CCAPIGetConnectionStatus_t)      Marshal.GetDelegateForFunctionPointer(pCCAPIGetConnectionStatus,   typeof(CCAPIGetConnectionStatus_t));
-        CCAPISetBootConsoleIds      = (CCAPISetBootConsoleIds_t)        Marshal.GetDelegateForFunctionPointer(pCCAPISetBootConsoleIds,     typeof(CCAPISetBootConsoleIds_t));
-        CCAPISetConsoleIds          = (CCAPISetConsoleIds_t)            Marshal.GetDelegateForFunctionPointer(pCCAPISetConsoleIds,         typeof(CCAPISetConsoleIds_t));
-        CCAPISetMemory              = (CCAPISetMemory_t)                Marshal.GetDelegateForFunctionPointer(pCCAPISetMemory,             typeof(CCAPISetMemory_t));
-        CCAPIGetMemory              = (CCAPIGetMemory_t)                Marshal.GetDelegateForFunctionPointer(pCCAPIGetMemory,             typeof(CCAPIGetMemory_t));
-        CCAPIGetProcessList         = (CCAPIGetProcessList_t)           Marshal.GetDelegateForFunctionPointer(pCCAPIGetProcessList,        typeof(CCAPIGetProcessList_t));
-        CCAPIGetProcessName         = (CCAPIGetProcessName_t)           Marshal.GetDelegateForFunctionPointer(pCCAPIGetProcessName,        typeof(CCAPIGetProcessName_t));
-        CCAPIGetTemperature         = (CCAPIGetTemperature_t)           Marshal.GetDelegateForFunctionPointer(pCCAPIGetTemperature,        typeof(CCAPIGetTemperature_t));
-        CCAPIShutdown               = (CCAPIShutdown_t)                 Marshal.GetDelegateForFunctionPointer(pCCAPIShutdown,              typeof(CCAPIShutdown_t));
-        CCAPIRingBuzzer             = (CCAPIRingBuzzer_t)               Marshal.GetDelegateForFunctionPointer(pCCAPIRingBuzzer,            typeof(CCAPIRingBuzzer_t));
-        CCAPISetConsoleLed          = (CCAPISetConsoleLed_t)            Marshal.GetDelegateForFunctionPointer(pCCAPISetConsoleLed,         typeof(CCAPISetConsoleLed_t));
-        CCAPIGetFirmwareInfo        = (CCAPIGetFirmwareInfo_t)          Marshal.GetDelegateForFunctionPointer(pCCAPIGetFirmwareInfo,       typeof(CCAPIGetFirmwareInfo_t));
-        CCAPIVshNotify              = (CCAPIVshNotify_t)                Marshal.GetDelegateForFunctionPointer(pCCAPIVshNotify,             typeof(CCAPIVshNotify_t));
-        CCAPIGetNumberOfConsoles    = (CCAPIGetNumberOfConsoles_t)      Marshal.GetDelegateForFunctionPointer(pCCAPIGetNumberOfConsoles,   typeof(CCAPIGetNumberOfConsoles_t));
-        CCAPIGetConsoleInfo         = (CCAPIGetConsoleInfo_t)           Marshal.GetDelegateForFunctionPointer(pCCAPIGetConsoleInfo,        typeof(CCAPIGetConsoleInfo_t));
-        CCAPIGetDllVersion          = (CCAPIGetDllVersion_t)            Marshal.GetDelegateForFunctionPointer(pCCAPIGetDllVersion,         typeof(CCAPIGetDllVersion_t));
+        CCAPIConnectConsole = (CCAPIConnectConsole_t)Marshal.GetDelegateForFunctionPointer(pCCAPIConnectConsole, typeof(CCAPIConnectConsole_t));
+        CCAPIDisconnectConsole = (CCAPIDisconnectConsole_t)Marshal.GetDelegateForFunctionPointer(pCCAPIDisconnectConsole, typeof(CCAPIDisconnectConsole_t));
+        CCAPIGetConnectionStatus = (CCAPIGetConnectionStatus_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetConnectionStatus, typeof(CCAPIGetConnectionStatus_t));
+        CCAPISetBootConsoleIds = (CCAPISetBootConsoleIds_t)Marshal.GetDelegateForFunctionPointer(pCCAPISetBootConsoleIds, typeof(CCAPISetBootConsoleIds_t));
+        CCAPISetConsoleIds = (CCAPISetConsoleIds_t)Marshal.GetDelegateForFunctionPointer(pCCAPISetConsoleIds, typeof(CCAPISetConsoleIds_t));
+        CCAPISetMemory = (CCAPISetMemory_t)Marshal.GetDelegateForFunctionPointer(pCCAPISetMemory, typeof(CCAPISetMemory_t));
+        CCAPIGetMemory = (CCAPIGetMemory_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetMemory, typeof(CCAPIGetMemory_t));
+        CCAPIGetProcessList = (CCAPIGetProcessList_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetProcessList, typeof(CCAPIGetProcessList_t));
+        CCAPIGetProcessName = (CCAPIGetProcessName_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetProcessName, typeof(CCAPIGetProcessName_t));
+        CCAPIGetTemperature = (CCAPIGetTemperature_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetTemperature, typeof(CCAPIGetTemperature_t));
+        CCAPIShutdown = (CCAPIShutdown_t)Marshal.GetDelegateForFunctionPointer(pCCAPIShutdown, typeof(CCAPIShutdown_t));
+        CCAPIRingBuzzer = (CCAPIRingBuzzer_t)Marshal.GetDelegateForFunctionPointer(pCCAPIRingBuzzer, typeof(CCAPIRingBuzzer_t));
+        CCAPISetConsoleLed = (CCAPISetConsoleLed_t)Marshal.GetDelegateForFunctionPointer(pCCAPISetConsoleLed, typeof(CCAPISetConsoleLed_t));
+        CCAPIGetFirmwareInfo = (CCAPIGetFirmwareInfo_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetFirmwareInfo, typeof(CCAPIGetFirmwareInfo_t));
+        CCAPIVshNotify = (CCAPIVshNotify_t)Marshal.GetDelegateForFunctionPointer(pCCAPIVshNotify, typeof(CCAPIVshNotify_t));
+        CCAPIGetNumberOfConsoles = (CCAPIGetNumberOfConsoles_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetNumberOfConsoles, typeof(CCAPIGetNumberOfConsoles_t));
+        CCAPIGetConsoleInfo = (CCAPIGetConsoleInfo_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetConsoleInfo, typeof(CCAPIGetConsoleInfo_t));
+        CCAPIGetDllVersion = (CCAPIGetDllVersion_t)Marshal.GetDelegateForFunctionPointer(pCCAPIGetDllVersion, typeof(CCAPIGetDllVersion_t));
 
         return true;
     }
@@ -202,12 +199,12 @@ public class CCAPI
         List<ConsoleInfo> list = new List<ConsoleInfo>();
 
         IntPtr name = malloc(512 * sizeof(char));
-        IntPtr ip   = malloc(512 * sizeof(char));
+        IntPtr ip = malloc(512 * sizeof(char));
 
-        for (int i=0;i<CCAPIGetNumberOfConsoles();i++)
+        for (int i = 0; i < CCAPIGetNumberOfConsoles(); i++)
         {
             ConsoleInfo c = new ConsoleInfo();
-            CCAPIGetConsoleInfo(i,name,ip);
+            CCAPIGetConsoleInfo(i, name, ip);
             c.name = ptr2String(name);
             c.ip = ptr2String(ip);
             list.Add(c);
@@ -224,7 +221,7 @@ public class CCAPI
 
         IntPtr ProcessIds = malloc(sizeof(uint) * 32);
         uint NProcessIds = 32;
-        int ret = CCAPIGetProcessList(ref NProcessIds,ProcessIds);
+        int ret = CCAPIGetProcessList(ref NProcessIds, ProcessIds);
         if (ret != OK)
         {
             free(ProcessIds);
@@ -234,11 +231,11 @@ public class CCAPI
         {
             IntPtr pName = malloc(512 * sizeof(char));
 
-            for (uint i = 0; i < NProcessIds ;i++)
+            for (uint i = 0; i < NProcessIds; i++)
             {
                 uint pid = readFromBuffer<uint>(ProcessIds, i * sizeof(uint));
 
-                ret = CCAPIGetProcessName(pid,pName);
+                ret = CCAPIGetProcessName(pid, pName);
                 if (ret != OK)
                 {
                     free(ProcessIds);
@@ -269,7 +266,7 @@ public class CCAPI
     public bool AttachGameProcess()
     {
         List<ProcessInfo> list = GetProcessList();
-        for (int i=0;i<list.Count;i++)
+        for (int i = 0; i < list.Count; i++)
         {
             if (!list[i].name.Contains("dev_flash"))
             {
@@ -285,7 +282,7 @@ public class CCAPI
     }
     public int ReadMemory(uint addr, uint size, byte[] data)
     {
-        return CCAPIGetMemory(ProcessId, (ulong) addr, size, data);
+        return CCAPIGetMemory(ProcessId, (ulong)addr, size, data);
     }
     public int WriteMemory(ulong addr, uint size, byte[] data)
     {
@@ -329,7 +326,7 @@ public class CCAPI
     }
     public int SetBootConsoleIds(ConsoleIdType t, byte[] id)
     {
-        return CCAPISetBootConsoleIds((int)t,1,id);
+        return CCAPISetBootConsoleIds((int)t, 1, id);
     }
     public int ResetBootConsoleIds(ConsoleIdType t)
     {
@@ -381,9 +378,9 @@ public class CCAPI
     public int ReadMemoryI32(uint addr)
     {
         byte[] data = new byte[sizeof(int)];
-        ReadMemory(addr, sizeof(int), data); 
+        ReadMemory(addr, sizeof(int), data);
         Array.Reverse(data);
-        return BitConverter.ToInt32(data,0);       
+        return BitConverter.ToInt32(data, 0);
     }
     public uint ReadMemoryU32(uint addr, out int ret)
     {
@@ -459,32 +456,32 @@ public class CCAPI
     {
         string s = "";
 
-        while(true)
+        while (true)
         {
             byte[] chunk = new byte[0x100];
-            int r = ReadMemory(addr,(uint)chunk.Length,chunk);
+            int r = ReadMemory(addr, (uint)chunk.Length, chunk);
             if (r != OK)
             {
                 break;
             }
             else
             {
-                for (int i = 0;i < chunk.Length; i++)
+                for (int i = 0; i < chunk.Length; i++)
                 {
                     if (chunk[i] == 0)
                     {
-                        s += Encoding.ASCII.GetString(chunk,0,i);
+                        s += Encoding.ASCII.GetString(chunk, 0, i);
                         goto end;
                     }
                 }
 
-                addr += (uint) chunk.Length;
+                addr += (uint)chunk.Length;
                 s += Encoding.ASCII.GetString(chunk);
             }
         }
 
-        end:
-        
+    end:
+
         return s;
     }
 
@@ -539,36 +536,36 @@ public class CCAPI
     }
     public int WriteMemoryString(uint addr, string s)
     {
-        byte[] b = System.Text.Encoding.ASCII.GetBytes(s+"\0");
-        return WriteMemory(addr,(uint)b.Length,b);
+        byte[] b = System.Text.Encoding.ASCII.GetBytes(s + "\0");
+        return WriteMemory(addr, (uint)b.Length, b);
     }
     public static string FirmwareToString(int firmware)
     {
         int l = (firmware >> 12) & 0xFF;
         int h = firmware >> 24;
 
-        return String.Format("{0:X}.{1:X}",h,l);
+        return String.Format("{0:X}.{1:X}", h, l);
     }
     public static string ConsoleTypeToString(ConsoleType cType)
     {
         string s = "UNK";
 
-        switch(cType)
+        switch (cType)
         {
             case ConsoleType.CEX:
                 s = "CEX";
-            break;
+                break;
 
             case ConsoleType.DEX:
                 s = "DEX";
-            break;
+                break;
 
             case ConsoleType.TOOL:
-               s = "TOOL";
-            break;
+                s = "TOOL";
+                break;
 
             default:
-            break;
+                break;
         }
 
         return s;
@@ -583,12 +580,12 @@ public class CCAPI
         {
             s += "0";
         }
-        byte[] b = new byte[s.Length/2];
+        byte[] b = new byte[s.Length / 2];
         int j = 0;
         for (int i = 0; i < s.Length; i += 2)
         {
-            var sb = s.Substring(i,2);
-            b[j++] = Convert.ToByte(sb,16);
+            var sb = s.Substring(i, 2);
+            b[j++] = Convert.ToByte(sb, 16);
         }
 
         return b;
@@ -614,7 +611,7 @@ public class CCAPI
     }
     private T readFromBuffer<T>(IntPtr ptr, uint off)
     {
-        return (T) Marshal.PtrToStructure(new IntPtr(ptr.ToInt64() + off), typeof(T));
+        return (T)Marshal.PtrToStructure(new IntPtr(ptr.ToInt64() + off), typeof(T));
     }
 
     [DllImport("kernel32.dll")]
@@ -681,4 +678,3 @@ public class CCAPI
     private delegate int CCAPIGetDllVersion_t();
     private CCAPIGetDllVersion_t CCAPIGetDllVersion;
 }
-
