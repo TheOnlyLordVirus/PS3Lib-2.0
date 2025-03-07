@@ -1,15 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 using Microsoft.Win32;
 
 using PS3Lib2.Interfaces;
 using PS3Lib2.Attributes;
+using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
-using PS3Lib2.Exceptions;
 
 namespace PS3Lib2.Capi;
 
@@ -31,27 +30,17 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
                 .OpenSubKey(@"Software\FrenchModdingTeam\CCAPI\InstallFolder");
 
             if (Key is null)
-            {
-                Dispose();
                 throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI is not installed!");
-            }
 
             string Path = Key.GetValue("path") as String;
 
             if (string.IsNullOrEmpty(Path))
-            {
-                Dispose();
                 throw new PlaystationApiObjectInstanceException("Invalid CCAPI folder, please re-install it. CCAPI is not installed!");
-
-            }
 
             _dllPath = Path + @"\CCAPI.dll";
 
             if (!File.Exists(_dllPath))
-            {
-                Dispose();
                 throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
-            }
 
             _consoleControllApi = new ConsoleControlApi(_dllPath);
         }
@@ -59,10 +48,10 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public bool IsConnected => ConsoleControlApi.IsConnected();
 
-    [PlaystationApiMethodUnSupportedAttribute()]
-    public bool Connect() 
+
+    ~CCAPI_Wrapper()
     {
-        throw new NotImplementedException();
+        Dispose();
     }
 
     public bool Connect(string ip) 
@@ -99,15 +88,11 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
     public void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; ConsoleControlApi.ReadMemory(address, size, bytes); }
     public byte[] ReadMemory(uint address, uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }
 
-    // Bytes
-
     public void ReadMemoryI8(uint address, out sbyte ret) { ret = ConsoleControlApi.ReadMemoryI8(address); }
     public sbyte ReadMemoryI8(uint address) { return ConsoleControlApi.ReadMemoryI8(address); }
 
     public void ReadMemoryU8(uint address, out byte ret) { ret = ConsoleControlApi.ReadMemoryU8(address); }
     public byte ReadMemoryU8(uint address) { return ConsoleControlApi.ReadMemoryU8(address); }
-
-    // Shorts
 
     public void ReadMemoryI16(uint address, out short ret) 
     {
@@ -143,20 +128,14 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     }
 
-    // Ints
-
     public void ReadMemoryI32(uint address, out int ret) { ret = ConsoleControlApi.ReadMemoryI32(address); }
     public int ReadMemoryI32(uint address) { return ConsoleControlApi.ReadMemoryI32(address); }
 
     public void ReadMemoryU32(uint address, out uint ret) { ret = ConsoleControlApi.ReadMemoryU32(address); }
     public uint ReadMemoryU32(uint address) { return ConsoleControlApi.ReadMemoryU32(address); }
 
-    // Floats
-
     public void ReadMemoryF32(uint address, out float ret) { ret = ConsoleControlApi.ReadMemoryF32(address); }
     public float ReadMemoryF32(uint address) { return ConsoleControlApi.ReadMemoryF32(address); }
-
-    // Longs
 
     public void ReadMemoryI64(uint address, out long ret) { ret = ConsoleControlApi.ReadMemoryI64(address); }
     public long ReadMemoryI64(uint address) { return ConsoleControlApi.ReadMemoryI64(address); }
@@ -164,12 +143,8 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
     public void ReadMemoryU64(uint address, out ulong ret) { ret = ConsoleControlApi.ReadMemoryU64(address); }
     public ulong ReadMemoryU64(uint address) { return ConsoleControlApi.ReadMemoryU64(address); }
 
-    // Doubles
-
     public void ReadMemoryF64(uint address, out double ret) { ret = ConsoleControlApi.ReadMemoryF64(address); }
     public double ReadMemoryF64(uint address) { return ConsoleControlApi.ReadMemoryF64(address); }
-
-    // String
 
     public string ReadMemoryString(uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
@@ -219,6 +194,9 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public void Dispose()
     {
+        if (IsConnected)
+            Disconnect();
+
         IntPtr ccapiHandle = GetModuleHandle("CCAPI.dll");
 
         if (ccapiHandle == IntPtr.Zero)

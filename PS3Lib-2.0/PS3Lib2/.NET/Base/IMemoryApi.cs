@@ -4,7 +4,7 @@ namespace PS3Lib2.Interfaces;
 
 #nullable enable
 
-internal interface IMemoryApi
+public interface IMemoryApi
 {
     public bool AttachGameProcess();
 

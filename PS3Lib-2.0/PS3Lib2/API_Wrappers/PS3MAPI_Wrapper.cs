@@ -8,10 +8,9 @@ using PS3ManagerAPI = PS3ManagerAPI.PS3MAPI;
 
 namespace PS3Lib2.PS3Mapi;
 
-internal sealed class PS3MAPI_Wrapper : IPlaystationApi
+public sealed class PS3MAPI_Wrapper : IPlaystationApi
 {
     public bool IsConnected { get; set; }
-    public bool Connect() => throw new NotImplementedException();
     public bool Connect(string ip) => throw new NotImplementedException();
     public bool Disconnect() => throw new NotImplementedException();
     public void RingBuzzer() => throw new NotImplementedException();

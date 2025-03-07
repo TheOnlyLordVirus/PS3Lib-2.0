@@ -6,7 +6,7 @@ using PS3Lib2.Interfaces;
 namespace PS3Lib2.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
-internal sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IPlaystationApi
+public sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IPlaystationApi
 {
     private readonly string[] _supportedMethods;
     public string[] SupportedMethods

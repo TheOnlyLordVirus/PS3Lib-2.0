@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 using PS3Lib2.Attributes;
 using PS3Lib2.Exceptions;
@@ -12,7 +13,7 @@ using TargetManagerApi = PS3TMAPI;
 namespace PS3Lib2.Tmapi;
 
 [PlaystationApiSupportAttribute<TMAPI_Wrapper>()]
-internal sealed class TMAPI_Wrapper : IPlaystationApi
+public sealed class TMAPI_Wrapper : IPlaystationApi
 {
     public uint ProcessId { get; private set; } = 0;
 
@@ -47,13 +48,7 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
                 return;
             }
 
-        throw new FileNotFoundException($"You must have TargetManagerApi_net.dll Installed!");
-    }
-
-    [PlaystationApiMethodUnSupportedAttribute()]
-    public bool Connect()
-    {
-        throw new NotImplementedException();
+        throw new PlaystationApiObjectInstanceException($"You must have TargetManagerApi_net.dll Installed!");
     }
 
     public bool Connect(string ip) => TargetManagerApi.Connect(ConnectedTarget, ip) is TargetManagerApi.SNRESULT.SN_S_OK;
@@ -117,7 +112,6 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
     // Shorts
 
     public void ReadMemoryI16(uint address, out short ret) => throw new NotImplementedException();
-
     public short ReadMemoryI16(uint address) => throw new NotImplementedException();
 
     public void ReadMemoryU16(uint address, out ushort ret) => throw new NotImplementedException();
@@ -200,6 +194,9 @@ internal sealed class TMAPI_Wrapper : IPlaystationApi
 
     public void Dispose()
     {
+        if (IsConnected)
+            Disconnect();
+
         IntPtr tmapiHandle = GetModuleHandle(_libName);
 
         if (tmapiHandle == IntPtr.Zero)
