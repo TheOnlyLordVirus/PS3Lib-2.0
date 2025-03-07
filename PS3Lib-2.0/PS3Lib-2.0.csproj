@@ -67,7 +67,6 @@
       <DependentUpon>LogDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="API_Sources\.NET\PS3ManagerAPI\PS3MAPI.cs" />
-    <Compile Include="API_Sources\.NET\PS3TMAPI_NET\TMAPI.cs" />
     <Compile Include="PS3Lib2\API_Wrappers\TMAPI_Wrapper.cs" />
     <Compile Include="API_Sources\.NET\PS3TMAPI_NET\TMAPI_NET.cs" />
   </ItemGroup>
