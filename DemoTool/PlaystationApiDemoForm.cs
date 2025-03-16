@@ -38,7 +38,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             ConnectForm.ShowDialog();
         });
 
-    private void Attach_Button_Click(object _, EventArgs __e) => 
+    private void Attach_Button_Click(object _, EventArgs __) => 
         Internal_DisplayExeceptions(() =>
         {
             if (!CurrentApi!.AttachGameProcess())
