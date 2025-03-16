@@ -28,8 +28,6 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
     private string[] LibLocations
     {
         get => _LibLocations;
-
-        init => _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
     }
 
     public bool IsConnected => 
@@ -38,6 +36,8 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
 
     public TMAPI_Wrapper()
     {
+        _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
+
         // Default Connect Target
         ConnectedTarget = 0;
 

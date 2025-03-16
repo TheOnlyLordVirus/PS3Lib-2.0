@@ -48,25 +48,49 @@ public partial class PlaystationApiDemoForm : Form
 
     private void CCAPI_CheckedChanged(object sender, EventArgs e)
     {
-        if (CurrentApi is not null)
-            CurrentApi.Dispose();
+        Internal_DisplayExeceptions(() =>
+        {
+            if (CurrentApi is not null)
+                CurrentApi.Dispose();
 
-        CurrentApi = new CCAPI_Wrapper();
+            CurrentApi = new CCAPI_Wrapper();
+
+        });
     }
 
     private void tmapiRadioButton_CheckedChanged(object sender, EventArgs e)
     {
-        if (CurrentApi is not null)
-            CurrentApi.Dispose();
+        Internal_DisplayExeceptions(() =>
+        {
+            if (CurrentApi is not null)
+                CurrentApi.Dispose();
 
-        CurrentApi = new TMAPI_Wrapper();
+            CurrentApi = new TMAPI_Wrapper();
+        });
     }
 
     private void ps3mapiRadioButton_CheckedChanged(object sender, EventArgs e)
     {
-        if (CurrentApi is not null)
-            CurrentApi.Dispose();
+        Internal_DisplayExeceptions(() =>
+        {
+            if (CurrentApi is not null)
+                CurrentApi.Dispose();
 
-        CurrentApi = new PS3MAPI_Wrapper();
+            CurrentApi = new PS3MAPI_Wrapper();
+        });
+    }
+
+
+    private void Internal_DisplayExeceptions(Action throwableAction)
+    {
+        try
+        {
+            throwableAction.Invoke();
+        }
+
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }

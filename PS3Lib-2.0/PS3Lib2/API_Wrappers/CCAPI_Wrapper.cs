@@ -15,47 +15,42 @@ namespace PS3Lib2.Capi;
 [PlaystationApiSupportAttribute<CCAPI_Wrapper>()]
 public sealed class CCAPI_Wrapper : IPlaystationApi
 {
-    private readonly string _dllPath;
+    private string _dllPath;
 
-    private readonly ConsoleControlApi _consoleControllApi;
+    private ConsoleControlApi _consoleControllApi;
 
     public ConsoleControlApi ConsoleControlApi 
     {   
         get => _consoleControllApi; 
-
-        init
-        {
-            RegistryKey Key = Registry
-                .CurrentUser
-                .OpenSubKey(@"Software\FrenchModdingTeam\CCAPI\InstallFolder");
-
-            if (Key is null)
-                throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI is not installed!");
-
-            string Path = Key.GetValue("path") as String;
-
-            if (string.IsNullOrEmpty(Path))
-                throw new PlaystationApiObjectInstanceException("Invalid CCAPI folder, please re-install it. CCAPI is not installed!");
-
-            _dllPath = Path + @"\CCAPI.dll";
-
-            if (!File.Exists(_dllPath))
-                throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
-
-            _consoleControllApi = new ConsoleControlApi(_dllPath);
-        }
     }
 
     public bool IsConnected => ConsoleControlApi.IsConnected();
 
     public CCAPI_Wrapper()
     {
+        RegistryKey Key = Registry
+            .CurrentUser
+            .OpenSubKey(@"Software\FrenchModdingTeam\CCAPI\InstallFolder");
 
+        if (Key is null)
+            throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI is not installed!");
+
+        string Path = Key.GetValue("path") as String;
+
+        if (string.IsNullOrEmpty(Path))
+            throw new PlaystationApiObjectInstanceException("Invalid CCAPI folder, please re-install it. CCAPI is not installed!");
+
+        _dllPath = Path + @"\CCAPI.dll";
+
+        if (!File.Exists(_dllPath))
+            throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
+
+        _consoleControllApi = new ConsoleControlApi(_dllPath);
     }
 
     public CCAPI_Wrapper(ConsoleControlApi api)
     {
-        ConsoleControlApi = api;
+        _consoleControllApi = api;
     }
 
     ~CCAPI_Wrapper()

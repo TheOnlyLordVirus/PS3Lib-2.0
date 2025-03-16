@@ -18,8 +18,7 @@ public sealed class PS3MAPI_Wrapper : IPlaystationApi
 
     public PS3MAPI_Wrapper()
     {
-
-
+        CurrentPS3ManagerApi = new PS3MAPI();
     }
 
     public PS3MAPI_Wrapper(int port)

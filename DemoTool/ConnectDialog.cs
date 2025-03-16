@@ -36,14 +36,14 @@ public partial class ConnectDialog : Form
             if (!_playstationApi.Connect(ipAddressTextBox.Text))
                 throw new Exception("Failed to connect!");
 
-            PlaystationApiSupportAttribute<IPlaystationApi> supportedMethods = 
-                    _playstationApi.GetApiSupportAttribute();
+            //PlaystationApiSupportAttribute<IPlaystationApi> supportedMethods = 
+            //        _playstationApi.GetApiSupportAttribute();
 
-            if (supportedMethods.SupportedMethods.Contains("RingBuzzer"))
-                _playstationApi.RingBuzzer();
+            //if (supportedMethods.SupportedMethods.Contains("RingBuzzer"))
+            //    _playstationApi.RingBuzzer();
 
-            if (supportedMethods.SupportedMethods.Contains("VshNotify"))
-                _playstationApi.VshNotify("Demo tool connected to playstation 3!");
+            //if (supportedMethods.SupportedMethods.Contains("VshNotify"))
+            //    _playstationApi.VshNotify("Demo tool connected to playstation 3!");
 
             this.Close();
         }
