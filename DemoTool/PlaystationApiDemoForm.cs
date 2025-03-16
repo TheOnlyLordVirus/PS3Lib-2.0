@@ -66,7 +66,7 @@ public sealed partial class PlaystationApiDemoForm : Form
                 .WriteMemoryU8
                 (
                     _godModeAddress, 
-                    currentValue is _godModeEnable ? 
+                    currentValue is not _godModeEnable ? 
                     _godModeEnable : _godModeDisable
                 );
         });
