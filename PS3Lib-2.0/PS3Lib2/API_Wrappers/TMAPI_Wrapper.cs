@@ -12,17 +12,16 @@ using TargetManagerApi = PS3TMAPI;
 
 namespace PS3Lib2.Tmapi;
 
-[PlaystationApiSupportAttribute<TMAPI_Wrapper>()]
 public sealed class TMAPI_Wrapper : IPlaystationApi
 {
     public uint ProcessId { get; private set; } = 0;
 
     public int ConnectedTarget { get; set; } = -1;
 
-    private const string _libName = "TargetManagerApi_net.dll";
-    private readonly string _LibPathX = string.Format(@"C:\Program Files\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
-    private readonly string _LibPathX64 = string.Format(@"C:\Program Files (x64)\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
-    private readonly string _LibPathX86 = string.Format(@"C:\Program Files (x86)\SN Systems\PS3\bin\TargetManagerApi_net.dll", _libName);
+    private const string _libName = "ps3tmapi_net.dll";
+    private const string _LibPathX = @"C:\Program Files\SN Systems\PS3\bin\ps3tmapi_net.dll";
+    private const string _LibPathX64 = @"C:\Program Files (x64)\SN Systems\PS3\bin\ps3tmapi_net.dll";
+    private const string _LibPathX86 = @"C:\Program Files (x86)\SN Systems\PS3\bin\ps3tmapi_net.dll";
     private readonly string[] _LibLocations;
 
     private string[] LibLocations
@@ -41,6 +40,20 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
         // Default Connect Target
         ConnectedTarget = 0;
 
+        Internal_Init();
+    }
+
+    public TMAPI_Wrapper(int connectTarget)
+    {
+        _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
+
+        ConnectedTarget = connectTarget;
+
+        Internal_Init();
+    }
+
+    private void Internal_Init()
+    {
         foreach (string libPath in LibLocations)
             if (File.Exists(libPath))
             {
@@ -97,6 +110,8 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
 
 
     #region Read / Write
+
+    //TODO: Handle endianess
 
     public void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; TargetManagerApi.ProcessGetMemory(ConnectedTarget, TargetManagerApi.UnitType.PPU, ProcessId, 0, address, ref bytes); }
     public byte[] ReadMemory(uint address, uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }

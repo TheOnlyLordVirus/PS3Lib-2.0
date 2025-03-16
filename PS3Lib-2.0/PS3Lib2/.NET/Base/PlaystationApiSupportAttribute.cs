@@ -6,8 +6,10 @@ using PS3Lib2.Interfaces;
 namespace PS3Lib2.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IPlaystationApi
+public sealed class PlaystationApiSupportAttribute : Attribute
 {
+    public IPlaystationApi API { get; private set; }
+
     private readonly string[] _supportedMethods;
     public string[] SupportedMethods
     {
@@ -23,7 +25,7 @@ public sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IPla
         {
             List<string> supportedMethods = new();
 
-            var methods = typeof(T).GetMethods();
+            var methods = API.GetType().GetMethods();
 
             bool tempSupportVar = true;
 
@@ -46,6 +48,12 @@ public sealed class PlaystationApiSupportAttribute<T> : Attribute where T : IPla
     }
 
     public bool HasPartialApiSupport => !_hasFullApiSupport;
+
+
+    public PlaystationApiSupportAttribute()
+    {
+
+    }
 }
 
 

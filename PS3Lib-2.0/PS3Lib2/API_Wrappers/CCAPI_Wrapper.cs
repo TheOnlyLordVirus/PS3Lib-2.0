@@ -12,9 +12,10 @@ using ConsoleControlApi = CCAPI;
 
 namespace PS3Lib2.Capi;
 
-[PlaystationApiSupportAttribute<CCAPI_Wrapper>()]
 public sealed class CCAPI_Wrapper : IPlaystationApi
 {
+    private const int _ccapiSuccessCode = 0;
+
     private string _dllPath;
 
     private ConsoleControlApi _consoleControllApi;
@@ -58,12 +59,9 @@ public sealed class CCAPI_Wrapper : IPlaystationApi
         Dispose();
     }
 
-    public bool Connect(string ip) 
-    { 
-        return ConsoleControlApi.Connect(ip) != 0;
-    }
+    public bool Connect(string ip) => ConsoleControlApi.Connect(ip) is _ccapiSuccessCode;
 
-    public bool Disconnect() { return ConsoleControlApi.Disconnect() != 0; }
+    public bool Disconnect() => ConsoleControlApi.Disconnect() is _ccapiSuccessCode;
 
     // TODO: Create standard Enums for the wrappers / interfaces (Buzzer, Shutdown, restart, led color, ect, ect.) 
     public void RingBuzzer() { ConsoleControlApi.RingBuzzer(ConsoleControlApi.BuzzerType.Single); }

@@ -12,17 +12,12 @@ namespace DemoTool;
 
 public partial class ConnectDialog : Form
 {
-    private const int EM_SETCUEBANNER = 0x1501;
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern Int32 SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
-
     private readonly IPlaystationApi _playstationApi;
 
     public ConnectDialog(IPlaystationApi api)
     {
         InitializeComponent();
-        SendMessage(ipAddressTextBox.Handle, EM_SETCUEBANNER, 0, "Playstation Ip Address...");
+        Utilities.SendMessage(ipAddressTextBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
         _playstationApi = api;
     }
 
