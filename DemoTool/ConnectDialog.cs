@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using PS3Lib2.Attributes;
-using PS3Lib2.Extentions;
+using PS3Lib2;
 using PS3Lib2.Interfaces;
 
 namespace DemoTool;
 
-public partial class ConnectDialog : Form
+public sealed partial class ConnectDialog : Form
 {
     private readonly IPlaystationApi _playstationApi;
 
@@ -21,7 +19,7 @@ public partial class ConnectDialog : Form
         _playstationApi = api;
     }
 
-    private void connectButton_Click(object sender, EventArgs e)
+    private void ConnectButton_Click(object ___, EventArgs __)
     {
         try
         {
@@ -31,14 +29,16 @@ public partial class ConnectDialog : Form
             if (!_playstationApi.Connect(ipAddressTextBox.Text))
                 throw new Exception("Failed to connect!");
 
-            //PlaystationApiSupportAttribute<IPlaystationApi> supportedMethods = 
-            //        _playstationApi.GetApiSupportAttribute();
+            if (_playstationApi is Api_Wrapper wrapper)
+            {
+                if (wrapper.SupportedMethods.Contains("RingBuzzer"))
+                    _playstationApi.RingBuzzer();
 
-            //if (supportedMethods.SupportedMethods.Contains("RingBuzzer"))
-            //    _playstationApi.RingBuzzer();
+                if (wrapper.SupportedMethods.Contains("VshNotify"))
+                    _playstationApi.VshNotify("Demo tool connected to playstation 3!");
+            }
 
-            //if (supportedMethods.SupportedMethods.Contains("VshNotify"))
-            //    _playstationApi.VshNotify("Demo tool connected to playstation 3!");
+            MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
 
             this.Close();
         }

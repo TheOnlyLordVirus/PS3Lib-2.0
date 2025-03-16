@@ -32,7 +32,7 @@ public sealed partial class PlaystationApiDemoForm
         this.attach_button = new System.Windows.Forms.Button();
         this.read_button = new System.Windows.Forms.Button();
         this.write_button = new System.Windows.Forms.Button();
-        this.CCAPI = new System.Windows.Forms.RadioButton();
+        this.ccapiRadioButton = new System.Windows.Forms.RadioButton();
         this.tmapiRadioButton = new System.Windows.Forms.RadioButton();
         this.ps3mapiRadioButton = new System.Windows.Forms.RadioButton();
         this.SuspendLayout();
@@ -81,18 +81,18 @@ public sealed partial class PlaystationApiDemoForm
         this.write_button.UseVisualStyleBackColor = true;
         this.write_button.Click += new System.EventHandler(this.Write_Button_Click);
         // 
-        // CCAPI
+        // ccapiRadioButton
         // 
-        this.CCAPI.AutoSize = true;
-        this.CCAPI.Location = new System.Drawing.Point(21, 15);
-        this.CCAPI.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-        this.CCAPI.Name = "CCAPI";
-        this.CCAPI.Size = new System.Drawing.Size(52, 17);
-        this.CCAPI.TabIndex = 4;
-        this.CCAPI.TabStop = true;
-        this.CCAPI.Text = "Ccapi";
-        this.CCAPI.UseVisualStyleBackColor = true;
-        this.CCAPI.CheckedChanged += new System.EventHandler(this.CCAPI_CheckedChanged);
+        this.ccapiRadioButton.AutoSize = true;
+        this.ccapiRadioButton.Location = new System.Drawing.Point(21, 15);
+        this.ccapiRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+        this.ccapiRadioButton.Name = "CCAPI";
+        this.ccapiRadioButton.Size = new System.Drawing.Size(52, 17);
+        this.ccapiRadioButton.TabIndex = 4;
+        this.ccapiRadioButton.TabStop = true;
+        this.ccapiRadioButton.Text = "Ccapi";
+        this.ccapiRadioButton.UseVisualStyleBackColor = true;
+        this.ccapiRadioButton.CheckedChanged += new System.EventHandler(this.CCAPRadioButton_CheckedChanged);
         // 
         // tmapiRadioButton
         // 
@@ -105,7 +105,7 @@ public sealed partial class PlaystationApiDemoForm
         this.tmapiRadioButton.TabStop = true;
         this.tmapiRadioButton.Text = "Tmapi";
         this.tmapiRadioButton.UseVisualStyleBackColor = true;
-        this.tmapiRadioButton.CheckedChanged += new System.EventHandler(this.tmapiRadioButton_CheckedChanged);
+        this.tmapiRadioButton.CheckedChanged += new System.EventHandler(this.TMAPIRadioButton_CheckedChanged);
         // 
         // ps3mapiRadioButton
         // 
@@ -118,7 +118,7 @@ public sealed partial class PlaystationApiDemoForm
         this.ps3mapiRadioButton.TabStop = true;
         this.ps3mapiRadioButton.Text = "PS3mapi";
         this.ps3mapiRadioButton.UseVisualStyleBackColor = true;
-        this.ps3mapiRadioButton.CheckedChanged += new System.EventHandler(this.ps3mapiRadioButton_CheckedChanged);
+        this.ps3mapiRadioButton.CheckedChanged += new System.EventHandler(this.PS3mapiRadioButton_CheckedChanged);
         // 
         // PlaystationApiDemoForm
         // 
@@ -127,7 +127,7 @@ public sealed partial class PlaystationApiDemoForm
         this.ClientSize = new System.Drawing.Size(302, 235);
         this.Controls.Add(this.ps3mapiRadioButton);
         this.Controls.Add(this.tmapiRadioButton);
-        this.Controls.Add(this.CCAPI);
+        this.Controls.Add(this.ccapiRadioButton);
         this.Controls.Add(this.write_button);
         this.Controls.Add(this.read_button);
         this.Controls.Add(this.attach_button);
@@ -146,7 +146,7 @@ public sealed partial class PlaystationApiDemoForm
     private System.Windows.Forms.Button attach_button;
     private System.Windows.Forms.Button read_button;
     private System.Windows.Forms.Button write_button;
-    private System.Windows.Forms.RadioButton CCAPI;
+    private System.Windows.Forms.RadioButton ccapiRadioButton;
     private System.Windows.Forms.RadioButton tmapiRadioButton;
     private System.Windows.Forms.RadioButton ps3mapiRadioButton;
 }

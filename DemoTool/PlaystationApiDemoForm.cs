@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using PS3Lib2;
 using PS3Lib2.Capi;
 using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
@@ -39,17 +38,15 @@ public sealed partial class PlaystationApiDemoForm : Form
             ConnectForm.ShowDialog();
         });
 
-    private void Attach_Button_Click(object _, EventArgs __e)
-    {
+    private void Attach_Button_Click(object _, EventArgs __e) => 
         Internal_DisplayExeceptions(() =>
         {
             if (!CurrentApi!.AttachGameProcess())
                 throw new Exception("Failed to AttachGameProcess!");
         });
-    }
 
     private void Read_Button_Click(object _, EventArgs __) =>
-        Internal_DisplayExeceptions(() =>
+        Internal_ValidateApiAction(() =>
         {
             byte currentValue = CurrentApi!.ReadMemoryU8(_godModeAddress);
 
@@ -60,7 +57,7 @@ public sealed partial class PlaystationApiDemoForm : Form
         });
 
     private void Write_Button_Click(object _, EventArgs __) =>
-        Internal_DisplayExeceptions(() =>
+        Internal_ValidateApiAction(() =>
         {
             // Godmode Toggle Example.
             byte currentValue = CurrentApi!.ReadMemoryU8(_godModeAddress);
@@ -74,7 +71,7 @@ public sealed partial class PlaystationApiDemoForm : Form
                 );
         });
 
-    private void CCAPI_CheckedChanged(object _, EventArgs __) =>
+    private void CCAPRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
@@ -82,7 +79,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             CurrentApi = new CCAPI_Wrapper();
         });
 
-    private void tmapiRadioButton_CheckedChanged(object _, EventArgs __) =>
+    private void TMAPIRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
@@ -90,7 +87,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             CurrentApi = new TMAPI_Wrapper();
         });
 
-    private void ps3mapiRadioButton_CheckedChanged(object _, EventArgs __) =>
+    private void PS3mapiRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
