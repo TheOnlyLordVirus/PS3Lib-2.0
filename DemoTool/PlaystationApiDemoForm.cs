@@ -11,7 +11,7 @@ using PS3Lib2.Interfaces;
 
 namespace DemoTool;
 
-public partial class PlaystationApiDemoForm : Form
+public sealed partial class PlaystationApiDemoForm : Form
 {
     private IPlaystationApi? CurrentApi { get; set; }
 

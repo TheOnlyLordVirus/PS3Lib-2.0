@@ -58,7 +58,15 @@ public sealed class PS3MAPI_Wrapper : IPlaystationApi
 
     public void GetTemprature(ref uint cell, ref uint rsx) => CurrentPS3ManagerApi.PS3.GetTemperature(out cell, out rsx);
 
-    public bool AttachGameProcess() => throw new NotImplementedException();
+    public bool AttachGameProcess()
+    {
+        uint[] processIds = CurrentPS3ManagerApi.Process.GetPidProcesses();
+
+        if (processIds.Length is 0)
+            return false;
+
+        return AttachProccess(processIds[0]);
+    }
 
     public bool AttachProccess(uint proccessId)
     {
@@ -79,11 +87,25 @@ public sealed class PS3MAPI_Wrapper : IPlaystationApi
         return bytes;
     }
 
-    public void ReadMemoryI8(uint address, out sbyte ret) => throw new NotImplementedException();
-    public sbyte ReadMemoryI8(uint address) => throw new NotImplementedException();
+    public void ReadMemoryI8(uint address, out sbyte ret)
+    {
+        ret = (sbyte)ReadMemory(address, 1)[0];
+    }
 
-    public void ReadMemoryU8(uint address, out byte ret) => throw new NotImplementedException();
-    public byte ReadMemoryU8(uint address) => throw new NotImplementedException();
+    public sbyte ReadMemoryI8(uint address)
+    {
+        return (sbyte)ReadMemory(address, 1)[0];
+    }
+
+    public void ReadMemoryU8(uint address, out byte ret)
+    {
+        ret = ReadMemory(address, 1)[0];
+    }
+
+    public byte ReadMemoryU8(uint address)
+    {
+        return ReadMemory(address, 1)[0];
+    }
 
     public void ReadMemoryI16(uint address, out short ret) => throw new NotImplementedException();
     public short ReadMemoryI16(uint address) => throw new NotImplementedException();
@@ -121,8 +143,8 @@ public sealed class PS3MAPI_Wrapper : IPlaystationApi
 
     public void WriteMemory(uint address, byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(ProcessId, address, bytes);
 
-    public void WriteMemoryI8(uint address, sbyte i) => throw new NotImplementedException();
-    public void WriteMemoryU8(uint address, byte i) => throw new NotImplementedException();
+    public void WriteMemoryI8(uint address, sbyte i) => WriteMemory(address, [(byte)i]);
+    public void WriteMemoryU8(uint address, byte i) => WriteMemory(address, [i]);
 
     public void WriteMemoryI16(uint address, short i) => throw new NotImplementedException();
     public void WriteMemoryU16(uint address, ushort i) => throw new NotImplementedException();

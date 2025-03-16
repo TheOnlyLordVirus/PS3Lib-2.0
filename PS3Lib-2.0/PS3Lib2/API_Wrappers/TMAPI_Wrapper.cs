@@ -14,6 +14,8 @@ namespace PS3Lib2.Tmapi;
 
 public sealed class TMAPI_Wrapper : IPlaystationApi
 {
+    private Assembly assembly;
+
     public uint ProcessId { get; private set; } = 0;
 
     public int ConnectedTarget { get; set; } = -1;
@@ -54,6 +56,14 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
 
     private void Internal_Init()
     {
+        Internal_InitLibs();
+
+        if (!TargetManagerApi.SUCCEEDED(TargetManagerApi.InitTargetComms()))
+            throw new PlaystationApiObjectInstanceException("Failed to InitTargetComms for TMAPI!");
+    }
+
+    private void Internal_InitLibs()
+    {
         foreach (string libPath in LibLocations)
             if (File.Exists(libPath))
             {
@@ -64,9 +74,9 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
         throw new PlaystationApiObjectInstanceException($"You must have TargetManagerApi_net.dll Installed!");
     }
 
-    public bool Connect(string ip) => TargetManagerApi.Connect(ConnectedTarget, ip) is TargetManagerApi.SNRESULT.SN_S_OK;
+    public bool Connect(string ip) => TargetManagerApi.SUCCEEDED(TargetManagerApi.Connect(ConnectedTarget, ip));
 
-    public bool Disconnect() => TargetManagerApi.Disconnect(ConnectedTarget) is TargetManagerApi.SNRESULT.SN_S_OK;
+    public bool Disconnect() => TargetManagerApi.SUCCEEDED(TargetManagerApi.Disconnect(ConnectedTarget));
 
     [PlaystationApiMethodUnSupportedAttribute()]
     public void RingBuzzer() => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
@@ -283,8 +293,8 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
     #region Write Memory
 
     public void WriteMemory(uint address, byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, ProcessId, 0, address, bytes);
-    public void WriteMemoryI8(uint address, sbyte i) => throw new NotImplementedException();
-    public void WriteMemoryU8(uint address, byte i) => throw new NotImplementedException();
+    public void WriteMemoryI8(uint address, sbyte i) => WriteMemory(address, [(byte)i]);
+    public void WriteMemoryU8(uint address, byte i) => WriteMemory(address, [i]);
 
     public void WriteMemoryI16(uint address, short i) => throw new NotImplementedException();
     public void WriteMemoryU16(uint address, ushort i) => throw new NotImplementedException();
