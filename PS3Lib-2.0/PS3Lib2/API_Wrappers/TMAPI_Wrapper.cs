@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 using PS3Lib2.Attributes;
 using PS3Lib2.Exceptions;
@@ -65,12 +65,12 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
     public void SetIdps(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
 
     [PlaystationApiMethodUnSupportedAttribute()]
-    public void SetPsid(string psid) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
+    public void SetPsid(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
     public void ShutDown() => TargetManagerApi.PowerOff(ConnectedTarget, true);
 
     [PlaystationApiMethodUnSupportedAttribute()]
-    public void GetTemprature(ref int cell, ref int rsx) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
+    public void GetTemprature(ref uint _, ref uint __) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
 
     public bool AttachGameProcess()
     {
@@ -103,69 +103,171 @@ public sealed class TMAPI_Wrapper : IPlaystationApi
 
     // Bytes
 
-    public void ReadMemoryI8(uint address, out sbyte ret) => throw new NotImplementedException();
-    public sbyte ReadMemoryI8(uint address) => throw new NotImplementedException();
+    public void ReadMemoryI8(uint address, out sbyte ret)
+    {
+        uint size = sizeof(sbyte);
+        ret = (sbyte)ReadMemory(address, size)[0];
+    }
 
-    public void ReadMemoryU8(uint address, out byte ret) => throw new NotImplementedException();
-    public byte ReadMemoryU8(uint address) => throw new NotImplementedException();
+    public sbyte ReadMemoryI8(uint address)
+    {
+        ReadMemoryI8(address, out sbyte ret);
+        return ret;
+    }
+
+
+    public void ReadMemoryU8(uint address, out byte ret)
+    {
+        uint size = sizeof(byte);
+        ret = (byte)ReadMemory(address, size)[0];
+    }
+
+    public byte ReadMemoryU8(uint address)
+    {
+        ReadMemoryU8(address, out byte ret);
+        return ret;
+    }
 
     // Shorts
 
-    public void ReadMemoryI16(uint address, out short ret) => throw new NotImplementedException();
-    public short ReadMemoryI16(uint address) => throw new NotImplementedException();
+    public void ReadMemoryI16(uint address, out short ret)
+    {
+        uint size = sizeof(short);
+        ret = BitConverter.ToInt16(ReadMemory(address, size), 0);
+    }
 
-    public void ReadMemoryU16(uint address, out ushort ret) => throw new NotImplementedException();
-    public ushort ReadMemoryU16(uint address) => throw new NotImplementedException();
+    public short ReadMemoryI16(uint address)
+    {
+        ReadMemoryI16(address, out short ret);
+        return ret;
+    }
+
+    public void ReadMemoryU16(uint address, out ushort ret)
+    {
+        uint size = sizeof(ushort);
+        ret = BitConverter.ToUInt16(ReadMemory(address, size), 0);
+    }
+
+    public ushort ReadMemoryU16(uint address)
+    {
+        ReadMemoryU16(address, out ushort ret);
+        return ret;
+    }
 
     // Ints
 
-    public void ReadMemoryI32(uint address, out int ret) => throw new NotImplementedException();
-    public int ReadMemoryI32(uint address) => throw new NotImplementedException();
+    public void ReadMemoryI32(uint address, out int ret)
+    {
+        uint size = sizeof(int);
+        ret = BitConverter.ToInt32(ReadMemory(address, size), 0);
+    }
 
-    public void ReadMemoryU32(uint address, out uint ret) => throw new NotImplementedException();
-    public uint ReadMemoryU32(uint address) => throw new NotImplementedException();
+    public int ReadMemoryI32(uint address)
+    {
+        ReadMemoryI32(address, out int ret);
+        return ret;
+    }
+
+    public void ReadMemoryU32(uint address, out uint ret)
+    {
+        uint size = sizeof(int);
+        ret = BitConverter.ToUInt32(ReadMemory(address, size), 0);
+    }
+
+    public uint ReadMemoryU32(uint address)
+    {
+        ReadMemoryU32(address, out uint ret);
+        return ret;
+    }
 
     // Floats
 
-    public void ReadMemoryF32(uint address, out float ret) => throw new NotImplementedException();
-    public float ReadMemoryF32(uint address) => throw new NotImplementedException();
+    public void ReadMemoryF32(uint address, out float ret)
+    {
+
+        uint size = sizeof(float);
+        ret = BitConverter.ToSingle(ReadMemory(address, size), 0);
+    }
+
+
+    public float ReadMemoryF32(uint address)
+    {
+        ReadMemoryF32(address, out float ret);
+        return ret;
+    }
 
     // Longs
 
-    public void ReadMemoryI64(uint address, out long ret) => throw new NotImplementedException();
-    public long ReadMemoryI64(uint address) => throw new NotImplementedException();
+    public void ReadMemoryI64(uint address, out long ret)
+    {
 
-    public void ReadMemoryU64(uint address, out ulong ret) => throw new NotImplementedException();
-    public ulong ReadMemoryU64(uint address) => throw new NotImplementedException();
+        uint size = sizeof(long);
+        ret = BitConverter.ToInt64(ReadMemory(address, size), 0);
+    }
+
+
+    public long ReadMemoryI64(uint address)
+    {
+        ReadMemoryI64(address, out long ret);
+        return ret;
+    }
+
+    public void ReadMemoryU64(uint address, out ulong ret)
+    {
+
+        uint size = sizeof(ulong);
+        ret = BitConverter.ToUInt64(ReadMemory(address, size), 0);
+    }
+
+
+    public ulong ReadMemoryU64(uint address)
+    {
+        ReadMemoryU64(address, out ulong ret);
+        return ret;
+    }
 
     // Doubles
 
-    public void ReadMemoryF64(uint address, out double ret) => throw new NotImplementedException();
-    public double ReadMemoryF64(uint address) => throw new NotImplementedException();
+
+    public void ReadMemoryF64(uint address, out double ret)
+    {
+
+        uint size = sizeof(double);
+        ret = BitConverter.ToDouble(ReadMemory(address, size), 0);
+    }
+
+
+    public double ReadMemoryF64(uint address)
+    {
+        ReadMemoryF64(address, out double ret);
+        return ret;
+    }
 
     // String
 
-    public string ReadMemoryString(uint address) => throw new NotImplementedException();
-
-
-    [PlaystationApiMethodUnSupportedAttribute()]
-    public bool TryPatternScan
-       (in byte?[] patternInput,
-        in uint patternSearchStartAddress,
-        in uint patternSearchEndAddress,
-        out uint? startingAddress,
-        out byte[]? dataRead,
-        out uint? length)
+    public string ReadMemoryString(uint address)
     {
         throw new NotImplementedException();
     }
+
+
+    //[PlaystationApiMethodUnSupportedAttribute()]
+    //public bool TryPatternScan
+    //   (in byte?[] patternInput,
+    //    in uint patternSearchStartAddress,
+    //    in uint patternSearchEndAddress,
+    //    out uint? startingAddress,
+    //    out byte[]? dataRead,
+    //    out uint? length)
+    //{
+    //    throw new NotImplementedException();
+    //}
 
     #endregion
 
     #region Write Memory
 
-    public void WriteMemory(uint address, byte[] bytes) => throw new NotImplementedException();
-
+    public void WriteMemory(uint address, byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, ProcessId, 0, address, bytes);
     public void WriteMemoryI8(uint address, sbyte i) => throw new NotImplementedException();
     public void WriteMemoryU8(uint address, byte i) => throw new NotImplementedException();
 

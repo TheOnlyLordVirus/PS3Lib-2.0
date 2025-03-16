@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace PS3Lib
+namespace PS3ManagerAPI
 {
-    partial class LogDialog
+    partial class LogDialog : Form
     {
         /// <summary>
         /// Required designer variable.

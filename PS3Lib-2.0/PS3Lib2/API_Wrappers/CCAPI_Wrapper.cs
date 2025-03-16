@@ -13,7 +13,7 @@ using ConsoleControlApi = CCAPI;
 namespace PS3Lib2.Capi;
 
 [PlaystationApiSupportAttribute<CCAPI_Wrapper>()]
-internal sealed class CCAPI_Wrapper : IPlaystationApi
+public sealed class CCAPI_Wrapper : IPlaystationApi
 {
     private readonly string _dllPath;
 
@@ -48,6 +48,15 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public bool IsConnected => ConsoleControlApi.IsConnected();
 
+    public CCAPI_Wrapper()
+    {
+
+    }
+
+    public CCAPI_Wrapper(ConsoleControlApi api)
+    {
+        ConsoleControlApi = api;
+    }
 
     ~CCAPI_Wrapper()
     {
@@ -72,7 +81,14 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public void ShutDown() { ConsoleControlApi.Shutdown(ConsoleControlApi.ShutdownMode.Shutdown); }
 
-    public void GetTemprature(ref int cell, ref int rsx) { ConsoleControlApi.GetTemperature(ref cell, ref rsx); }
+    public void GetTemprature(ref uint cell, ref uint rsx) 
+    {
+        int cpu = 0, gpu = 0;
+
+        ConsoleControlApi.GetTemperature(ref cpu, ref gpu);
+        cell = (uint)cpu;
+        rsx = (uint)gpu;
+    }
 
     public bool AttachGameProcess() => ConsoleControlApi.AttachGameProcess();
 
@@ -148,17 +164,17 @@ internal sealed class CCAPI_Wrapper : IPlaystationApi
 
     public string ReadMemoryString(uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
-    [PlaystationApiMethodUnSupportedAttribute()]
-    public bool TryPatternScan
-       (in byte?[] patternInput,
-        in uint patternSearchStartAddress,
-        in uint patternSearchEndAddress,
-        out uint? startingAddress,
-        out byte[]? dataRead,
-        out uint? length)
-    {
-        throw new NotImplementedException();
-    }
+    //[PlaystationApiMethodUnSupportedAttribute()]
+    //public bool TryPatternScan
+    //   (in byte?[] patternInput,
+    //    in uint patternSearchStartAddress,
+    //    in uint patternSearchEndAddress,
+    //    out uint? startingAddress,
+    //    out byte[]? dataRead,
+    //    out uint? length)
+    //{
+    //    throw new NotImplementedException();
+    //}
 
     #endregion
 

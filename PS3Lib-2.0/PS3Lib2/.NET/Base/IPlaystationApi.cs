@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace PS3Lib2.Interfaces;
 
@@ -21,5 +20,5 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
 
     public void SetPsid(string psid);
 
-    public void GetTemprature(ref int cell, ref int rsx);
+    public void GetTemprature(ref uint cell, ref uint rsx);
 }

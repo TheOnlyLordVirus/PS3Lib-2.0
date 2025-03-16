@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace PS3ManagerAPI
 {
-    public partial class LogDialog : Form
+    public sealed partial class LogDialog : Form
     {
         // Token: 0x04000007 RID: 7
         private PS3MAPI PS3MAPI;

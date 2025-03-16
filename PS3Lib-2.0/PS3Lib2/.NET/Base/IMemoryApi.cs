@@ -81,11 +81,11 @@ public interface IMemoryApi
 
     public void WriteMemoryString(uint address, string s);
 
-    public bool TryPatternScan
-       (in byte?[] patternInput, 
-        in uint patternSearchStartAddress, 
-        in uint patternSearchEndAddress, 
-        out uint? startingAddress, 
-        out byte[]? dataRead, 
-        out uint? length);
+    //public bool TryPatternScan
+    //   (in byte?[] patternInput, 
+    //    in uint patternSearchStartAddress, 
+    //    in uint patternSearchEndAddress, 
+    //    out uint? startingAddress, 
+    //    out byte[]? dataRead, 
+    //    out uint? length);
 }

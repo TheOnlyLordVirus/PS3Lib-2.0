@@ -64,7 +64,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PS3Lib\api\ConsoleList.Designer.cs" />
-    <Compile Include="PS3Lib\api\ConsoleList.resx" />
+    <Compile Include="PS3Lib\api\ConsoleList.resx">
+      <SubType>Designer</SubType>
+    </Compile>
     <Compile Include="PS3Lib\api\PS3API.cs" />
     <Compile Include="PS3Lib\api\TMAPI.cs" />
     <Compile Include="PS3Lib\api\TMAPI_NET.cs" />
