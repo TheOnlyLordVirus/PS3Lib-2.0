@@ -48,8 +48,6 @@
     <Compile Include="PS3Lib2\.NET\Base\IMemoryApi.cs" />
     <Compile Include="PS3Lib2\.NET\Base\IPlaystationApi.cs" />
     <Compile Include="PS3Lib2\.NET\Base\PlaystationApiMethodUnSupportedException.cs" />
-    <Compile Include="PS3Lib2\.NET\Base\IPlaystationApiGui.cs" />
-    <Compile Include="PS3Lib2\.NET\Base\PlaystationApiSupportAttribute.cs" />
     <Compile Include="API_Sources\.NET\CCAPI\CCAPI.cs" />
     <Compile Include="PS3Lib2\API_Wrappers\CCAPI_Wrapper.cs" />
     <Compile Include="API_Sources\.NET\PS3ManagerAPI\AttachDialog.cs">

@@ -1,11 +1,46 @@
-﻿using PS3Lib2.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+
+using PS3Lib2.Attributes;
+using PS3Lib2.Interfaces;
 
 namespace PS3Lib2;
 
-abstract class Api_Wrapper : IPlaystationApi
+public abstract class Api_Wrapper : IPlaystationApi
 {
-    public abstract bool IsConnected { get; set; }
-    public abstract bool Connect();
+    private readonly string[] _unsupportedMethods;
+    public string[] UnsupportedMethods => _unsupportedMethods;
+
+    private readonly string[] _supportedMethods;
+    public string[] SupportedMethods
+    {
+        get => _supportedMethods;
+
+        init
+        {
+            List<string> unsupportedMethods = new();
+            List<string> supportedMethods = new();
+
+            var methods = this.GetType().GetMethods();
+
+            foreach (var method in methods)
+            {
+                if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupportedAttribute)))
+                {
+                    unsupportedMethods.Add(method.Name);
+
+                    continue;
+                }
+
+                supportedMethods.Add(method.Name);
+            }
+
+            _supportedMethods = supportedMethods.ToArray();
+            _unsupportedMethods = unsupportedMethods.ToArray();
+        }
+    }
+
+    public abstract bool IsConnected { get; }
     public abstract bool Connect(string _);
     public abstract bool Disconnect();
     public abstract void RingBuzzer();
@@ -16,48 +51,211 @@ abstract class Api_Wrapper : IPlaystationApi
     public abstract void GetTemprature(ref uint _, ref uint __);
     public abstract bool AttachGameProcess();
     public abstract bool AttachProccess(uint _);
+
     public abstract void ReadMemory(uint _, uint __, out byte[] ___);
     public abstract byte[] ReadMemory(uint _, uint __);
-    public abstract void ReadMemoryI8(uint _, out sbyte __);
-    public abstract sbyte ReadMemoryI8(uint _);
-    public abstract void ReadMemoryU8(uint _, out byte __);
-    public abstract byte ReadMemoryU8(uint _);
-    public abstract void ReadMemoryI16(uint _, out short __);
-    public abstract short ReadMemoryI16(uint _);
-    public abstract void ReadMemoryU16(uint _, out ushort __);
-    public abstract ushort ReadMemoryU16(uint _);
-    public abstract void ReadMemoryI32(uint _, out int __);
-    public abstract int ReadMemoryI32(uint _);
-    public abstract void ReadMemoryU32(uint _, out uint __);
-    public abstract uint ReadMemoryU32(uint _);
-    public abstract void ReadMemoryF32(uint _, out float __);
-    public abstract float ReadMemoryF32(uint _);
-    public abstract void ReadMemoryI64(uint _, out long __);
-    public abstract long ReadMemoryI64(uint _);
-    public abstract void ReadMemoryU64(uint _, out ulong __);
-    public abstract ulong ReadMemoryU64(uint _);
-    public abstract void ReadMemoryF64(uint _, out double __);
-    public abstract double ReadMemoryF64(uint _);
+
+    public virtual void ReadMemoryI8(uint address, out sbyte ret)
+    {
+        uint size = sizeof(sbyte);
+        ret = (sbyte)ReadMemory(address, size)[0];
+    }
+
+    public virtual sbyte ReadMemoryI8(uint address)
+    {
+        ReadMemoryI8(address, out sbyte ret);
+        return ret;
+    }
+
+
+    public virtual void ReadMemoryU8(uint address, out byte ret)
+    {
+        uint size = sizeof(byte);
+        ret = (byte)ReadMemory(address, size)[0];
+    }
+
+    public virtual byte ReadMemoryU8(uint address)
+    {
+        ReadMemoryU8(address, out byte ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryI16(uint address, out short ret)
+    {
+        uint size = sizeof(short);
+        ret = BitConverter.ToInt16(ReadMemory(address, size), 0);
+    }
+
+    public virtual short ReadMemoryI16(uint address)
+    {
+        ReadMemoryI16(address, out short ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryU16(uint address, out ushort ret)
+    {
+        uint size = sizeof(ushort);
+        ret = BitConverter.ToUInt16(ReadMemory(address, size), 0);
+    }
+
+    public virtual ushort ReadMemoryU16(uint address)
+    {
+        ReadMemoryU16(address, out ushort ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryI32(uint address, out int ret)
+    {
+        uint size = sizeof(int);
+        ret = BitConverter.ToInt32(ReadMemory(address, size), 0);
+    }
+
+    public virtual int ReadMemoryI32(uint address)
+    {
+        ReadMemoryI32(address, out int ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryU32(uint address, out uint ret)
+    {
+        uint size = sizeof(int);
+        ret = BitConverter.ToUInt32(ReadMemory(address, size), 0);
+    }
+
+    public virtual uint ReadMemoryU32(uint address)
+    {
+        ReadMemoryU32(address, out uint ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryF32(uint address, out float ret)
+    {
+
+        uint size = sizeof(float);
+        ret = BitConverter.ToSingle(ReadMemory(address, size), 0);
+    }
+
+
+    public virtual float ReadMemoryF32(uint address)
+    {
+        ReadMemoryF32(address, out float ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryI64(uint address, out long ret)
+    {
+
+        uint size = sizeof(long);
+        ret = BitConverter.ToInt64(ReadMemory(address, size), 0);
+    }
+
+
+    public virtual long ReadMemoryI64(uint address)
+    {
+        ReadMemoryI64(address, out long ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryU64(uint address, out ulong ret)
+    {
+
+        uint size = sizeof(ulong);
+        ret = BitConverter.ToUInt64(ReadMemory(address, size), 0);
+    }
+
+
+    public virtual ulong ReadMemoryU64(uint address)
+    {
+        ReadMemoryU64(address, out ulong ret);
+        return ret;
+    }
+
+    public virtual void ReadMemoryF64(uint address, out double ret)
+    {
+
+        uint size = sizeof(double);
+        ret = BitConverter.ToDouble(ReadMemory(address, size), 0);
+    }
+
+
+    public virtual double ReadMemoryF64(uint address)
+    {
+        ReadMemoryF64(address, out double ret);
+        return ret;
+    }
+
     public abstract string ReadMemoryString(uint _);
-    public abstract bool TryPatternScan
-       (in byte?[] _,
-        in uint __,
-        in uint ___,
-        out uint? ____,
-        out byte[]? _____,
-        out uint? ______);
+
+    //public abstract bool TryPatternScan
+    //   (in byte?[] _,
+    //    in uint __,
+    //    in uint ___,
+    //    out uint? ____,
+    //    out byte[]? _____,
+    //    out uint? ______);
+
     public abstract void WriteMemory(uint _, byte[] __);
-    public abstract void WriteMemoryI8(uint _, sbyte __);
-    public abstract void WriteMemoryU8(uint _, byte __);
-    public abstract void WriteMemoryI16(uint _, short __);
-    public abstract void WriteMemoryU16(uint _, ushort __);
-    public abstract void WriteMemoryI32(uint _, int __);
-    public abstract void WriteMemoryU32(uint _, uint __);
-    public abstract void WriteMemoryF32(uint _, float f);
-    public abstract void WriteMemoryI64(uint _, long __);
-    public abstract void WriteMemoryU64(uint _, ulong __);
-    public abstract void WriteMemoryF64(uint _, double __);
+
+    public virtual void WriteMemoryI8(uint address, sbyte i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+    public virtual void WriteMemoryU8(uint address, byte i) => WriteMemory(address, [i]);
+
+    public virtual void WriteMemoryI16(uint address, short i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryU16(uint address, ushort i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryI32(uint address, int i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryU32(uint address, uint i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryF32(uint address, float f)
+    {
+        byte[] bytes = BitConverter.GetBytes(f);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryI64(uint address, long i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryU64(uint address, ulong i)
+    {
+        byte[] bytes = BitConverter.GetBytes(i);
+        WriteMemory(address, bytes);
+    }
+
+    public virtual void WriteMemoryF64(uint address, double d)
+    {
+        byte[] bytes = BitConverter.GetBytes(d);
+        WriteMemory(address, bytes);
+    }
+
     public abstract void WriteMemoryString(uint _, string __);
 
-    public abstract void Dispose();
+    public virtual void Dispose()
+    {
+        if (IsConnected)
+            Disconnect();
+    }
 }

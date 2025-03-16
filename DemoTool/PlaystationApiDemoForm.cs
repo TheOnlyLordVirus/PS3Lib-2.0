@@ -28,20 +28,18 @@ public sealed partial class PlaystationApiDemoForm : Form
         InitializeComponent();
     }
 
-    private void Connect_Button_Click(object sender, EventArgs e)
+    private void Connect_Button_Click(object _, EventArgs __)
         => Internal_Connect(CurrentApi);
 
-    private void Internal_Connect(IPlaystationApi? api)
-    {
-        if (api is null)
-            return;
+    private void Internal_Connect(IPlaystationApi? api) =>
+        Internal_ValidateApiAction(() =>
+        {
+            var ConnectForm = new ConnectDialog(api);
 
-        var ConnectForm = new ConnectDialog(api);
+            ConnectForm.ShowDialog();
+        });
 
-        ConnectForm.ShowDialog();
-    }
-
-    private void Attach_Button_Click(object sender, EventArgs e)
+    private void Attach_Button_Click(object _, EventArgs __e)
     {
         Internal_DisplayExeceptions(() =>
         {
@@ -50,8 +48,7 @@ public sealed partial class PlaystationApiDemoForm : Form
         });
     }
 
-    private void Read_Button_Click(object sender, EventArgs e)
-    {
+    private void Read_Button_Click(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             byte currentValue = CurrentApi!.ReadMemoryU8(_godModeAddress);
@@ -61,10 +58,8 @@ public sealed partial class PlaystationApiDemoForm : Form
 
             MessageBox.Show(curState, "God Mode Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
-    }
 
-    private void Write_Button_Click(object sender, EventArgs e)
-    {
+    private void Write_Button_Click(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             // Godmode Toggle Example.
@@ -78,48 +73,45 @@ public sealed partial class PlaystationApiDemoForm : Form
                     _godModeEnable : _godModeDisable
                 );
         });
-    }
 
-
-
-    private void CCAPI_CheckedChanged(object sender, EventArgs e)
-    {
+    private void CCAPI_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
 
             CurrentApi = new CCAPI_Wrapper();
         });
-    }
 
-    private void tmapiRadioButton_CheckedChanged(object sender, EventArgs e)
-    {
+    private void tmapiRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
 
             CurrentApi = new TMAPI_Wrapper();
         });
-    }
 
-    private void ps3mapiRadioButton_CheckedChanged(object sender, EventArgs e)
-    {
+    private void ps3mapiRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_DisplayExeceptions(() =>
         {
             CurrentApi?.Dispose();
 
             CurrentApi = new PS3MAPI_Wrapper();
         });
-    }
+
+    private void Internal_ValidateApiAction(Action throwableAction) =>
+        Internal_DisplayExeceptions(() => 
+        {
+            if (CurrentApi is null)
+                throw new Exception("No API is selected. (CurrentApi is null)");
+
+            throwableAction.Invoke();
+        });
 
 
     private void Internal_DisplayExeceptions(Action throwableAction)
     {
         try
         {
-            if (CurrentApi is null)
-                throw new Exception("No API is selected. CurrentApi is null.");
-
             throwableAction.Invoke();
         }
 
