@@ -1,7 +1,7 @@
 Based on the work done by the scene member iMCSx from FM|T (French Modding Team).
 https://github.com/iMCSx/PS3Lib
 
-This project aims to add re-write PS3Lib (And its base functionality) from scratch.
+This project aims to re-write PS3Lib (And its base functionality) from scratch.
 
 Currently Working.
 
