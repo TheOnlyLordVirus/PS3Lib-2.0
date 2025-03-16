@@ -12,7 +12,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public int Port { get; set; } = 7887;
 
-    public uint ProcessId { get; set; } = 0;
+    public uint CurrentProcessId { get; private set; } = 0;
 
     public override bool IsConnected => CurrentPS3ManagerApi.IsConnected;
 
@@ -75,7 +75,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override bool AttachProccess(uint proccessId)
     {
-        ProcessId = proccessId;
+        CurrentProcessId = proccessId;
         return CurrentPS3ManagerApi.AttachProcess(proccessId);
     }
 
@@ -84,7 +84,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     public override void ReadMemory(uint address, uint size, out byte[] bytes)
     {
         bytes = new byte[size];
-        CurrentPS3ManagerApi.Process.Memory.Get(ProcessId, address, bytes);
+        CurrentPS3ManagerApi.Process.Memory.Get(CurrentProcessId, address, bytes);
     }
 
     public override byte[] ReadMemory(uint address, uint size)
@@ -108,7 +108,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     #region Write Memory
 
-    public override void WriteMemory(uint address, byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(ProcessId, address, bytes);
+    public override void WriteMemory(uint address, byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(CurrentProcessId, address, bytes);
 
     public override void WriteMemoryString(uint address, string s) => throw new NotImplementedException();
 

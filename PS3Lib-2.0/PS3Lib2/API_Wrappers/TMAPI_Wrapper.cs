@@ -173,7 +173,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
     #region Write Memory
 
-    public override void WriteMemory(uint address, byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, ProcessId, 0, address, bytes);
+    public override void WriteMemory(uint address, byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, CurrentProcessId, 0, address, bytes);
 
     public override void WriteMemoryString(uint address, string s) => throw new NotImplementedException();
 
