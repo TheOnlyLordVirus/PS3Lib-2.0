@@ -27,13 +27,10 @@ public sealed partial class PlaystationApiDemoForm : Form
         InitializeComponent();
     }
 
-    private void Connect_Button_Click(object _, EventArgs __)
-        => Internal_Connect(CurrentApi);
-
-    private void Internal_Connect(IPlaystationApi? api) =>
+    private void Connect_Button_Click(object _, EventArgs __) =>
         Internal_ValidateApiAction(() =>
         {
-            var ConnectForm = new ConnectDialog(api);
+            var ConnectForm = new ConnectDialog(CurrentApi);
 
             ConnectForm.ShowDialog();
         });
