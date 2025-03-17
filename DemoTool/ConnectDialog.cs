@@ -29,14 +29,15 @@ public sealed partial class ConnectDialog : Form
             if (!_playstationApi.Connect(ipAddressTextBox.Text))
                 throw new Exception("Failed to connect!");
 
-            if (_playstationApi is Api_Wrapper wrapper)
-            {
-                if (wrapper.SupportedMethods.Contains("RingBuzzer"))
-                    _playstationApi.RingBuzzer();
+            // TODO: this throws errors
+            //if (_playstationApi is Api_Wrapper wrapper)
+            //{
+            //    if (wrapper.SupportedMethods.Contains("RingBuzzer"))
+            //        _playstationApi.RingBuzzer();
 
-                if (wrapper.SupportedMethods.Contains("VshNotify"))
-                    _playstationApi.VshNotify("Demo tool connected to playstation 3!");
-            }
+            //    if (wrapper.SupportedMethods.Contains("VshNotify"))
+            //        _playstationApi.VshNotify("Demo tool connected to playstation 3!");
+            //}
 
             MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
 
