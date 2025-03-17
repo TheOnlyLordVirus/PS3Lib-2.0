@@ -25,7 +25,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     private readonly string[] _LibLocations;
 
     public override bool IsConnected => 
-        TargetManagerApi.GetConnectStatus(ConnectedTarget, out TargetManagerApi.ConnectStatus status, out _) is TargetManagerApi.SNRESULT.SN_S_OK && 
+        TargetManagerApi.SUCCEEDED(TargetManagerApi.GetConnectStatus(ConnectedTarget, out TargetManagerApi.ConnectStatus status, out _)) &&
             status is TargetManagerApi.ConnectStatus.Connected;
 
     public TMAPI_Wrapper()
