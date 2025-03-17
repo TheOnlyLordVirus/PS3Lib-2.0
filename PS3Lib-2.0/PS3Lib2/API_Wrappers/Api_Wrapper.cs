@@ -27,12 +27,12 @@ public abstract class Api_Wrapper : IPlaystationApi
             {
                 if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupportedAttribute)))
                 {
-                    unsupportedMethods.Add(method.Name);
+                    supportedMethods.Add(method.Name);
 
                     continue;
                 }
 
-                supportedMethods.Add(method.Name);
+                unsupportedMethods.Add(method.Name);
             }
 
             _supportedMethods = supportedMethods.ToArray();
