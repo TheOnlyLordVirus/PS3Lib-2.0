@@ -54,18 +54,18 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
         Dispose();
     }
 
-    public override bool Connect(string ip) => ConsoleControlApi.Connect(ip) is _ccapiSuccessCode;
+    public override bool Connect(in string ip) => ConsoleControlApi.Connect(ip) is _ccapiSuccessCode;
 
     public override bool Disconnect() => ConsoleControlApi.Disconnect() is _ccapiSuccessCode;
 
     // TODO: Create standard Enums for the wrappers / interfaces (Buzzer, Shutdown, restart, led color, ect, ect.) 
     public override void RingBuzzer() { ConsoleControlApi.RingBuzzer(ConsoleControlApi.BuzzerType.Single); }
 
-    public override void VshNotify(string message/*Notify icon type enum here too.*/) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
+    public override void VshNotify(in string message/*Notify icon type enum here too.*/) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
 
-    public override void SetIdps(string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
+    public override void SetIdps(in string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
 
-    public override void SetPsid(string psid) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, psid); }
+    public override void SetPsid(in string psid) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, psid); }
 
     public override void ShutDown() { ConsoleControlApi.Shutdown(ConsoleControlApi.ShutdownMode.Shutdown); }
 
@@ -80,7 +80,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     public override bool AttachGameProcess() => ConsoleControlApi.AttachGameProcess();
 
-    public override bool AttachProccess(uint proccessId) 
+    public override bool AttachProccess(in uint proccessId) 
     { 
         ConsoleControlApi.AttachProcess(proccessId);
 
@@ -89,16 +89,16 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     #region Read Memory
 
-    public override void ReadMemory(uint address, uint size, out byte[] bytes) { bytes = new byte[size]; ConsoleControlApi.ReadMemory(address, size, bytes); }
-    public override byte[] ReadMemory(uint address, uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }
+    public override void ReadMemory(in uint address, in uint size, out byte[] bytes) { bytes = new byte[size]; ConsoleControlApi.ReadMemory(address, size, bytes); }
+    public override byte[] ReadMemory(in uint address, in uint size) { byte[] returnMe; ReadMemory(address, size, out returnMe); return returnMe; }
 
-    public override void ReadMemoryI8(uint address, out sbyte ret) { ret = ConsoleControlApi.ReadMemoryI8(address); }
-    public override sbyte ReadMemoryI8(uint address) { return ConsoleControlApi.ReadMemoryI8(address); }
+    public override void ReadMemoryI8(in uint address, out sbyte ret) { ret = ConsoleControlApi.ReadMemoryI8(address); }
+    public override sbyte ReadMemoryI8(in uint address) { return ConsoleControlApi.ReadMemoryI8(address); }
 
-    public override void ReadMemoryU8(uint address, out byte ret) { ret = ConsoleControlApi.ReadMemoryU8(address); }
-    public override byte ReadMemoryU8(uint address) { return ConsoleControlApi.ReadMemoryU8(address); }
+    public override void ReadMemoryU8(in uint address, out byte ret) { ret = ConsoleControlApi.ReadMemoryU8(address); }
+    public override byte ReadMemoryU8(in uint address) { return ConsoleControlApi.ReadMemoryU8(address); }
 
-    public override void ReadMemoryI16(uint address, out short ret) 
+    public override void ReadMemoryI16(in uint address, out short ret) 
     {
         byte[] data = new byte[sizeof(short)];
         int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(short), data);
@@ -106,7 +106,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
         ret = BitConverter.ToInt16(data, 0);
     }
 
-    public override short ReadMemoryI16(uint address) 
+    public override short ReadMemoryI16(in uint address) 
     {
         byte[] data = new byte[sizeof(short)];
         int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(short), data);
@@ -115,7 +115,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     }
 
-    public override void ReadMemoryU16(uint address, out ushort ret)
+    public override void ReadMemoryU16(in uint address, out ushort ret)
     {
         byte[] data = new byte[sizeof(ushort)];
         int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(ushort), data);
@@ -123,7 +123,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
         ret = BitConverter.ToUInt16(data, 0);
     }
 
-    public override ushort ReadMemoryU16(uint address)
+    public override ushort ReadMemoryU16(in uint address)
     {
         byte[] data = new byte[sizeof(ushort)];
         int bytesWritten = ConsoleControlApi.ReadMemory(address, sizeof(ushort), data);
@@ -132,25 +132,25 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     }
 
-    public override void ReadMemoryI32(uint address, out int ret) { ret = ConsoleControlApi.ReadMemoryI32(address); }
-    public override int ReadMemoryI32(uint address) { return ConsoleControlApi.ReadMemoryI32(address); }
+    public override void ReadMemoryI32(in uint address, out int ret) { ret = ConsoleControlApi.ReadMemoryI32(address); }
+    public override int ReadMemoryI32(in uint address) { return ConsoleControlApi.ReadMemoryI32(address); }
            
-    public override void ReadMemoryU32(uint address, out uint ret) { ret = ConsoleControlApi.ReadMemoryU32(address); }
-    public override uint ReadMemoryU32(uint address) { return ConsoleControlApi.ReadMemoryU32(address); }
+    public override void ReadMemoryU32(in uint address, out uint ret) { ret = ConsoleControlApi.ReadMemoryU32(address); }
+    public override uint ReadMemoryU32(in uint address) { return ConsoleControlApi.ReadMemoryU32(address); }
            
-    public override void ReadMemoryF32(uint address, out float ret) { ret = ConsoleControlApi.ReadMemoryF32(address); }
-    public override float ReadMemoryF32(uint address) { return ConsoleControlApi.ReadMemoryF32(address); }
+    public override void ReadMemoryF32(in uint address, out float ret) { ret = ConsoleControlApi.ReadMemoryF32(address); }
+    public override float ReadMemoryF32(in uint address) { return ConsoleControlApi.ReadMemoryF32(address); }
            
-    public override void ReadMemoryI64(uint address, out long ret) { ret = ConsoleControlApi.ReadMemoryI64(address); }
-    public override long ReadMemoryI64(uint address) { return ConsoleControlApi.ReadMemoryI64(address); }
+    public override void ReadMemoryI64(in uint address, out long ret) { ret = ConsoleControlApi.ReadMemoryI64(address); }
+    public override long ReadMemoryI64(in uint address) { return ConsoleControlApi.ReadMemoryI64(address); }
            
-    public override void ReadMemoryU64(uint address, out ulong ret) { ret = ConsoleControlApi.ReadMemoryU64(address); }
-    public override ulong ReadMemoryU64(uint address) { return ConsoleControlApi.ReadMemoryU64(address); }
+    public override void ReadMemoryU64(in uint address, out ulong ret) { ret = ConsoleControlApi.ReadMemoryU64(address); }
+    public override ulong ReadMemoryU64(in uint address) { return ConsoleControlApi.ReadMemoryU64(address); }
            
-    public override void ReadMemoryF64(uint address, out double ret) { ret = ConsoleControlApi.ReadMemoryF64(address); }
-    public override double ReadMemoryF64(uint address) { return ConsoleControlApi.ReadMemoryF64(address); }
+    public override void ReadMemoryF64(in uint address, out double ret) { ret = ConsoleControlApi.ReadMemoryF64(address); }
+    public override double ReadMemoryF64(in uint address) { return ConsoleControlApi.ReadMemoryF64(address); }
            
-    public override string ReadMemoryString(uint address) { return ConsoleControlApi.ReadMemoryString(address); }
+    public override string ReadMemoryString(in uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
     //[PlaystationApiMethodUnSupportedAttribute()]
     //public bool TryPatternScan
@@ -168,24 +168,24 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     #region Write Memory
 
-    public override void WriteMemory(uint address, byte[] bytes) { ConsoleControlApi.WriteMemory(address, (uint)bytes.Length, bytes); }
+    public override void WriteMemory(in uint address, in byte[] bytes) { ConsoleControlApi.WriteMemory(address, (uint)bytes.Length, bytes); }
            
-    public override void WriteMemoryI8(uint address, sbyte i) { ConsoleControlApi.WriteMemoryI8(address, i); }
-    public override void WriteMemoryU8(uint address, byte i) { ConsoleControlApi.WriteMemoryU8(address, i); }
+    public override void WriteMemoryI8(in uint address, in sbyte i) { ConsoleControlApi.WriteMemoryI8(address, i); }
+    public override void WriteMemoryU8(in uint address, in byte i) { ConsoleControlApi.WriteMemoryU8(address, i); }
            
-    public override void WriteMemoryI16(uint address, short i) { ConsoleControlApi.WriteMemory(address, sizeof(short), BitConverter.GetBytes(i)); }
-    public override void WriteMemoryU16(uint address, ushort i) { ConsoleControlApi.WriteMemory(address, sizeof(ushort), BitConverter.GetBytes(i)); }
+    public override void WriteMemoryI16(in uint address, in short i) { ConsoleControlApi.WriteMemory(address, sizeof(short), BitConverter.GetBytes(i)); }
+    public override void WriteMemoryU16(in uint address, in ushort i) { ConsoleControlApi.WriteMemory(address, sizeof(ushort), BitConverter.GetBytes(i)); }
            
-    public override void WriteMemoryI32(uint address, int i) { ConsoleControlApi.WriteMemoryI32(address, i); }
-    public override void WriteMemoryU32(uint address, uint i) { ConsoleControlApi.WriteMemoryU32(address, i); }
+    public override void WriteMemoryI32(in uint address, in int i) { ConsoleControlApi.WriteMemoryI32(address, i); }
+    public override void WriteMemoryU32(in uint address, in uint i) { ConsoleControlApi.WriteMemoryU32(address, i); }
              
-    public override void WriteMemoryI64(uint address, long i) { ConsoleControlApi.WriteMemoryI64(address, i); }
-    public override void WriteMemoryU64(uint address, ulong i) { ConsoleControlApi.WriteMemoryU64(address, i); }
+    public override void WriteMemoryI64(in uint address, in long i) { ConsoleControlApi.WriteMemoryI64(address, i); }
+    public override void WriteMemoryU64(in uint address, in ulong i) { ConsoleControlApi.WriteMemoryU64(address, i); }
 
-    public override void WriteMemoryF32(uint address, float f) { ConsoleControlApi.WriteMemoryF32(address, f); }
-    public override void WriteMemoryF64(uint address, double d) { ConsoleControlApi.WriteMemoryF64(address, d); }
+    public override void WriteMemoryF32(in uint address, in float f) { ConsoleControlApi.WriteMemoryF32(address, f); }
+    public override void WriteMemoryF64(in uint address, in double d) { ConsoleControlApi.WriteMemoryF64(address, d); }
            
-    public override void WriteMemoryString(uint address, string s) { ConsoleControlApi.WriteMemoryString(address, s); }
+    public override void WriteMemoryString(in uint address, in string s) { ConsoleControlApi.WriteMemoryString(address, s); }
 
     #endregion
 

@@ -43,6 +43,8 @@ public sealed partial class PlaystationApiDemoForm : Form
         {
             if (!CurrentApi!.AttachGameProcess())
                 throw new Exception("Failed to AttachGameProcess!");
+
+            MessageBox.Show("Sucessfully attached to the game process!", "Attached Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
 
     private void Read_Button_Click(object _, EventArgs __) =>

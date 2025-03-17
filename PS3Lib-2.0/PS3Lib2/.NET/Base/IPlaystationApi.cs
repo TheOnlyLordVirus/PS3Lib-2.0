@@ -6,7 +6,7 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
 {
     public bool IsConnected { get; }
 
-    public bool Connect(string ip);
+    public bool Connect(in string ip);
 
     public bool Disconnect();
 
@@ -14,11 +14,11 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
 
     public void RingBuzzer();
 
-    public void VshNotify(string message);
+    public void VshNotify(in string message);
 
-    public void SetIdps(string consoleId);
+    public void SetIdps(in string consoleId);
 
-    public void SetPsid(string psid);
+    public void SetPsid(in string psid);
 
     public void GetTemprature(ref uint cell, ref uint rsx);
 }

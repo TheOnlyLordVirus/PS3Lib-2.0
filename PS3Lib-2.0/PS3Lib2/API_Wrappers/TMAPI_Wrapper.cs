@@ -12,7 +12,7 @@ namespace PS3Lib2.Tmapi;
 
 public sealed class TMAPI_Wrapper : Api_Wrapper
 {
-    public Assembly loadedAssembly { get; private set; }
+    public Assembly LoadedAssembly { get; private set; }
 
     public uint CurrentProcessId { get; private set; } = 0;
 
@@ -65,14 +65,14 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         foreach (string libPath in _LibLocations)
             if (File.Exists(libPath))
             {
-                loadedAssembly = Assembly.LoadFile(libPath);
+                LoadedAssembly = Assembly.LoadFile(libPath);
                 return;
             }
 
         throw new PlaystationApiObjectInstanceException($"You must have TargetManagerApi_net.dll Installed!");
     }
 
-    public override bool Connect(string ip) => TargetManagerApi.SUCCEEDED(TargetManagerApi.Connect(ConnectedTarget, ip));
+    public override bool Connect(in string ip) => TargetManagerApi.SUCCEEDED(TargetManagerApi.Connect(ConnectedTarget, ip));
 
     public override bool Disconnect() => TargetManagerApi.SUCCEEDED(TargetManagerApi.Disconnect(ConnectedTarget));
 
@@ -80,13 +80,13 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     public override void RingBuzzer() => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
 
     [PlaystationApiMethodUnSupportedAttribute()]
-    public override void VshNotify(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
+    public override void VshNotify(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
 
     [PlaystationApiMethodUnSupportedAttribute()]
-    public override void SetIdps(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
+    public override void SetIdps(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
 
     [PlaystationApiMethodUnSupportedAttribute()]
-    public override void SetPsid(string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
+    public override void SetPsid(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
     public override void ShutDown() => TargetManagerApi.PowerOff(ConnectedTarget, true);
 
@@ -104,7 +104,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         return AttachProccess(pids[0]);
     }
 
-    public override bool AttachProccess(uint processId)
+    public override bool AttachProccess(in uint processId)
     {
         if (!TargetManagerApi
                 .SUCCEEDED(
@@ -126,7 +126,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
     //TODO: Handle endianess
 
-    public override void ReadMemory(uint address, uint size, out byte[] bytes) 
+    public override void ReadMemory(in uint address, in uint size, out byte[] bytes) 
     { 
         bytes = new byte[size];
 
@@ -144,14 +144,14 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
             throw new Exception(result.ToString());
     }
 
-    public override byte[] ReadMemory(uint address, uint size) 
+    public override byte[] ReadMemory(in uint address, in uint size) 
     { 
         byte[] returnMe; 
         ReadMemory(address, size, out returnMe); 
         return returnMe; 
     }
 
-    public override string ReadMemoryString(uint address)
+    public override string ReadMemoryString(in uint address)
     {
         throw new NotImplementedException();
     }
@@ -173,9 +173,9 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
     #region Write Memory
 
-    public override void WriteMemory(uint address, byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, CurrentProcessId, 0, address, bytes);
+    public override void WriteMemory(in uint address, in byte[] bytes) => TargetManagerApi.ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, CurrentProcessId, 0, address, bytes);
 
-    public override void WriteMemoryString(uint address, string s) => throw new NotImplementedException();
+    public override void WriteMemoryString(in uint address, in string s) => throw new NotImplementedException();
 
     #endregion
 

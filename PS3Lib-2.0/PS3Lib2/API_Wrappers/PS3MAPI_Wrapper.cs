@@ -43,7 +43,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         Dispose();
     }
 
-    public override bool Connect(string ip) => CurrentPS3ManagerApi.ConnectTarget(ip, Port);
+    public override bool Connect(in string ip) => CurrentPS3ManagerApi.ConnectTarget(ip, Port);
 
     public override bool Disconnect()
     {
@@ -53,11 +53,11 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override void RingBuzzer() => CurrentPS3ManagerApi.PS3.RingBuzzer(PS3MAPI.PS3_CMD.BuzzerMode.Single);
 
-    public override void VshNotify(string msg) => CurrentPS3ManagerApi.PS3.Notify(msg);
+    public override void VshNotify(in string msg) => CurrentPS3ManagerApi.PS3.Notify(msg);
 
-    public override void SetIdps(string idps) => CurrentPS3ManagerApi.PS3.SetIDPS(idps);
+    public override void SetIdps(in string idps) => CurrentPS3ManagerApi.PS3.SetIDPS(idps);
 
-    public override void SetPsid(string psid) => CurrentPS3ManagerApi.PS3.SetPSID(psid);
+    public override void SetPsid(in string psid) => CurrentPS3ManagerApi.PS3.SetPSID(psid);
 
     public override void ShutDown() => CurrentPS3ManagerApi.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.ShutDown);
 
@@ -73,7 +73,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         return AttachProccess(processIds[0]);
     }
 
-    public override bool AttachProccess(uint proccessId)
+    public override bool AttachProccess(in uint proccessId)
     {
         CurrentProcessId = proccessId;
         return CurrentPS3ManagerApi.AttachProcess(proccessId);
@@ -81,20 +81,20 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     #region Read Memory
 
-    public override void ReadMemory(uint address, uint size, out byte[] bytes)
+    public override void ReadMemory(in uint address, in uint size, out byte[] bytes)
     {
         bytes = new byte[size];
         CurrentPS3ManagerApi.Process.Memory.Get(CurrentProcessId, address, bytes);
     }
 
-    public override byte[] ReadMemory(uint address, uint size)
+    public override byte[] ReadMemory(in uint address, in uint size)
     {
         byte[] bytes = new byte[size];
         ReadMemory(address, size, out bytes);
         return bytes;
     }
 
-    public override string ReadMemoryString(uint address) => throw new NotImplementedException();
+    public override string ReadMemoryString(in uint address) => throw new NotImplementedException();
 
     //public bool TryPatternScan
     //   (in byte?[] patternInput,
@@ -108,9 +108,9 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     #region Write Memory
 
-    public override void WriteMemory(uint address, byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(CurrentProcessId, address, bytes);
+    public override void WriteMemory(in uint address, in byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(CurrentProcessId, address, bytes);
 
-    public override void WriteMemoryString(uint address, string s) => throw new NotImplementedException();
+    public override void WriteMemoryString(in uint address, in string s) => throw new NotImplementedException();
 
     #endregion
 }
