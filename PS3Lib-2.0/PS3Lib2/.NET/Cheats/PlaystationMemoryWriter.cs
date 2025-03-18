@@ -17,8 +17,8 @@ public sealed class PlaystationMemoryWriter : IGameCheat
     private readonly uint _memoryAddress;
     private readonly uint _arrayLength;
 
-    private readonly byte[]? _onBytes = null;
-    private readonly byte[]? _offBytes = null;
+    private readonly byte[] _onBytes;
+    private readonly byte[] _offBytes;
 
     private bool isEnabled = false;
 
@@ -61,6 +61,12 @@ public sealed class PlaystationMemoryWriter : IGameCheat
     {
         try
         {
+            if (!_playstationConsole.IsConnected)
+            {
+                isEnabled = false;
+                return;
+            }
+
             _playstationConsole
                 .WriteMemory
                 (
@@ -81,6 +87,12 @@ public sealed class PlaystationMemoryWriter : IGameCheat
     {
         try
         {
+            if (!_playstationConsole.IsConnected)
+            {
+                isEnabled = false;
+                return;
+            }
+                
             _playstationConsole
                 .WriteMemory
                 (
@@ -98,6 +110,12 @@ public sealed class PlaystationMemoryWriter : IGameCheat
     {
         try
         {
+            if (!_playstationConsole.IsConnected)
+            {
+                isEnabled = false;
+                return false;
+            }
+
             return Enumerable.SequenceEqual
                 (
                     Internal_GetBytes(),

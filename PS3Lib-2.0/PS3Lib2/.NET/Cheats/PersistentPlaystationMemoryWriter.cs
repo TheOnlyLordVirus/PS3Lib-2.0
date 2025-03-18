@@ -23,7 +23,7 @@ public sealed class PersistentPlaystationMemoryWriter : IGameCheat
     private bool isEnabled = false;
     public bool GetValue() => isEnabled;
 
-    private CancellationTokenSource? updaterCancellationTokenSource = new();
+    private CancellationTokenSource? updaterCancellationTokenSource = new ();
 
     public PersistentPlaystationMemoryWriter
         (
@@ -70,6 +70,9 @@ public sealed class PersistentPlaystationMemoryWriter : IGameCheat
         {
             do
             {
+                if (!_playstationConsole.IsConnected)
+                    break;
+
                 _playstationConsole
                     .WriteMemory
                     (
@@ -87,12 +90,13 @@ public sealed class PersistentPlaystationMemoryWriter : IGameCheat
 
         finally
         {
-            _playstationConsole
-                .WriteMemory
-                (
-                    _memoryAddress,
-                    _offBytes!
-                );
+            if (_playstationConsole.IsConnected)
+                _playstationConsole
+                    .WriteMemory
+                    (
+                        _memoryAddress,
+                        _offBytes!
+                    );
 
             isEnabled = false;
         }
@@ -102,6 +106,12 @@ public sealed class PersistentPlaystationMemoryWriter : IGameCheat
     {
         try
         {
+            if (!_playstationConsole.IsConnected)
+            {
+                isEnabled = false;
+                return;
+            }
+
             if (updaterCancellationTokenSource is null)
                 updaterCancellationTokenSource = new CancellationTokenSource();
 

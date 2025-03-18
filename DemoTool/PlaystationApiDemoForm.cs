@@ -192,7 +192,12 @@ public sealed partial class PlaystationApiDemoForm : Form
             cheatButton.Width = 120;
             cheatButton.Height = 40;
             cheatButton.Text = minecraftCheatNames[cheat.Id];
-            cheatButton.Click += (s, e) => cheat.Toggle();
+
+            cheatButton.Click += 
+                (s, e) => Internal_ValidateApiAction
+                    (
+                        () => cheat.Toggle()
+                    );
 
             cheatButtonFlowLayout.Controls.Add(cheatButton);
         }
