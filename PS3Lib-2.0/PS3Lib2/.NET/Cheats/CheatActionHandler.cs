@@ -1,7 +1,5 @@
 ﻿using System;
 
-using PS3Lib2.Cheats;
-
 namespace PS3Lib2.Cheats;
 
 public sealed class CheatActionHandler : IGameCheat
