@@ -10,7 +10,8 @@ namespace PS3Lib2.Cheats;
 
 public sealed class PersistentPlaystationMemoryWriter : IGameCheat
 {
-    public Guid Id => Guid.NewGuid();
+    private Guid id = Guid.NewGuid();
+    public Guid Id => id;
 
     private readonly IPlaystationApi _playstationConsole;
     private readonly TimeSpan _writeDelay = TimeSpan.FromSeconds(1);

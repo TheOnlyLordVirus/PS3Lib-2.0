@@ -17,7 +17,6 @@ public sealed partial class PlaystationApiDemoForm : Form
     private IPlaystationApi? currentApi;
 
     private IEnumerable<IGameCheat>? minecraftCheats = null;
-    private Dictionary<Guid, string> minecraftCheatNames = [];
 
     private const uint _godModeAddress = 0x004B2021;
     private const byte _godModeEnable = 0x80;
@@ -134,6 +133,8 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     private void Internal_InitMinecraftCheats(IPlaystationApi currentApi)
     {
+        Dictionary<Guid, string> minecraftCheatNames = [];
+
         // Read & Write bytes at the god mode address, then display a message box for enable / disable.
         IGameCheat[] godmodeGameCheats =
             [
@@ -162,7 +163,7 @@ public sealed partial class PlaystationApiDemoForm : Form
              ];
 
         IGameCheat noFallGameCheatGroup = new GameCheatGroup(currentApi, noFallGameCheats);
-        minecraftCheatNames.Add(godModeGameCheatGroup.Id, _fallDamageButtonName);
+        minecraftCheatNames.Add(noFallGameCheatGroup.Id, _fallDamageButtonName);
 
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
         IGameCheat[] SuperJumpGameCheats =
@@ -177,7 +178,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             ];
 
         IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, godmodeGameCheats);
-        minecraftCheatNames.Add(godModeGameCheatGroup.Id, _superJumpButtonName);
+        minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonName);
 
         // Now each cheat has its own definition for how to execute the code.
         minecraftCheats = [godModeGameCheatGroup, noFallGameCheatGroup, superJumpGameCheatGroup];
