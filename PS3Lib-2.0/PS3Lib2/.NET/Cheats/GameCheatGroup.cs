@@ -36,6 +36,11 @@ public sealed class GameCheatGroup : IGameCheat
 
     public void Toggle()
     {
+        isEnabled = !isEnabled;
 
+        if (isEnabled)
+            Enable();
+        else
+            Disable();
     }
 }

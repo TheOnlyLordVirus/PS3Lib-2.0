@@ -171,12 +171,12 @@ public sealed partial class PlaystationApiDemoForm : Form
                 noFallGameCheat,
                 new CheatActionHandler
                 (
-                    () => MessageBox.Show(_godModeEnableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                    () => MessageBox.Show(_godModeDisableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    () => MessageBox.Show(_superJumpEnableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
+                    () => MessageBox.Show(_superJumpDisableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 )
             ];
 
-        IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, godmodeGameCheats);
+        IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
         minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonName);
 
         // Now each cheat has its own definition for how to execute the code.
@@ -192,7 +192,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             cheatButton.Height = 40;
             cheatButton.Text = minecraftCheatNames[cheat.Id];
 
-            cheatButton.Click += 
+            cheatButton.Click +=
                 (s, e) => Internal_ValidateApiAction
                     (
                         () => cheat.Toggle()
