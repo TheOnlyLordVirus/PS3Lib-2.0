@@ -28,8 +28,8 @@ public sealed partial class PlaystationApiDemoForm : Form
     private const string _godModeDisableString = "'God Mode' is Disabled!";
 
     private const uint _superJumpAddress = 0x003AA77C;
-    private readonly byte[] _superJumpEnable = [0x3F, 0xD7, 0x0A, 0x3D];
-    private readonly byte[] _superJumpDisable = [0x3E, 0xD7, 0x0A, 0x3D];
+    private readonly byte _superJumpEnable = 0x3F;
+    private readonly byte _superJumpDisable = 0x3E;
 
     private const string _superJumpButtonName = "Super Jump";
     private const string _superJumpDialog = "Super Jump Dialog";
@@ -128,12 +128,15 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     #endregion
 
-    #region IGameCheatExample
+    #region IGameCheat Example
 
     private void Internal_InitMinecraftCheats(IPlaystationApi currentApi)
     {
         Dictionary<Guid, string> minecraftCheatNames = [];
 
+
+
+        // God Mode Cheat:
         // Read & Write bytes at the god mode address, then display a message box for enable / disable.
         IGameCheat[] godmodeGameCheats =
             [
@@ -148,6 +151,8 @@ public sealed partial class PlaystationApiDemoForm : Form
         IGameCheat godModeGameCheatGroup = new GameCheatGroup(currentApi, godmodeGameCheats);
         minecraftCheatNames.Add(godModeGameCheatGroup.Id, _godModeButtonName); // Maps button names to cheat id.
 
+
+        // No Fall Cheat:
         // No fall cheat is the same, but we keep a copy of no fall for super jump.
         IGameCheat noFallGameCheat = new PlaystationMemoryWriter(currentApi, _fallDamageAddress, _fallDamageEnable, _fallDamageDisable);
 
@@ -164,6 +169,8 @@ public sealed partial class PlaystationApiDemoForm : Form
         IGameCheat noFallGameCheatGroup = new GameCheatGroup(currentApi, noFallGameCheats);
         minecraftCheatNames.Add(noFallGameCheatGroup.Id, _fallDamageButtonName);
 
+
+        // Super Jump Cheat:
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
         IGameCheat[] SuperJumpGameCheats =
             [
@@ -178,6 +185,8 @@ public sealed partial class PlaystationApiDemoForm : Form
 
         IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
         minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonName);
+
+
 
         // Now each cheat has its own definition for how to execute the code.
         minecraftCheats = [godModeGameCheatGroup, noFallGameCheatGroup, superJumpGameCheatGroup];

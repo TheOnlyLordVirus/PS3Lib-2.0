@@ -4,6 +4,8 @@ namespace PS3Lib2.Interfaces;
 
 public interface IPlaystationApi : IMemoryApi, IDisposable
 {
+    //public uint[] ProcessIds { get; }
+
     public bool IsConnected { get; }
 
     public bool Connect(in string ip);
