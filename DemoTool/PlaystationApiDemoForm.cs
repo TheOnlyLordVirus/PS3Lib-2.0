@@ -7,7 +7,7 @@ using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
 using PS3Lib2.Cheats;
 using PS3Lib2.Interfaces;
-using PS3Lib2.NET.Cheats;
+using PS3Lib2.Cheats;
 
 #nullable enable
 
