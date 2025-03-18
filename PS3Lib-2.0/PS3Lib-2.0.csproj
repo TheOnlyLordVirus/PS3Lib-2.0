@@ -39,6 +39,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PS3Lib2\.NET\Cheats\CheatActionHandler.cs" />
+    <Compile Include="PS3Lib2\.NET\Cheats\GameCheatGroup.cs" />
+    <Compile Include="PS3Lib2\.NET\Cheats\PlaystationMemoryWriter.cs" />
+    <Compile Include="PS3Lib2\.NET\Cheats\ICheat.cs" />
+    <Compile Include="PS3Lib2\.NET\Cheats\PersistentPlaystationMemoryWriter.cs" />
     <Compile Include="PS3Lib2\.NET\IsExternalInit.cs" />
     <Compile Include="PS3Lib2\.NET\Base\PlaystationApiObjectInstanceException.cs" />
     <Compile Include="PS3Lib2\API_Wrappers\Api_Wrapper.cs" />
