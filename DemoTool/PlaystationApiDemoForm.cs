@@ -58,7 +58,6 @@ public sealed partial class PlaystationApiDemoForm : Form
     private void TMAPIRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_InitApi(new TMAPI_Wrapper());
 
-
     private void PS3mapiRadioButton_CheckedChanged(object _, EventArgs __) =>
         Internal_InitApi(new PS3MAPI_Wrapper());
 
@@ -154,12 +153,12 @@ public sealed partial class PlaystationApiDemoForm : Form
 
         IGameCheat[] noFallGameCheats =
              [
-                        noFallGameCheat,
-                        new CheatActionHandler
-                        (
-                            () => MessageBox.Show(_fallDamageEnableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                            () => MessageBox.Show(_fallDamageDisableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        )
+                noFallGameCheat,
+                new CheatActionHandler
+                (
+                    () => MessageBox.Show(_fallDamageEnableString, _fallDamageDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
+                    () => MessageBox.Show(_fallDamageDisableString, _fallDamageDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                )
              ];
 
         IGameCheat noFallGameCheatGroup = new GameCheatGroup(currentApi, noFallGameCheats);
@@ -168,12 +167,12 @@ public sealed partial class PlaystationApiDemoForm : Form
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
         IGameCheat[] SuperJumpGameCheats =
             [
-                new PlaystationMemoryWriter(currentApi, _godModeAddress, _godModeEnable, _godModeDisable),
+                new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
                 noFallGameCheat,
                 new CheatActionHandler
                 (
-                    () => MessageBox.Show(_godModeEnableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                    () => MessageBox.Show(_godModeDisableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    () => MessageBox.Show(_godModeEnableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
+                    () => MessageBox.Show(_godModeDisableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 )
             ];
 
