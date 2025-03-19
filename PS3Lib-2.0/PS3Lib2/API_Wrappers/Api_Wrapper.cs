@@ -41,12 +41,18 @@ public abstract class Api_Wrapper : IPlaystationApi
     }
 
     public abstract bool IsConnected { get; }
+
+    public abstract IEnumerable<ConsoleInfo> ConsolesInfo { get; }
+    public abstract IEnumerable<ProcessInfo> ProcessesInfo { get; }
+
     public abstract bool Connect(in string _);
     public abstract bool Disconnect();
     public abstract void RingBuzzer();
     public abstract void VshNotify(in string _);
     public abstract void SetIdps(in string _);
     public abstract void SetPsid(in string _);
+    public abstract void GetIdps(out string _);
+    public abstract void GetPsid(out string _);
     public abstract void ShutDown();
     public abstract void GetTemprature(ref uint _, ref uint __);
     public abstract bool AttachGameProcess();
@@ -133,7 +139,6 @@ public abstract class Api_Wrapper : IPlaystationApi
         uint size = sizeof(float);
         ret = BitConverter.ToSingle(ReadMemory(address, size), 0);
     }
-
 
     public virtual float ReadMemoryF32(in uint address)
     {

@@ -135,7 +135,6 @@ public sealed partial class PlaystationApiDemoForm : Form
         Dictionary<Guid, string> minecraftCheatNames = [];
 
 
-
         // God Mode Cheat:
         // Read & Write bytes at the god mode address, then display a message box for enable / disable.
         IGameCheat[] godmodeGameCheats =
@@ -187,9 +186,9 @@ public sealed partial class PlaystationApiDemoForm : Form
         minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonName);
 
 
-
         // Now each cheat has its own definition for how to execute the code.
         minecraftCheats = [godModeGameCheatGroup, noFallGameCheatGroup, superJumpGameCheatGroup];
+
 
         // Add all the cheats to the layout as buttons that toggle the cheat OnClick
         cheatButtonFlowLayout.Controls.Clear();

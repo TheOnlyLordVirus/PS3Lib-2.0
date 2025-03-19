@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Microsoft.Win32;
@@ -21,6 +23,17 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
     private readonly string _dllPath;
 
     public override bool IsConnected => ConsoleControlApi.IsConnected();
+
+    public override IEnumerable<ConsoleInfo> ConsolesInfo => throw new NotImplementedException();
+
+    public override IEnumerable<ProcessInfo> ProcessesInfo =>
+        ConsoleControlApi
+            .GetProcessList()
+                .Select(p => new ProcessInfo()
+                {
+                    ProcessId = p.pid,
+                    ProcessName = p.name
+                });
 
     public CCAPI_Wrapper()
     {
@@ -206,6 +219,16 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             return;
 
         FreeLibrary(ccapiHandle);
+    }
+
+    public override void GetIdps(out string _)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GetPsid(out string _)
+    {
+        throw new NotImplementedException();
     }
 }
 

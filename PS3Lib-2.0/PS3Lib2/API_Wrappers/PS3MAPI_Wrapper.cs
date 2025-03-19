@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using PS3ManagerAPI;
 
 namespace PS3Lib2.PS3Mapi;
@@ -15,6 +16,20 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     public uint CurrentProcessId { get; private set; } = 0;
 
     public override bool IsConnected => CurrentPS3ManagerApi.IsConnected;
+
+    public override IEnumerable<ConsoleInfo> ConsolesInfo => throw new NotImplementedException();
+
+    public override IEnumerable<ProcessInfo> ProcessesInfo =>
+        CurrentPS3ManagerApi
+            .Process.GetPidProcesses()
+                .Select
+                (
+                    p => new ProcessInfo()
+                    {
+                        ProcessId = p,
+                        ProcessName = CurrentPS3ManagerApi.Process.GetName(p)
+                    }
+                );
 
     public PS3MAPI_Wrapper()
     {
@@ -111,6 +126,16 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     public override void WriteMemory(in uint address, in byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(CurrentProcessId, address, bytes);
 
     public override void WriteMemoryString(in uint address, in string s) => throw new NotImplementedException();
+
+    public override void GetIdps(out string _)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GetPsid(out string _)
+    {
+        throw new NotImplementedException();
+    }
 
     #endregion
 }

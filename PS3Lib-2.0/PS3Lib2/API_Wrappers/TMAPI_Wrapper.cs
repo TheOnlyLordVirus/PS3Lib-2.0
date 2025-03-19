@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using PS3Lib2.Attributes;
@@ -14,20 +15,57 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 {
     public Assembly LoadedAssembly { get; private set; }
 
-    public uint CurrentProcessId { get; private set; } = 0;
-
-    public int ConnectedTarget { get; set; } = -1;
-
     private const string _libName = "ps3tmapi_net.dll";
     private const string _LibPathX = @"C:\Program Files\SN Systems\PS3\bin\ps3tmapi_net.dll";
     private const string _LibPathX64 = @"C:\Program Files (x64)\SN Systems\PS3\bin\ps3tmapi_net.dll";
     private const string _LibPathX86 = @"C:\Program Files (x86)\SN Systems\PS3\bin\ps3tmapi_net.dll";
     private readonly string[] _LibLocations;
 
-    public override bool IsConnected => 
+    public override bool IsConnected =>
         TargetManagerApi.SUCCEEDED(TargetManagerApi.GetConnectStatus(ConnectedTarget, out TargetManagerApi.ConnectStatus status, out _)) &&
             status is TargetManagerApi.ConnectStatus.Connected;
 
+    public uint CurrentProcessId { get; private set; } = 0;
+    public int ConnectedTarget { get; set; } = -1;
+
+    public override IEnumerable<ConsoleInfo> ConsolesInfo => throw new NotImplementedException();
+
+    public override IEnumerable<ProcessInfo> ProcessesInfo
+    {
+        get 
+        {
+            List<ProcessInfo> procList = [];
+
+            if (!IsConnected)
+                return [];
+
+            if (!TargetManagerApi.SUCCEEDED(TargetManagerApi.GetProcessList(ConnectedTarget, out uint[] pids)))
+                throw new PlaystationApiObjectInstanceException("Unable to GetProcessList.");
+
+            foreach (var id in pids)
+            {
+                if (!TargetManagerApi.SUCCEEDED(
+                    TargetManagerApi
+                        .GetProcessInfoEx2
+                        (
+                            ConnectedTarget,
+                            id, 
+                            out TargetManagerApi.ProcessInfo processInfo,
+                            out TargetManagerApi.ExtraProcessInfo extraProcessInfo,
+                            out TargetManagerApi.ProcessLoadInfo processLoadInfo
+                        )))
+                        throw new PlaystationApiObjectInstanceException("Unable to GetProcessList.");
+
+                procList.Add(new ProcessInfo()
+                {
+                    ProcessName = processInfo.Hdr.ELFPath,
+                    ProcessId = id,
+                });
+            }
+
+            return procList;
+        } 
+    }
     public TMAPI_Wrapper()
     {
         _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
@@ -196,5 +234,15 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
             return;
 
         FreeLibrary(tmapiHandle);
+    }
+
+    public override void GetIdps(out string _)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GetPsid(out string _)
+    {
+        throw new NotImplementedException();
     }
 }

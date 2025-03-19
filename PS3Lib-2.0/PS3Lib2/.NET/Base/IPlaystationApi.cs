@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PS3Lib2.Interfaces;
 
 public interface IPlaystationApi : IMemoryApi, IDisposable
 {
-    //public uint[] ProcessIds { get; }
+    public IEnumerable<ConsoleInfo> ConsolesInfo { get; }
+
+    public IEnumerable<ProcessInfo> ProcessesInfo { get; }
 
     public bool IsConnected { get; }
 
@@ -21,6 +24,10 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
     public void SetIdps(in string consoleId);
 
     public void SetPsid(in string psid);
+
+    public void GetIdps(out string consoleId);
+
+    public void GetPsid(out string psid);
 
     public void GetTemprature(ref uint cell, ref uint rsx);
 }
