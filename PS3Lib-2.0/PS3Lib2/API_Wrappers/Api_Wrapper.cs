@@ -8,36 +8,33 @@ namespace PS3Lib2;
 
 public abstract class Api_Wrapper : IPlaystationApi
 {
-    private readonly string[] _unsupportedMethods;
-    public string[] UnsupportedMethods => _unsupportedMethods;
+    private readonly IEnumerable<string> _unsupportedMethods;
+    public virtual IEnumerable<string> UnsupportedMethods => _unsupportedMethods;
 
-    private readonly string[] _supportedMethods;
-    public string[] SupportedMethods
+    private readonly IEnumerable<string> _supportedMethods;
+    public virtual IEnumerable<string> SupportedMethods => _supportedMethods;
+
+    public Api_Wrapper()
     {
-        get => _supportedMethods;
+        List<string> unsupportedMethods = new ();
+        List<string> supportedMethods = new ();
 
-        init
+        var methods = this.GetType().GetMethods();
+
+        foreach (var method in methods)
         {
-            List<string> unsupportedMethods = new();
-            List<string> supportedMethods = new();
-
-            var methods = this.GetType().GetMethods();
-
-            foreach (var method in methods)
+            if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupportedAttribute)))
             {
-                if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupportedAttribute)))
-                {
-                    supportedMethods.Add(method.Name);
+                supportedMethods.Add(method.Name);
 
-                    continue;
-                }
-
-                unsupportedMethods.Add(method.Name);
+                continue;
             }
 
-            _supportedMethods = supportedMethods.ToArray();
-            _unsupportedMethods = unsupportedMethods.ToArray();
+            unsupportedMethods.Add(method.Name);
         }
+
+        _supportedMethods = supportedMethods;
+        _unsupportedMethods = unsupportedMethods;
     }
 
     public abstract bool IsConnected { get; }

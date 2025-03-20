@@ -42,23 +42,23 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
                     }
                 );
 
-    public PS3MAPI_Wrapper()
+    public PS3MAPI_Wrapper() : base()
     {
         _currentPS3ManagerApi = new PS3MAPI();
     }
 
-    public PS3MAPI_Wrapper(int port)
+    public PS3MAPI_Wrapper(int port) : base()
     {
         _currentPS3ManagerApi = new PS3MAPI();
         this.Port = port;
     }
 
-    public PS3MAPI_Wrapper(PS3MAPI api)
+    public PS3MAPI_Wrapper(PS3MAPI api) : base()
     {
         _currentPS3ManagerApi = api;
     }
 
-    public PS3MAPI_Wrapper(PS3MAPI api, int port)
+    public PS3MAPI_Wrapper(PS3MAPI api, int port) : base()
     {
         this.Port = port;
         _currentPS3ManagerApi = api;

@@ -36,6 +36,7 @@ public sealed partial class PlaystationApiDemoForm
             this.tmapiRadioButton = new System.Windows.Forms.RadioButton();
             this.ps3mapiRadioButton = new System.Windows.Forms.RadioButton();
             this.cheatButtonFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.IGameCheat_Simple_Example_Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // connect_button
@@ -60,7 +61,7 @@ public sealed partial class PlaystationApiDemoForm
             // 
             // read_button
             // 
-            this.read_button.Location = new System.Drawing.Point(56, 225);
+            this.read_button.Location = new System.Drawing.Point(56, 184);
             this.read_button.Name = "read_button";
             this.read_button.Size = new System.Drawing.Size(150, 72);
             this.read_button.TabIndex = 2;
@@ -70,7 +71,7 @@ public sealed partial class PlaystationApiDemoForm
             // 
             // write_button
             // 
-            this.write_button.Location = new System.Drawing.Point(224, 225);
+            this.write_button.Location = new System.Drawing.Point(224, 184);
             this.write_button.Name = "write_button";
             this.write_button.Size = new System.Drawing.Size(150, 72);
             this.write_button.TabIndex = 3;
@@ -121,11 +122,22 @@ public sealed partial class PlaystationApiDemoForm
             this.cheatButtonFlowLayout.Size = new System.Drawing.Size(464, 332);
             this.cheatButtonFlowLayout.TabIndex = 7;
             // 
+            // IGameCheat_Simple_Example_Button
+            // 
+            this.IGameCheat_Simple_Example_Button.Location = new System.Drawing.Point(56, 274);
+            this.IGameCheat_Simple_Example_Button.Name = "IGameCheat_Simple_Example_Button";
+            this.IGameCheat_Simple_Example_Button.Size = new System.Drawing.Size(150, 72);
+            this.IGameCheat_Simple_Example_Button.TabIndex = 8;
+            this.IGameCheat_Simple_Example_Button.Text = "IGameCheat Example";
+            this.IGameCheat_Simple_Example_Button.UseVisualStyleBackColor = true;
+            this.IGameCheat_Simple_Example_Button.Click += new System.EventHandler(this.IGameCheat_Simple_Example_Button_Click);
+            // 
             // PlaystationApiDemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 371);
+            this.Controls.Add(this.IGameCheat_Simple_Example_Button);
             this.Controls.Add(this.cheatButtonFlowLayout);
             this.Controls.Add(this.ps3mapiRadioButton);
             this.Controls.Add(this.tmapiRadioButton);
@@ -151,5 +163,6 @@ public sealed partial class PlaystationApiDemoForm
     private System.Windows.Forms.RadioButton tmapiRadioButton;
     private System.Windows.Forms.RadioButton ps3mapiRadioButton;
     private System.Windows.Forms.FlowLayoutPanel cheatButtonFlowLayout;
+    private System.Windows.Forms.Button IGameCheat_Simple_Example_Button;
 }
 

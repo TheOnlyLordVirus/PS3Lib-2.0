@@ -57,7 +57,7 @@ public sealed partial class ConnectDialog
             this.AcceptButton = this.connectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 242);
+            this.ClientSize = new System.Drawing.Size(512, 242);
             this.Controls.Add(this.ipAddressTextBox);
             this.Controls.Add(this.connectButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

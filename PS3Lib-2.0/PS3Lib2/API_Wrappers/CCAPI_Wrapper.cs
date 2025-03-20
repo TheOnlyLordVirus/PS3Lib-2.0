@@ -44,7 +44,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
                     ProcessName = p.name
                 });
 
-    public CCAPI_Wrapper()
+    public CCAPI_Wrapper() : base()
     {
         RegistryKey Key = Registry
             .CurrentUser
@@ -66,7 +66,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
         _consoleControllApi = new ConsoleControlApi(_dllPath);
     }
 
-    public CCAPI_Wrapper(ConsoleControlApi api)
+    public CCAPI_Wrapper(ConsoleControlApi api) : base()
     {
         _consoleControllApi = api;
     }

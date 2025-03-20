@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
 using PS3Lib2.Cheats;
 using PS3Lib2.Interfaces;
+using PS3Lib2.Extentions;
 
 #nullable enable
 
@@ -20,6 +22,7 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     private IPlaystationApi? currentApi = null;
     private IEnumerable<IGameCheat>? minecraftCheats = null;
+    private IEnumerable<string>? supportedMethods = null;
 
     private const string _godModeString = "God Mode";
     private const uint _godModeAddress = 0x004B2021;
@@ -56,6 +59,8 @@ public sealed partial class PlaystationApiDemoForm : Form
             currentApi?.Dispose();
             currentApi = newApi;
 
+            supportedMethods = currentApi.GetSupportedMethods();
+
             // Init cheat with the new api instance.
             Internal_InitMinecraftCheats(currentApi);
         });
@@ -88,29 +93,51 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     #region Basic Read / Write Example
 
+
     private void Read_Button_Click(object _, EventArgs __) =>
+        // Internal_ValidateApiAction will validate that we are not null and that we are connected.
         Internal_ValidateApiAction(() =>
         {
+            // This is a basic read byte opperation, there are shorthands for reading & writing all primitive types.
             byte currentValue = currentApi!.ReadMemoryU8(_godModeAddress);
+
             bool valueToBool = currentValue is _godModeEnable;
             string curState = Internal_GetCheatString(_godModeString, valueToBool);
 
             MessageBox.Show(curState, "God Mode Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
 
+    // Simple Godmode Toggle Example using read / write memory.
     private void Write_Button_Click(object _, EventArgs __) =>
         Internal_ValidateApiAction(() =>
         {
-            // Simple Godmode Toggle Example.
+            // Read byte.
             byte currentValue = currentApi!.ReadMemoryU8(_godModeAddress);
 
-            currentApi
+            currentApi!
                 .WriteMemoryU8
                 (
                     _godModeAddress,
                     currentValue is not _godModeEnable ?
                     _godModeEnable : _godModeDisable
                 );
+        });
+
+    // I've had to do this alot. Believe me if you've got a bunch of cheats you don't want to manually enter all this shit in.
+    // I hope this is easy to understand.
+    private void IGameCheat_Simple_Example_Button_Click(object sender, EventArgs e) =>
+        Internal_ValidateApiAction(() =>
+        {
+            IGameCheat minecraftGodModeExample = 
+                new PlaystationMemoryWriter
+                (
+                    currentApi!,
+                    _godModeAddress, 
+                    _godModeEnable, 
+                    _godModeDisable
+                );
+
+            minecraftGodModeExample.Toggle();
         });
 
     #endregion
@@ -123,55 +150,65 @@ public sealed partial class PlaystationApiDemoForm : Form
     private string Internal_GetDialogString(string messageString) =>
         string.Concat(messageString, " Dialog.");
 
-    private CheatActionHandler Internal_GetCheatActivationDialog(string cheatDialogMessage) => new 
+    private CheatActionHandler Internal_CreateCheatToggleMessageActionHandler(string cheatName)
+        => new CheatActionHandler
         (
-            () => MessageBox.Show
-            (
-                Internal_GetCheatString(cheatDialogMessage, true),
-                Internal_GetDialogString(cheatDialogMessage),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            ),
-
-            () => MessageBox.Show
-            (
-                Internal_GetCheatString(cheatDialogMessage, false),
-                Internal_GetDialogString(cheatDialogMessage),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+            () => Internal_HandleActivationNotification(cheatName, true), 
+            () => Internal_HandleActivationNotification(cheatName, false)
         );
 
+    private void Internal_HandleActivationNotification(string message, bool enabled)
+    {
+        MessageBox.Show
+            (
+                Internal_GetCheatString(message, true),
+                Internal_GetDialogString(message),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+
+        Internal_ValidateApiAction(() =>
+        {
+            if (supportedMethods.Contains("RingBuzzer"))
+                currentApi!
+                    .RingBuzzer();
+
+            if (supportedMethods.Contains("VshNotify"))
+                currentApi!
+                .VshNotify
+                (
+                    Internal_GetCheatString(message, enabled)
+                );
+        });
+    }
+
+    // More advanced implementation for IGameCheat.
     private void Internal_InitMinecraftCheats(IPlaystationApi currentApi)
     {
         Dictionary<Guid, string> minecraftCheatNames = [];
 
-
         // God Mode Cheat:
-        // Read & Write bytes at the god mode address, then display a message box for enable / disable.
-        IGameCheat[] godmodeGameCheats =
-            [
-                new PlaystationMemoryWriter(currentApi, _godModeAddress, _godModeEnable, _godModeDisable),
-                Internal_GetCheatActivationDialog(_godModeString)
-            ];
+        // Read & Write bytes at the god mode address, We also display a message to the user on the ps3 and pc.
+        IGameCheat[] godModeGameCheats =
+        [
+            new PlaystationMemoryWriter(currentApi, _godModeAddress, _godModeEnable, _godModeDisable),
+            Internal_CreateCheatToggleMessageActionHandler(_godModeString)
+        ];
 
-        IGameCheat godModeGameCheatGroup = new GameCheatGroup(currentApi, godmodeGameCheats);
-        minecraftCheatNames.Add(godModeGameCheatGroup.Id, _godModeString); // Maps button names to cheat id.
-
+        IGameCheat godModeGameCheatsGroup = new GameCheatGroup(currentApi, godModeGameCheats);
+        minecraftCheatNames.Add(godModeGameCheatsGroup.Id, _godModeString); // Maps button names to cheat id.
 
         // No Fall Cheat:
         // No fall cheat is the same, but we keep a copy of no fall for super jump.
-        IGameCheat noFallGameCheat = new PlaystationMemoryWriter(currentApi, _fallDamageAddress, _fallDamageEnable, _fallDamageDisable);
-
+        PlaystationMemoryWriter noFallGameCheat = new (currentApi, _fallDamageAddress, _fallDamageEnable, _fallDamageDisable);
         IGameCheat[] noFallGameCheats =
-             [
-                noFallGameCheat,
-                Internal_GetCheatActivationDialog(_fallDamageString)
-             ];
+        [
+            noFallGameCheat,
+            Internal_CreateCheatToggleMessageActionHandler(_fallDamageString)
+        ];
 
         IGameCheat noFallGameCheatGroup = new GameCheatGroup(currentApi, noFallGameCheats);
         minecraftCheatNames.Add(noFallGameCheatGroup.Id, _fallDamageString);
-
 
         // Super Jump Cheat:
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
@@ -179,7 +216,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             [
                 new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
                 noFallGameCheat,
-                Internal_GetCheatActivationDialog(_superJumpString)
+                Internal_CreateCheatToggleMessageActionHandler(_superJumpString)
             ];
 
         IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
@@ -187,7 +224,7 @@ public sealed partial class PlaystationApiDemoForm : Form
 
 
         // Now each cheat has its own definition for how to execute the code.
-        minecraftCheats = [godModeGameCheatGroup, noFallGameCheatGroup, superJumpGameCheatGroup];
+        minecraftCheats = [godModeGameCheatsGroup, noFallGameCheatGroup, superJumpGameCheatGroup];
 
 
         // Add all the cheats to the layout as buttons that toggle the cheat OnClick
@@ -195,11 +232,13 @@ public sealed partial class PlaystationApiDemoForm : Form
 
         foreach (var cheat in minecraftCheats)
         {
-            Button cheatButton = new ();
-            cheatButton.Width = 120;
-            cheatButton.Height = 40;
-            cheatButton.Text = minecraftCheatNames[cheat.Id];
-
+            Button cheatButton = new ()
+            {
+                Width = 120,
+                Height = 40,
+                Text = minecraftCheatNames[cheat.Id]
+            };
+;
             cheatButton.Click +=
                 (s, e) => Internal_ValidateApiAction
                     (

@@ -137,7 +137,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         } 
     }
 
-    public TMAPI_Wrapper()
+    public TMAPI_Wrapper() : base()
     {
         _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
 
@@ -150,7 +150,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         Internal_Init();
     }
 
-    public TMAPI_Wrapper(int connectTarget)
+    public TMAPI_Wrapper(int connectTarget) : base()
     {
         _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
 
