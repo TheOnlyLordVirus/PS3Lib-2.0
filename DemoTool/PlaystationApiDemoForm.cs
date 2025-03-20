@@ -14,36 +14,28 @@ namespace DemoTool;
 
 public sealed partial class PlaystationApiDemoForm : Form
 {
-    private IPlaystationApi? currentApi;
+    #region Cheese
 
+    private IPlaystationApi? currentApi = null;
     private IEnumerable<IGameCheat>? minecraftCheats = null;
 
+    private const string _godModeString = "God Mode";
     private const uint _godModeAddress = 0x004B2021;
     private const byte _godModeEnable = 0x80;
     private const byte _godModeDisable = 0x20;
 
-    private const string _godModeButtonName = "God Mode";
-    private const string _godModeDialog = "'God Mode' Dialog";
-    private const string _godModeEnableString = "'God Mode' is Enabled!";
-    private const string _godModeDisableString = "'God Mode' is Disabled!";
-
+    private const string _superJumpButtonString = "Super Jump";
+    private const string _superJumpString = "Super Jump & No Fall Damage";
     private const uint _superJumpAddress = 0x003AA77C;
     private readonly byte _superJumpEnable = 0x3F;
     private readonly byte _superJumpDisable = 0x3E;
 
-    private const string _superJumpButtonName = "Super Jump";
-    private const string _superJumpDialog = "Super Jump Dialog";
-    private const string _superJumpEnableString = "'Super Jump' & 'No Fall Damage' is Enabled!";
-    private const string _superJumpDisableString = "'Super Jump' & 'No Fall Damage' is Disabled!";
-    
+    private const string _fallDamageString = "No Fall Damage";
     private const uint _fallDamageAddress = 0x003A409C;
     private const byte _fallDamageEnable = 0x40;
     private const byte _fallDamageDisable = 0x41;
 
-    private const string _fallDamageButtonName = "No Fall Damage";
-    private const string _fallDamageDialog = "Fall Damage Dialog";
-    private const string _fallDamageEnableString = "'No Fall Damage' is Enabled!";
-    private const string _fallDamageDisableString = "'No Fall Damage' is Disabled!";
+    #endregion
 
     public PlaystationApiDemoForm()
     {
@@ -104,9 +96,7 @@ public sealed partial class PlaystationApiDemoForm : Form
         {
             byte currentValue = currentApi!.ReadMemoryU8(_godModeAddress);
             bool valueToBool = currentValue is _godModeEnable;
-
-            string curState = valueToBool ?
-                        _godModeEnableString : _godModeDisableString;
+            string curState = Internal_GetCheatString(_godModeString, valueToBool);
 
             MessageBox.Show(curState, "God Mode Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
@@ -130,6 +120,32 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     #region IGameCheat Example
 
+
+    private string Internal_GetCheatString(string messageString, bool enabled) =>
+        string.Concat(messageString, " is ", Enabled ? "Enabled!" : "Disabled!");
+
+    private string Internal_GetDialogString(string messageString) =>
+        string.Concat(messageString, " Dialog.");
+
+    private CheatActionHandler Internal_GetCheatActivationDialog(string cheatDialogMessage) => new 
+        (
+            () => MessageBox.Show
+            (
+                Internal_GetCheatString(cheatDialogMessage, true),
+                Internal_GetDialogString(cheatDialogMessage),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            ),
+
+            () => MessageBox.Show
+            (
+                Internal_GetCheatString(cheatDialogMessage, false),
+                Internal_GetDialogString(cheatDialogMessage),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            )
+        );
+
     private void Internal_InitMinecraftCheats(IPlaystationApi currentApi)
     {
         Dictionary<Guid, string> minecraftCheatNames = [];
@@ -140,15 +156,11 @@ public sealed partial class PlaystationApiDemoForm : Form
         IGameCheat[] godmodeGameCheats =
             [
                 new PlaystationMemoryWriter(currentApi, _godModeAddress, _godModeEnable, _godModeDisable),
-                new CheatActionHandler
-                (
-                    () => MessageBox.Show(_godModeEnableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                    () => MessageBox.Show(_godModeDisableString, _godModeDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                )
+                Internal_GetCheatActivationDialog(_godModeString)
             ];
 
         IGameCheat godModeGameCheatGroup = new GameCheatGroup(currentApi, godmodeGameCheats);
-        minecraftCheatNames.Add(godModeGameCheatGroup.Id, _godModeButtonName); // Maps button names to cheat id.
+        minecraftCheatNames.Add(godModeGameCheatGroup.Id, _godModeString); // Maps button names to cheat id.
 
 
         // No Fall Cheat:
@@ -158,15 +170,11 @@ public sealed partial class PlaystationApiDemoForm : Form
         IGameCheat[] noFallGameCheats =
              [
                 noFallGameCheat,
-                new CheatActionHandler
-                (
-                    () => MessageBox.Show(_fallDamageEnableString, _fallDamageDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                    () => MessageBox.Show(_fallDamageDisableString, _fallDamageDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                )
+                Internal_GetCheatActivationDialog(_fallDamageString)
              ];
 
         IGameCheat noFallGameCheatGroup = new GameCheatGroup(currentApi, noFallGameCheats);
-        minecraftCheatNames.Add(noFallGameCheatGroup.Id, _fallDamageButtonName);
+        minecraftCheatNames.Add(noFallGameCheatGroup.Id, _fallDamageString);
 
 
         // Super Jump Cheat:
@@ -175,15 +183,11 @@ public sealed partial class PlaystationApiDemoForm : Form
             [
                 new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
                 noFallGameCheat,
-                new CheatActionHandler
-                (
-                    () => MessageBox.Show(_superJumpEnableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information),
-                    () => MessageBox.Show(_superJumpDisableString, _superJumpDialog, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                )
+                Internal_GetCheatActivationDialog(_superJumpString)
             ];
 
         IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
-        minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonName);
+        minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonString);
 
 
         // Now each cheat has its own definition for how to execute the code.

@@ -58,7 +58,8 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
                 numTargets is 0)
                 return [];
 
-            object unknownUserObject = new object();
+            // This might not work.
+            object unknownUserObject = new ();
 
             SearchForTargets
             (
@@ -135,6 +136,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
             return procList;
         } 
     }
+
     public TMAPI_Wrapper()
     {
         _LibLocations = [_libName, _LibPathX, _LibPathX64, _LibPathX86];
