@@ -181,13 +181,13 @@ public abstract class Api_Wrapper : IPlaystationApi
 
     public abstract string ReadMemoryString(in uint _);
 
-    //public abstract bool TryPatternScan
-    //   (in byte?[] _,
-    //    in uint __,
-    //    in uint ___,
-    //    out uint? ____,
-    //    out byte[]? _____,
-    //    out uint? ______);
+    public abstract bool TryPatternScan
+       (in byte?[] _,
+        in uint __,
+        in uint ___,
+        out uint? ____,
+        out byte[]? _____,
+        out uint? ______);
 
     public abstract void WriteMemory(in uint _, in byte[] __);
 

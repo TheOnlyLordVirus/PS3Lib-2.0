@@ -132,7 +132,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
     [PlaystationApiMethodUnSupported()]
-    public bool TryPatternScan
+    public override bool TryPatternScan
        (in byte?[] patternInput,
         in uint patternSearchStartAddress,
         in uint patternSearchEndAddress,

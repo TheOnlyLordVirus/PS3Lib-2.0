@@ -182,7 +182,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
     public override string ReadMemoryString(in uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
     [PlaystationApiMethodUnSupported()]
-    public bool TryPatternScan
+    public override bool TryPatternScan
        (in byte?[] patternInput,
         in uint patternSearchStartAddress,
         in uint patternSearchEndAddress,

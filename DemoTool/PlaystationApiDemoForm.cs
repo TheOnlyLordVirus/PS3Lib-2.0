@@ -3,8 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-
-using PS3Lib2.Base;
+using PS3Lib2;
 using PS3Lib2.Capi;
 using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
