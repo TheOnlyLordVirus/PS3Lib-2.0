@@ -14,6 +14,8 @@ namespace DemoTool;
 
 public sealed partial class PlaystationApiDemoForm : Form
 {
+    public PlaystationApiDemoForm() => InitializeComponent();
+
     #region Cheese
 
     private IPlaystationApi? currentApi = null;
@@ -27,8 +29,8 @@ public sealed partial class PlaystationApiDemoForm : Form
     private const string _superJumpButtonString = "Super Jump";
     private const string _superJumpString = "Super Jump & No Fall Damage";
     private const uint _superJumpAddress = 0x003AA77C;
-    private readonly byte _superJumpEnable = 0x3F;
-    private readonly byte _superJumpDisable = 0x3E;
+    private const byte _superJumpEnable = 0x3F;
+    private const byte _superJumpDisable = 0x3E;
 
     private const string _fallDamageString = "No Fall Damage";
     private const uint _fallDamageAddress = 0x003A409C;
@@ -36,11 +38,6 @@ public sealed partial class PlaystationApiDemoForm : Form
     private const byte _fallDamageDisable = 0x41;
 
     #endregion
-
-    public PlaystationApiDemoForm()
-    {
-        InitializeComponent();
-    }
 
     #region Select Api
 
@@ -89,7 +86,7 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     #endregion
 
-    #region Basic Read / Write
+    #region Basic Read / Write Example
 
     private void Read_Button_Click(object _, EventArgs __) =>
         Internal_ValidateApiAction(() =>
@@ -119,7 +116,6 @@ public sealed partial class PlaystationApiDemoForm : Form
     #endregion
 
     #region IGameCheat Example
-
 
     private string Internal_GetCheatString(string messageString, bool enabled) =>
         string.Concat(messageString, " is ", Enabled ? "Enabled!" : "Disabled!");
@@ -242,5 +238,6 @@ public sealed partial class PlaystationApiDemoForm : Form
             MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     #endregion
 }
