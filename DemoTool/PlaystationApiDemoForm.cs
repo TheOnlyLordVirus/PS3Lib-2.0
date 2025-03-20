@@ -213,11 +213,11 @@ public sealed partial class PlaystationApiDemoForm : Form
         // Super Jump Cheat:
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
         IGameCheat[] SuperJumpGameCheats =
-            [
-                new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
-                noFallGameCheat,
-                Internal_CreateCheatToggleMessageActionHandler(_superJumpString)
-            ];
+        [
+            new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
+            noFallGameCheat,
+            Internal_CreateCheatToggleMessageActionHandler(_superJumpString)
+        ];
 
         IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
         minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonString);
