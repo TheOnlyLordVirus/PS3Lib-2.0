@@ -24,6 +24,8 @@ public sealed partial class PlaystationApiDemoForm : Form
     private IEnumerable<IGameCheat>? minecraftCheats = null;
     private IEnumerable<string>? supportedMethods = null;
 
+    // Load from a json? Sure why not.
+    // This is just an example tho.
     private const string _godModeString = "God Mode";
     private const uint _godModeAddress = 0x004B2021;
     private const byte _godModeEnable = 0x80;
@@ -93,7 +95,6 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     #region Basic Read / Write Example
 
-
     private void Read_Button_Click(object _, EventArgs __) =>
         // Internal_ValidateApiAction will validate that we are not null and that we are connected.
         Internal_ValidateApiAction(() =>
@@ -151,7 +152,7 @@ public sealed partial class PlaystationApiDemoForm : Form
         string.Concat(messageString, " Dialog.");
 
     private CheatActionHandler Internal_CreateCheatToggleMessageActionHandler(string cheatName)
-        => new CheatActionHandler
+        => new
         (
             () => Internal_HandleActivationNotification(cheatName, true), 
             () => Internal_HandleActivationNotification(cheatName, false)
@@ -161,7 +162,7 @@ public sealed partial class PlaystationApiDemoForm : Form
     {
         MessageBox.Show
             (
-                Internal_GetCheatString(message, true),
+                Internal_GetCheatString(message, enabled),
                 Internal_GetDialogString(message),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
@@ -212,14 +213,14 @@ public sealed partial class PlaystationApiDemoForm : Form
 
         // Super Jump Cheat:
         // Superjump is the same, but we also enable / disable fall damage when we toggle the cheat.
-        IGameCheat[] SuperJumpGameCheats =
+        IGameCheat[] superJumpGameCheats =
         [
             new PlaystationMemoryWriter(currentApi, _superJumpAddress, _superJumpEnable, _superJumpDisable),
             noFallGameCheat,
             Internal_CreateCheatToggleMessageActionHandler(_superJumpString)
         ];
 
-        IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, SuperJumpGameCheats);
+        IGameCheat superJumpGameCheatGroup = new GameCheatGroup(currentApi, superJumpGameCheats);
         minecraftCheatNames.Add(superJumpGameCheatGroup.Id, _superJumpButtonString);
 
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
-using PS3Lib2;
 using PS3Lib2.Extentions;
 using PS3Lib2.Interfaces;
 
