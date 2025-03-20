@@ -24,7 +24,16 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     public override bool IsConnected => ConsoleControlApi.IsConnected();
 
-    public override IEnumerable<ConsoleInfo> ConsolesInfo => throw new NotImplementedException();
+    public override IEnumerable<ConsoleInfo> ConsolesInfo =>
+        ConsoleControlApi
+            .GetConsoleList()
+                .Select(p => new ConsoleInfo()
+                {
+                    LibId = null,
+                    Port = null,
+                    ConsoleIp = p.ip,
+                    ConsoleName = p.name
+                });
 
     public override IEnumerable<ProcessInfo> ProcessesInfo =>
         ConsoleControlApi

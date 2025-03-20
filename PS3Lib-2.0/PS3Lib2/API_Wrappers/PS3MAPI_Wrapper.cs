@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using PS3ManagerAPI;
 
 namespace PS3Lib2.PS3Mapi;
@@ -17,7 +18,17 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override bool IsConnected => CurrentPS3ManagerApi.IsConnected;
 
-    public override IEnumerable<ConsoleInfo> ConsolesInfo => throw new NotImplementedException();
+    public override IEnumerable<ConsoleInfo> ConsolesInfo
+    {
+        get
+        {
+            // TODO: Scan internal IP ranges for open PSMAPI Connection on this port!
+
+
+
+            return [];
+        }
+    }
 
     public override IEnumerable<ProcessInfo> ProcessesInfo =>
         CurrentPS3ManagerApi
