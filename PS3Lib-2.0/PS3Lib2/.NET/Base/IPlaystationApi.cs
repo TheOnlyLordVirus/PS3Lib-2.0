@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PS3Lib2.Interfaces;
+namespace PS3Lib2;
 
 public interface IPlaystationApi : IMemoryApi, IDisposable
 {

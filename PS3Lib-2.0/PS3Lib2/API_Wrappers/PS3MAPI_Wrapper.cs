@@ -4,6 +4,9 @@ using System.Linq;
 
 using PS3ManagerAPI;
 
+using PS3Lib2.Base;
+using PS3Lib2.Exceptions;
+
 namespace PS3Lib2.PS3Mapi;
 
 public sealed class PS3MAPI_Wrapper : Api_Wrapper
@@ -85,6 +88,10 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override void SetPsid(in string psid) => CurrentPS3ManagerApi.PS3.SetPSID(psid);
 
+    public override void GetIdps(out string idps) { idps = CurrentPS3ManagerApi.PS3.GetIDPS(); }
+
+    public override void GetPsid(out string psid) { psid = CurrentPS3ManagerApi.PS3.GetPSID(); }
+
     public override void ShutDown() => CurrentPS3ManagerApi.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.ShutDown);
 
     public override void GetTemprature(ref uint cell, ref uint rsx) => CurrentPS3ManagerApi.PS3.GetTemperature(out cell, out rsx);
@@ -120,15 +127,19 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         return bytes;
     }
 
-    public override string ReadMemoryString(in uint address) => throw new NotImplementedException();
+    [PlaystationApiMethodUnSupported()]
+    public override string ReadMemoryString(in uint address) 
+        => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
-    //public bool TryPatternScan
-    //   (in byte?[] patternInput,
-    //    in uint patternSearchStartAddress,
-    //    in uint patternSearchEndAddress,
-    //    out uint? startingAddress,
-    //    out byte[]? dataRead,
-    //    out uint? length) => throw new NotImplementedException();
+    [PlaystationApiMethodUnSupported()]
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length)
+            => throw new PlaystationApiMethodUnSupportedException("The TryPatternScan methods have not been added yet.");
 
     #endregion
 
@@ -136,17 +147,10 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override void WriteMemory(in uint address, in byte[] bytes) => CurrentPS3ManagerApi.Process.Memory.Set(CurrentProcessId, address, bytes);
 
-    public override void WriteMemoryString(in uint address, in string s) => throw new NotImplementedException();
+    [PlaystationApiMethodUnSupported()]
+    public override void WriteMemoryString(in uint address, in string s)
+        => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
-    public override void GetIdps(out string _)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void GetPsid(out string _)
-    {
-        throw new NotImplementedException();
-    }
 
     #endregion
 }

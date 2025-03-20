@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using PS3Lib2.Attributes;
+using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using static PS3TMAPI;
@@ -188,27 +187,27 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
     public override bool Disconnect() => SUCCEEDED(PS3TMAPI.Disconnect(ConnectedTarget));
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void RingBuzzer() => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void VshNotify(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void SetIdps(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetIdps() call!");
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void SetPsid(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void GetIdps(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void GetPsid(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
     public override void ShutDown() => PowerOff(ConnectedTarget, true);
 
-    [PlaystationApiMethodUnSupportedAttribute()]
+    [PlaystationApiMethodUnSupported()]
     public override void GetTemprature(ref uint _, ref uint __) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetTemprature() call!");
 
     public override bool AttachGameProcess()
@@ -263,23 +262,19 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         return returnMe; 
     }
 
+    [PlaystationApiMethodUnSupported()]
     public override string ReadMemoryString(in uint address)
-    {
-        throw new NotImplementedException();
-    }
+        => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
-
-    //[PlaystationApiMethodUnSupportedAttribute()]
-    //public bool TryPatternScan
-    //   (in byte?[] patternInput,
-    //    in uint patternSearchStartAddress,
-    //    in uint patternSearchEndAddress,
-    //    out uint? startingAddress,
-    //    out byte[]? dataRead,
-    //    out uint? length)
-    //{
-    //    throw new NotImplementedException();
-    //}
+    [PlaystationApiMethodUnSupported()]
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length)
+            => throw new PlaystationApiMethodUnSupportedException("The TryPatternScan methods have not been added yet.");
 
     #endregion
 
@@ -287,7 +282,9 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
     public override void WriteMemory(in uint address, in byte[] bytes) => ProcessSetMemory(ConnectedTarget, PS3TMAPI.UnitType.PPU, CurrentProcessId, 0, address, bytes);
 
-    public override void WriteMemoryString(in uint address, in string s) => throw new NotImplementedException();
+    [PlaystationApiMethodUnSupported()]
+    public override void WriteMemoryString(in uint address, in string s)
+         => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
     #endregion
 

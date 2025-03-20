@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using PS3Lib2.Attributes;
-using PS3Lib2.Interfaces;
-
-namespace PS3Lib2;
+namespace PS3Lib2.Base;
 
 public abstract class Api_Wrapper : IPlaystationApi
 {
@@ -23,7 +20,7 @@ public abstract class Api_Wrapper : IPlaystationApi
 
         foreach (var method in methods)
         {
-            if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupportedAttribute)))
+            if (!Attribute.IsDefined(method, typeof(PlaystationApiMethodUnSupported)))
             {
                 supportedMethods.Add(method.Name);
 

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 using Microsoft.Win32;
 
+using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
@@ -88,6 +89,12 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
     public override void SetIdps(in string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
 
     public override void SetPsid(in string psid) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, psid); }
+
+    [PlaystationApiMethodUnSupported()]
+    public override void GetIdps(out string _) => throw new PlaystationApiMethodUnSupportedException("ConsoleControlApi does not support the GetIdps() call!");
+
+    [PlaystationApiMethodUnSupported()]
+    public override void GetPsid(out string _) => throw new PlaystationApiMethodUnSupportedException("ConsoleControlApi does not support the GetPsid() call!");
 
     public override void ShutDown() { ConsoleControlApi.Shutdown(ConsoleControlApi.ShutdownMode.Shutdown); }
 
@@ -174,17 +181,15 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
            
     public override string ReadMemoryString(in uint address) { return ConsoleControlApi.ReadMemoryString(address); }
 
-    //[PlaystationApiMethodUnSupportedAttribute()]
-    //public bool TryPatternScan
-    //   (in byte?[] patternInput,
-    //    in uint patternSearchStartAddress,
-    //    in uint patternSearchEndAddress,
-    //    out uint? startingAddress,
-    //    out byte[]? dataRead,
-    //    out uint? length)
-    //{
-    //    throw new NotImplementedException();
-    //}
+    [PlaystationApiMethodUnSupported()]
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length)
+            => throw new PlaystationApiMethodUnSupportedException("The TryPatternScan methods have not been added yet.");
 
     #endregion
 
@@ -228,16 +233,6 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             return;
 
         FreeLibrary(ccapiHandle);
-    }
-
-    public override void GetIdps(out string _)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void GetPsid(out string _)
-    {
-        throw new NotImplementedException();
     }
 }
 

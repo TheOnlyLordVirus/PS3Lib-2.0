@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using PS3Lib2.Interfaces;
-
 namespace PS3Lib2.Cheats;
 
 public sealed class GameCheatGroup : IGameCheat

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PS3Lib2.Interfaces;
+﻿namespace PS3Lib2;
 
 #nullable enable
 
@@ -83,11 +81,11 @@ public interface IMemoryApi
 
     public void WriteMemoryString(in uint address, in string s);
 
-    //public bool TryPatternScan
-    //   (in byte?[] patternInput, 
-    //    in uint patternSearchStartAddress, 
-    //    in uint patternSearchEndAddress, 
-    //    out uint? startingAddress, 
-    //    out byte[]? dataRead, 
-    //    out uint? length);
+    public bool TryPatternScan
+       (in byte?[] patternInput,
+        in uint patternSearchStartAddress,
+        in uint patternSearchEndAddress,
+        out uint? startingAddress,
+        out byte[]? dataRead,
+        out uint? length);
 }

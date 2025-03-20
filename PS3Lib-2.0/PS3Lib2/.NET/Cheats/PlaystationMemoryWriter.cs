@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using PS3Lib2.Interfaces;
-
 namespace PS3Lib2.Cheats;
 
 #nullable enable
