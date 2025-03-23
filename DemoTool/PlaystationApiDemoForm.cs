@@ -62,11 +62,10 @@ public sealed partial class PlaystationApiDemoForm : Form
                 return;
 
             currentApi?.Dispose();
+            currentApi = null;
             currentApi = newApi;
 
             supportedMethods = currentApi.GetSupportedMethods();
-
-            var test = currentApi!.ConsolesInfo;
 
             // Init cheat with the new api instance.
             Internal_InitMinecraftCheats(currentApi);
@@ -85,7 +84,12 @@ public sealed partial class PlaystationApiDemoForm : Form
             var ConnectForm = new ConnectDialog(currentApi);
 
             if (ConnectForm.ShowDialog() is DialogResult.Cancel)
+            {
+                ConnectForm?.Dispose();
                 throw new Exception("Failed to connect!");
+            }
+                
+            ConnectForm?.Dispose();
 
             if (supportedMethods.Contains("RingBuzzer"))
                 currentApi.RingBuzzer();

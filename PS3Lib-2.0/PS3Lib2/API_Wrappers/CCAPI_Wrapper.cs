@@ -10,21 +10,19 @@ using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
-using static PS3TMAPI;
 
 namespace PS3Lib2.Capi;
 
 public sealed class CCAPI_Wrapper : Api_Wrapper
 {
-    private readonly ConsoleControlApi _consoleControllApi;
-
-    public ConsoleControlApi ConsoleControlApi => _consoleControllApi;
-
     private const int _ccapiSuccessCode = 0;
 
-    private readonly string _dllPath;
+    private readonly ConsoleControlApi _consoleControllApi;
+    public ConsoleControlApi ConsoleControlApi => _consoleControllApi;
 
-    public override bool IsConnected => ConsoleControlApi.IsConnected();
+    private readonly string _dllPath;
+    private static bool dllLoaded = false;
+    public override bool IsConnected => dllLoaded && ConsoleControlApi.IsConnected();
 
     private int consoleInfoId = 0; 
     public override IEnumerable<ConsoleInfo> ConsolesInfo
@@ -84,6 +82,8 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
 
         _consoleControllApi = new ConsoleControlApi(_dllPath);
+
+        dllLoaded = true;
     }
 
     public CCAPI_Wrapper(ConsoleControlApi api) : base()
@@ -252,6 +252,8 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             return;
 
         FreeLibrary(ccapiHandle);
+
+        dllLoaded = false;
     }
 }
 

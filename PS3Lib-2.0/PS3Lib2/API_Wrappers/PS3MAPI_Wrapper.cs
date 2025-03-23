@@ -26,7 +26,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     {
         get
         {
-             throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the ConsolesInfo.Get() call!");
+             throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the get_ConsolesInfo call!");
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
@@ -38,6 +37,10 @@ public sealed partial class ConnectDialog : Form
         this.CancelButton.DialogResult = DialogResult.Cancel;
 
         Utilities.SendMessage(consoleInfoListBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
+
+        var supportedMethods = _playstationApi.GetSupportedMethods();
+        if (!supportedMethods.Contains("get_ConsolesInfo"))
+            return;
 
         consoleInfoListBox.Items.Clear();
 
