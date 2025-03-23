@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using PS3Lib2;
 using PS3Lib2.Capi;
@@ -10,8 +9,6 @@ using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
 using PS3Lib2.Cheats;
 using PS3Lib2.Extentions;
-using System.Drawing.Drawing2D;
-using System.CodeDom;
 
 #nullable enable
 
@@ -87,7 +84,16 @@ public sealed partial class PlaystationApiDemoForm : Form
 
             var ConnectForm = new ConnectDialog(currentApi);
 
-            ConnectForm.ShowDialog();
+            if (ConnectForm.ShowDialog() is DialogResult.Cancel)
+                throw new Exception("Failed to connect!");
+
+            if (supportedMethods.Contains("RingBuzzer"))
+                currentApi.RingBuzzer();
+
+            if (supportedMethods.Contains("VshNotify"))
+                currentApi.VshNotify("Demo tool connected to playstation 3!");
+
+            MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
         });
 
     private void Attach_Button_Click(object _, EventArgs __) => 

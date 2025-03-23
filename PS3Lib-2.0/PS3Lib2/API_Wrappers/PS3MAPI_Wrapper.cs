@@ -1,11 +1,9 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using PS3ManagerAPI;
 
+using PS3Lib2;
 using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
@@ -23,47 +21,12 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     public override bool IsConnected => CurrentPS3ManagerApi.IsConnected;
 
+    [PlaystationApiMethodUnSupported()]
     public override IEnumerable<ConsoleInfo> ConsolesInfo
     {
         get
         {
-
-            //throw new NotImplementedException();
-            //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            //PS3MAPI.PS3MAPI_Client_Server.sServerIP().AddressList[0]
-
-            //IPEndPoint iPEndPoint = new IPEndPoint(Dns.GetHostByName().AddressList[0], Port);
-
-            //socket.Connect(iPEndPoint);
-
-            string broadcastAddress = "255.255.255.255";
-
-            UdpClient udpClient = new()
-            {
-                EnableBroadcast = true
-            };
-
-            try
-            {
-                IPEndPoint endPoint = new(IPAddress.Parse(broadcastAddress), Port);
-
-
-                udpClient.Connect(endPoint);
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-
-            finally
-            {
-                udpClient.Close();
-            }
-
-
-            return [];
+             throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the ConsolesInfo.Get() call!");
         }
     }
 

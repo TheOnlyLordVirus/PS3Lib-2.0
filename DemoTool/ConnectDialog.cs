@@ -15,40 +15,64 @@ public sealed partial class ConnectDialog : Form
 
     public ConnectDialog(IPlaystationApi api)
     {
-        InitializeComponent();
-        Utilities.SendMessage(ipAddressTextBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
         _playstationApi = api;
+
+        Internal_PrivateInitComponent();
+    }
+
+    // InitializeComponent with the close button and the consoleinfo.
+    private void Internal_PrivateInitComponent()
+    {
+        InitializeComponent();
+
+        closeButton = new Button()
+        {
+            Visible = true,
+            Enabled = true,
+            Size = new System.Drawing.Size(0, 0)
+        };
+
+        closeButton.Click += (object _, EventArgs _) => this.Close();
+
+        this.CancelButton = closeButton;
+        this.CancelButton.DialogResult = DialogResult.Cancel;
+
+        Utilities.SendMessage(consoleInfoListBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
+
+        consoleInfoListBox.Items.Clear();
+
+        consoleInfoListBox.DataSource =
+            _playstationApi
+                .ConsolesInfo
+                    .Select(x => new ConsoleListBoxItem()
+                    {
+                        ConsoleInfo = x
+                    }).ToList();
     }
 
     private void ConnectButton_Click(object ___, EventArgs __)
     {
-        try
-        {
-            if (!IPAddress.TryParse(ipAddressTextBox.Text, out _))
-                throw new Exception("Please enter a valid Ip!");
+        if (consoleInfoListBox.SelectedItems.Count < 0)
+            return;
 
-            if (!_playstationApi.Connect(ipAddressTextBox.Text))
-                throw new Exception("Failed to connect!");
+        if (consoleInfoListBox.SelectedItems[0] is not ConsoleListBoxItem consoleListBoxItem)
+            return;
 
-            IEnumerable<string> supportedMethods = 
-                _playstationApi
-                .GetSupportedMethods();
+        if (!IPAddress.TryParse(consoleListBoxItem.ConsoleInfo.ConsoleIp, out _))
+            throw new Exception("Please enter a valid Ip!");
 
-            if (supportedMethods.Contains("RingBuzzer"))
-                _playstationApi.RingBuzzer();
+        if (!_playstationApi.Connect(consoleListBoxItem.ConsoleInfo.ConsoleIp))
+            throw new Exception("Failed to connect!");
 
-            if (supportedMethods.Contains("VshNotify"))
-                _playstationApi.VshNotify("Demo tool connected to playstation 3!");
+        this.Close();
+    }
 
+    private void ConsoleInfoListBox_SelectedIndexChanged(object ___, EventArgs __)
+    {
+        if (consoleInfoListBox.SelectedIndex == -1)
+            return;
 
-            MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
-
-            this.Close();
-        }
-
-        catch (Exception Ex)
-        {
-            MessageBox.Show(Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        if (!connectButton.Enabled)
+            connectButton.Enabled = true;
     }
 }

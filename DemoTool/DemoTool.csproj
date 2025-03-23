@@ -69,6 +69,7 @@
     <Compile Include="ConnectDialog.Designer.cs">
       <DependentUpon>ConnectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsoleListBoxItem.cs" />
     <Compile Include="PlaystationApiDemoForm.cs">
       <SubType>Form</SubType>
     </Compile>
