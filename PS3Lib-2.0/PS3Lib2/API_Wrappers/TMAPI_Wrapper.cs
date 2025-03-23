@@ -8,6 +8,8 @@ using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using static PS3TMAPI;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace PS3Lib2.Tmapi;
 
@@ -16,6 +18,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     public Assembly LoadedAssembly { get; private set; }
 
     private const int _port = 1000;
+    private const string _ipPortRegex = @"([\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}):([\d]{1,5})";
 
     private const string _libName = "ps3tmapi_net.dll";
     private const string _LibPathX = @"C:\Program Files\SN Systems\PS3\bin\ps3tmapi_net.dll";
@@ -48,53 +51,34 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         {
             _consoleList.Clear();
 
-            if (!IsConnected)
-            {
-                return [];
-            }
-
             if (SUCCEEDED(GetNumTargets(out uint numTargets)) &&
                 numTargets is 0)
                 return [];
 
-            // This might not work.
-            object unknownUserObject = new ();
+            for (int curTarget =  0; curTarget < numTargets; ++curTarget)
+            {
 
-            SearchForTargets
-            (
-                "10.0.0.0", 
-                "10.255.255.255",
-                _searchTargetsCallback,
-                unknownUserObject,
-                _port
-            );
+                TargetInfo TargetInfo = new ();
+                TargetInfo.Flags = PS3TMAPI.TargetInfoFlag.TargetID;
+                TargetInfo.Target = curTarget;
 
-            SearchForTargets
-            (
-                "172.16.0.0",
-                "172.31.255.255",
-                _searchTargetsCallback,
-                unknownUserObject,
-                _port
-            );
+                if (!SUCCEEDED(GetTargetInfo(ref TargetInfo)))
+                    continue;
 
-            SearchForTargets
-            (
-                "192.168.0.0",
-                "192.168.255.255",
-                _searchTargetsCallback,
-                unknownUserObject,
-                _port
-            );
+                var match = Regex.Match(TargetInfo.Info, _ipPortRegex);
 
-            _consoleList
-                .ForEach(x => 
-                { 
-                    if (!SUCCEEDED(GetTargetFromName(x.ConsoleName, out int target)))
-                        throw new PlaystationApiObjectInstanceException($"Failed to get {x.ConsoleName}'s target Id!");
+                if (!match.Success)
+                    continue;
 
-                    x.LibId = (uint)target;
+                _consoleList.Add(new ()
+                {
+                    Id = (uint)TargetInfo.Target,
+                    Port = 1000,
+                    ConsoleIp = match.Value,
+                    ConsoleName = TargetInfo.Name,
+                    ConsoleDescription = TargetInfo.Info
                 });
+            }
 
             return _consoleList;
         }
@@ -252,7 +236,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
             );
 
         if (!SUCCEEDED(result))
-            throw new Exception(result.ToString());
+            throw new PlaystationApiObjectInstanceException(result.ToString());
     }
 
     public override byte[] ReadMemory(in uint address, in uint size) 

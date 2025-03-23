@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 namespace PS3Lib2.Extentions;

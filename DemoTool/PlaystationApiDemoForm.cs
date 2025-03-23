@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using PS3Lib2;
 using PS3Lib2.Capi;
@@ -9,6 +10,8 @@ using PS3Lib2.Tmapi;
 using PS3Lib2.PS3Mapi;
 using PS3Lib2.Cheats;
 using PS3Lib2.Extentions;
+using System.Drawing.Drawing2D;
+using System.CodeDom;
 
 #nullable enable
 
@@ -58,10 +61,15 @@ public sealed partial class PlaystationApiDemoForm : Form
     private void Internal_InitApi(IPlaystationApi newApi) =>
         Internal_DisplayExeceptions(() =>
         {
+            if (currentApi?.GetType() == newApi.GetType())
+                return;
+
             currentApi?.Dispose();
             currentApi = newApi;
 
             supportedMethods = currentApi.GetSupportedMethods();
+
+            var test = currentApi!.ConsolesInfo;
 
             // Init cheat with the new api instance.
             Internal_InitMinecraftCheats(currentApi);
@@ -126,7 +134,7 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     // I've had to do this alot. Believe me if you've got a bunch of cheats you don't want to manually enter all this shit in.
     // I hope this is easy to understand.
-    private void IGameCheat_Simple_Example_Button_Click(object sender, EventArgs e) =>
+    private void IGameCheat_Simple_Example_Button_Click(object _, EventArgs __) =>
         Internal_ValidateApiAction(() =>
         {
             IGameCheat minecraftGodModeExample = 

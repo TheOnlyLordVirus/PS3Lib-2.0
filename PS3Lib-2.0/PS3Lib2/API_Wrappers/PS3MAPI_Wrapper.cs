@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,8 +27,40 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     {
         get
         {
-            // TODO: Scan internal IP ranges for open PSMAPI Connection on this port!
 
+            //throw new NotImplementedException();
+            //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            //PS3MAPI.PS3MAPI_Client_Server.sServerIP().AddressList[0]
+
+            //IPEndPoint iPEndPoint = new IPEndPoint(Dns.GetHostByName().AddressList[0], Port);
+
+            //socket.Connect(iPEndPoint);
+
+            string broadcastAddress = "255.255.255.255";
+
+            UdpClient udpClient = new()
+            {
+                EnableBroadcast = true
+            };
+
+            try
+            {
+                IPEndPoint endPoint = new(IPAddress.Parse(broadcastAddress), Port);
+
+
+                udpClient.Connect(endPoint);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            finally
+            {
+                udpClient.Close();
+            }
 
 
             return [];

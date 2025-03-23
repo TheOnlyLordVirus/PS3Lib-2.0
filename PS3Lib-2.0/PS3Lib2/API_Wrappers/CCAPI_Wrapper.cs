@@ -10,6 +10,7 @@ using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
+using static PS3TMAPI;
 
 namespace PS3Lib2.Capi;
 
@@ -25,16 +26,34 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     public override bool IsConnected => ConsoleControlApi.IsConnected();
 
-    public override IEnumerable<ConsoleInfo> ConsolesInfo =>
-        ConsoleControlApi
-            .GetConsoleList()
-                .Select(p => new ConsoleInfo()
-                {
-                    LibId = null,
-                    Port = null,
-                    ConsoleIp = p.ip,
-                    ConsoleName = p.name
-                });
+    private int consoleInfoId = 0; 
+    public override IEnumerable<ConsoleInfo> ConsolesInfo
+    {
+        get
+        {
+            consoleInfoId = 0;
+
+            ConsoleControlApi.ConsoleType type = new();
+
+            return ConsoleControlApi
+                .GetConsoleList()
+                    .Select(c => new ConsoleInfo()
+                    {
+                        Id = (uint)consoleInfoId++,
+                        Port = null,
+                        ConsoleIp = c.ip,
+                        ConsoleName = c.name,
+                        ConsoleDescription = Internal_GetConsoleType(ref consoleInfoId, ref type)
+                    });
+        }
+    }
+
+    private string Internal_GetConsoleType(ref int id, ref ConsoleControlApi.ConsoleType typeRef)
+    {
+        ConsoleControlApi.GetFirmwareInfo(ref id, ref id, ref typeRef);
+
+        return typeRef.ToString();
+    }
 
     public override IEnumerable<ProcessInfo> ProcessesInfo =>
         ConsoleControlApi

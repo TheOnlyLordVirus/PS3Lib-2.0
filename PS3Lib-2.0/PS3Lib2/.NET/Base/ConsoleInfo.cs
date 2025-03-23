@@ -2,11 +2,13 @@
 
 public struct ConsoleInfo
 {
-    public uint? LibId;
+    public uint Id;
 
     public uint? Port;
 
     public string ConsoleIp;
     
     public string ConsoleName;
+
+    public string ConsoleDescription;
 }
