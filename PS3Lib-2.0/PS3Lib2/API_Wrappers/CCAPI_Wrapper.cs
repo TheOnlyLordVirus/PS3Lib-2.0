@@ -21,8 +21,8 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
     public ConsoleControlApi ConsoleControlApi => _consoleControllApi;
 
     private readonly string _dllPath;
-    private static bool dllLoaded = false;
-    public override bool IsConnected => dllLoaded && ConsoleControlApi.IsConnected();
+    public bool IsLibraryLoaded => GetModuleHandle("CCAPI.dll") != IntPtr.Zero;
+    public override bool IsConnected => IsLibraryLoaded && ConsoleControlApi.IsConnected();
 
     private int consoleInfoId = 0; 
     public override IEnumerable<ConsoleInfo> ConsolesInfo
@@ -82,8 +82,6 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             throw new PlaystationApiObjectInstanceException("You need to install CCAPI 2.60+ to use this library. CCAPI.dll was not found!");
 
         _consoleControllApi = new ConsoleControlApi(_dllPath);
-
-        dllLoaded = true;
     }
 
     public CCAPI_Wrapper(ConsoleControlApi api) : base()
@@ -252,8 +250,6 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
             return;
 
         FreeLibrary(ccapiHandle);
-
-        dllLoaded = false;
     }
 }
 
