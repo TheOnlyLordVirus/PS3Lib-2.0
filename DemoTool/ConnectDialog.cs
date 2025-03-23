@@ -34,7 +34,7 @@ public sealed partial class ConnectDialog : Form
         {
             Visible = true,
             Enabled = true,
-            Size = new System.Drawing.Size(0, 0)
+            Size = new Size(0, 0)
         };
 
         // Define a close button for the esc key

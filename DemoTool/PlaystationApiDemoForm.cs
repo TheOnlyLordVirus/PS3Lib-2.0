@@ -62,7 +62,6 @@ public sealed partial class PlaystationApiDemoForm : Form
                 return;
 
             currentApi?.Dispose();
-            currentApi = null;
             currentApi = newApi;
 
             supportedMethods = currentApi.GetSupportedMethods();

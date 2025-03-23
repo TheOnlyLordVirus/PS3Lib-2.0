@@ -126,7 +126,7 @@ public sealed partial class PlaystationApiDemoForm
             // 
             this.IGameCheat_Simple_Example_Button.Location = new System.Drawing.Point(56, 274);
             this.IGameCheat_Simple_Example_Button.Name = "IGameCheat_Simple_Example_Button";
-            this.IGameCheat_Simple_Example_Button.Size = new System.Drawing.Size(150, 72);
+            this.IGameCheat_Simple_Example_Button.Size = new System.Drawing.Size(318, 72);
             this.IGameCheat_Simple_Example_Button.TabIndex = 8;
             this.IGameCheat_Simple_Example_Button.Text = "IGameCheat Example";
             this.IGameCheat_Simple_Example_Button.UseVisualStyleBackColor = true;
