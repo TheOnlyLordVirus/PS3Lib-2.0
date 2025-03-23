@@ -2,7 +2,7 @@
 
 namespace PS3Lib2;
 
-[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Method)]
 internal sealed class PlaystationApiMethodUnSupported : Attribute
 {
     public PlaystationApiMethodUnSupported() { }

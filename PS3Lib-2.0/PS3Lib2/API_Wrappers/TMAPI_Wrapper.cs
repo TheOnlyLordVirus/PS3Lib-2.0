@@ -29,7 +29,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         SUCCEEDED(GetConnectStatus(CurrentTarget, out ConnectStatus status, out _)) &&
             status is ConnectStatus.Connected;
 
-    public uint CurrentProcessId { get; private set; } = 0;
+    private uint CurrentProcessId { get; set; } = 0;
     public int CurrentTarget { get; set; } = -1;
 
     private readonly static List<ConsoleInfo> _consoleList = [];

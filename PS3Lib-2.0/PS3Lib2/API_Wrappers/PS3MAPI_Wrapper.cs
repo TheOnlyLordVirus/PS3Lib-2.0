@@ -3,7 +3,6 @@ using System.Linq;
 
 using PS3ManagerAPI;
 
-using PS3Lib2;
 using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
@@ -12,23 +11,21 @@ namespace PS3Lib2.PS3Mapi;
 public sealed class PS3MAPI_Wrapper : Api_Wrapper
 {
     private readonly PS3MAPI _currentPS3ManagerApi;
-
     public PS3MAPI CurrentPS3ManagerApi => _currentPS3ManagerApi;
 
-    public int Port { get; set; } = 7887;
-
-    public uint CurrentProcessId { get; private set; } = 0;
-
     public override bool IsConnected => CurrentPS3ManagerApi.IsConnected;
-
-    [PlaystationApiMethodUnSupported()]
+    public int Port { get; set; } = 7887;
+    
     public override IEnumerable<ConsoleInfo> ConsolesInfo
     {
+        [PlaystationApiMethodUnSupported()]
         get
         {
              throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the get_ConsolesInfo call!");
         }
     }
+
+    private uint CurrentProcessId { get; set; } = 0;
 
     public override IEnumerable<ProcessInfo> ProcessesInfo =>
         CurrentPS3ManagerApi
@@ -148,6 +145,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     public override void WriteMemoryString(in uint address, in string s)
         => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");
 
-
     #endregion
+
+    public override string ToString() => "PS3MAPI";
 }

@@ -81,15 +81,15 @@ public sealed partial class PlaystationApiDemoForm : Form
             if (currentApi is null)
                 throw new Exception("No API is selected. (currentApi is null)");
 
-            var ConnectForm = new ConnectDialog(currentApi);
+            var connectDialog = new ConnectDialog(currentApi);
 
-            if (ConnectForm.ShowDialog() is DialogResult.Cancel)
+            if (connectDialog.ShowDialog() is DialogResult.Cancel)
             {
-                ConnectForm?.Dispose();
+                connectDialog?.Dispose();
                 throw new Exception("Failed to connect!");
             }
-                
-            ConnectForm?.Dispose();
+
+            connectDialog?.Dispose();
 
             if (supportedMethods.Contains("RingBuzzer"))
                 currentApi.RingBuzzer();

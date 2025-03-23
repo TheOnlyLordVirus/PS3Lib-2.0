@@ -251,6 +251,8 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
         FreeLibrary(ccapiHandle);
     }
+
+    public override string ToString() => "CCAPI";
 }
 
 
