@@ -7,8 +7,6 @@ Currently Working.
 
 TODO:
 Enums for console actions "VSH Alert, Powermode, RingBuzzer"
-Issue with ApiMethodSupportedAttribute
-Read IDPS / PSID
 
 Other Methods for IPlaystationApi:
 ReadString
