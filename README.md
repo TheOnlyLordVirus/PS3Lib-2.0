@@ -6,10 +6,19 @@ This project aims to re-write PS3Lib (And its base functionality) from scratch, 
 Currently Working.
 
 TODO:
-Enums for console actions "VSH Alert, Powermode, RingBuzzer"
+
+Enums for console actions (VSH Alert, Powermode, RingBuzzer")
+
+PS3MAPI Socket Broadcast for open webman servers, setup response callbacks, ect.
+
+Endianess testing to match or even toggle endianess if needed.
 
 Other Methods for IPlaystationApi:
+
 ReadString
+
 WriteString
+
 TryPatternScan
+
 Events?
