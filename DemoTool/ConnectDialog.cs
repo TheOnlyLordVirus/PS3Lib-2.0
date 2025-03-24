@@ -27,7 +27,6 @@ public sealed partial class ConnectDialog : Form
         InitializeComponent();
 
         // Placeholder text in form elements.
-        Utilities.SendMessage(consoleInfoListBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
         Utilities.SendMessage(ipAddressTextBox.Handle, Utilities.EM_SETCUEBANNER, 0, "Playstation Ip Address...");
 
         closeButton = new Button()

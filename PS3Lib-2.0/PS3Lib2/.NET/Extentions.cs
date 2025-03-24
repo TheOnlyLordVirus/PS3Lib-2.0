@@ -25,4 +25,23 @@ public static class Extentions
 
         return supportedMethods;
     }
+
+    public static IEnumerable<string> GetUnSupportedMethods(this IPlaystationApi playstationApi)
+    {
+        IEnumerable<string> unsupportedMethods;
+
+        try
+        {
+            var wrapper = playstationApi as Api_Wrapper;
+
+            unsupportedMethods = wrapper.UnsupportedMethods;
+        }
+
+        catch (PlaystationApiObjectInstanceException Ex)
+        {
+            throw new PlaystationApiObjectInstanceException(Ex.Message);
+        }
+
+        return unsupportedMethods;
+    }
 }

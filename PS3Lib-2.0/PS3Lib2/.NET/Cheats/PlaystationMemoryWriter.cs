@@ -7,7 +7,7 @@ namespace PS3Lib2.Cheats;
 
 public sealed class PlaystationMemoryWriter : IGameCheat
 {
-    private Guid id = Guid.NewGuid();
+    private readonly Guid id = Guid.NewGuid();
     public Guid Id => id;
 
     private readonly IPlaystationApi _playstationConsole;

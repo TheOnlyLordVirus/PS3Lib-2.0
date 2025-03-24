@@ -4,7 +4,7 @@ namespace PS3Lib2.Cheats;
 
 public sealed class CheatActionHandler : IGameCheat
 {
-    private Guid id = Guid.NewGuid();
+    private readonly Guid id = Guid.NewGuid();
     public Guid Id => id;
 
     private bool isEnabled = false;

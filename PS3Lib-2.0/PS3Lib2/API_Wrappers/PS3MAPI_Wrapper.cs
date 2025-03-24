@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 using PS3ManagerAPI;
 
@@ -10,6 +10,8 @@ namespace PS3Lib2.PS3Mapi;
 
 public sealed class PS3MAPI_Wrapper : Api_Wrapper
 {
+    private const string _toString = "PS3MAPI";
+
     private readonly PS3MAPI _currentPS3ManagerApi;
     public PS3MAPI CurrentPS3ManagerApi => _currentPS3ManagerApi;
 
@@ -147,5 +149,5 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
 
     #endregion
 
-    public override string ToString() => "PS3MAPI";
+    public override string ToString() => _toString;
 }

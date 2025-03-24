@@ -14,6 +14,8 @@ namespace PS3Lib2.Tmapi;
 
 public sealed class TMAPI_Wrapper : Api_Wrapper
 {
+    private const string _toString = "TMAPI";
+
     public Assembly LoadedAssembly { get; private set; }
 
     private const int _port = 1000;
@@ -290,5 +292,5 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
         FreeLibrary(tmapiHandle);
     }
 
-    public override string ToString() => "TMAPI";
+    public override string ToString() => _toString;
 }

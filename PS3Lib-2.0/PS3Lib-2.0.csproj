@@ -39,6 +39,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PS3Lib2\.NET\Base\BuzzerMode.cs" />
     <Compile Include="PS3Lib2\.NET\Base\ConsoleInfo.cs" />
     <Compile Include="PS3Lib2\.NET\Base\ProcessInfo.cs" />
     <Compile Include="PS3Lib2\.NET\Cheats\CheatActionHandler.cs" />

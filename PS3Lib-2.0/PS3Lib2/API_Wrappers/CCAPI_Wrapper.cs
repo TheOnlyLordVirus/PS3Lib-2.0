@@ -15,6 +15,8 @@ namespace PS3Lib2.Capi;
 
 public sealed class CCAPI_Wrapper : Api_Wrapper
 {
+    private const string _toString = "CCAPI";
+
     private const int _ccapiSuccessCode = 0;
 
     private readonly ConsoleControlApi _consoleControllApi;
@@ -252,7 +254,7 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
         FreeLibrary(ccapiHandle);
     }
 
-    public override string ToString() => "CCAPI";
+    public override string ToString() => _toString;
 }
 
 
