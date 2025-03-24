@@ -12,3 +12,4 @@ Other Methods for IPlaystationApi:
 ReadString
 WriteString
 TryPatternScan
+Events?
