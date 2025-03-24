@@ -3,7 +3,7 @@ https://github.com/iMCSx/PS3Lib
 
 This project aims to re-write PS3Lib (And its base functionality) from scratch, and to interface all of the base librarys.
 
-Currently Working.
+```This Poject is: Currently Working.```
 
 ```
 TODO:
