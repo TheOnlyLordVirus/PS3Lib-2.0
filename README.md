@@ -10,7 +10,7 @@ TODO:
 
 Enums for console actions (VSH Alert, Powermode, RingBuzzer")
 
-PS3MAPI Socket Broadcast for open webman servers, setup response callbacks, ect.
+PS3MAPI Socket Broadcast for open webman servers (Get consoles on local ip), setup response callbacks, ect.
 
 Endianess testing to match or even toggle endianess if needed.
 
