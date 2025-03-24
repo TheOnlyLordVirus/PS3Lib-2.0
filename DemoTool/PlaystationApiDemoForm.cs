@@ -99,8 +99,8 @@ public sealed partial class PlaystationApiDemoForm : Form
             MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
         });
 
-    private void Attach_Button_Click(object _, EventArgs __) => 
-        Internal_DisplayExeceptions(() =>
+    private void Attach_Button_Click(object _, EventArgs __) =>
+        Internal_ValidateApiAction(() =>
         {
             if (!currentApi!.AttachGameProcess())
                 throw new Exception("Failed to AttachGameProcess!");

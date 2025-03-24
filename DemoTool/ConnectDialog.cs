@@ -41,6 +41,7 @@ public sealed partial class ConnectDialog : Form
         closeButton.Click += (object _, EventArgs _) => this.Close();
         this.CancelButton = closeButton;
         this.CancelButton.DialogResult = DialogResult.Cancel;
+        this.Text = $"{_playstationApi} Connect";
 
         var supportedMethods = _playstationApi.GetSupportedMethods();
         if (!supportedMethods.Contains("get_ConsolesInfo"))

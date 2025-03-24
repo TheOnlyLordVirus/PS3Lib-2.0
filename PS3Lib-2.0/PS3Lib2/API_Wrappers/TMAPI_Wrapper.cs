@@ -289,4 +289,6 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
 
         FreeLibrary(tmapiHandle);
     }
+
+    public override string ToString() => "TMAPI";
 }
