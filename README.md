@@ -5,6 +5,7 @@ This project aims to re-write PS3Lib (And its base functionality) from scratch, 
 
 Currently Working.
 
+```
 TODO:
 
 Enums for console actions (VSH Alert, Powermode, RingBuzzer")
@@ -22,3 +23,4 @@ WriteString
 TryPatternScan
 
 Events?
+```
