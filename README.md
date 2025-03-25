@@ -20,7 +20,7 @@ WriteString
 
 TryPatternScan
 
-Events?
+Events
 ```
 
 ![image](https://github.com/user-attachments/assets/314f807e-28a7-4c8c-a6e1-7be9a566ff90)
