@@ -76,7 +76,25 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         return true;
     }
 
-    public override void RingBuzzer() => CurrentPS3ManagerApi.PS3.RingBuzzer(PS3MAPI.PS3_CMD.BuzzerMode.Single);
+    private PS3MAPI.PS3_CMD.BuzzerMode Internal_GetBuzzerMode(BuzzerMode buzzerMode)
+    {
+        switch (buzzerMode)
+        {
+            case BuzzerMode.Single:
+                return PS3MAPI.PS3_CMD.BuzzerMode.Single;
+
+            case BuzzerMode.Double:
+                return PS3MAPI.PS3_CMD.BuzzerMode.Double;
+
+            case BuzzerMode.Triple:
+                return PS3MAPI.PS3_CMD.BuzzerMode.Triple;
+
+            default:
+                return PS3MAPI.PS3_CMD.BuzzerMode.Single;
+        }
+    }
+
+    public override void RingBuzzer(BuzzerMode buzzerMode) => CurrentPS3ManagerApi.PS3.RingBuzzer(Internal_GetBuzzerMode(buzzerMode));
 
     public override void VshNotify(in string msg) => CurrentPS3ManagerApi.PS3.Notify(msg);
 

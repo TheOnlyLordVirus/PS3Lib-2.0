@@ -91,7 +91,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             connectDialog?.Dispose();
 
             if (supportedMethods.Contains("RingBuzzer"))
-                currentApi.RingBuzzer();
+                currentApi.RingBuzzer(BuzzerMode.Double);
 
             if (supportedMethods.Contains("VshNotify"))
                 currentApi.VshNotify("Demo tool connected to playstation 3!");
@@ -189,7 +189,7 @@ public sealed partial class PlaystationApiDemoForm : Form
         {
             if (supportedMethods.Contains("RingBuzzer"))
                 currentApi!
-                    .RingBuzzer();
+                    .RingBuzzer(BuzzerMode.Single);
 
             if (supportedMethods.Contains("VshNotify"))
                 currentApi!

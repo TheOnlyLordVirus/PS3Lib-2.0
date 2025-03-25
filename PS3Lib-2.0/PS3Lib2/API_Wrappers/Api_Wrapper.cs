@@ -41,7 +41,7 @@ public abstract class Api_Wrapper : IPlaystationApi
 
     public abstract bool Connect(in string _);
     public abstract bool Disconnect();
-    public abstract void RingBuzzer();
+    public abstract void RingBuzzer(BuzzerMode _);
     public abstract void VshNotify(in string _);
     public abstract void SetIdps(in string _);
     public abstract void SetPsid(in string _);

@@ -17,7 +17,7 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
 
     public void ShutDown();
 
-    public void RingBuzzer();
+    public void RingBuzzer(BuzzerMode buzzerMode);
 
     public void VshNotify(in string message);
 

@@ -10,6 +10,8 @@ using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
+using PS3ManagerAPI;
+using static PS3ManagerAPI.PS3MAPI.PS3_CMD;
 
 namespace PS3Lib2.Capi;
 
@@ -100,10 +102,27 @@ public sealed class CCAPI_Wrapper : Api_Wrapper
 
     public override bool Disconnect() => ConsoleControlApi.Disconnect() is _ccapiSuccessCode;
 
-    // TODO: Create standard Enums for the wrappers / interfaces (Buzzer, Shutdown, restart, led color, ect, ect.) 
-    public override void RingBuzzer() { ConsoleControlApi.RingBuzzer(ConsoleControlApi.BuzzerType.Single); }
+    private CCAPI.BuzzerType Internal_GetBuzzerMode(BuzzerMode buzzerMode)
+    {
+        switch (buzzerMode)
+        {
+            case BuzzerMode.Single:
+                return CCAPI.BuzzerType.Single;
 
-    public override void VshNotify(in string message/*Notify icon type enum here too.*/) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
+            case BuzzerMode.Double:
+                return CCAPI.BuzzerType.Double;
+
+            case BuzzerMode.Triple:
+                return CCAPI.BuzzerType.Triple;
+
+            default:
+                return CCAPI.BuzzerType.Single;
+        }
+    }
+
+    public override void RingBuzzer(BuzzerMode buzzerMode) { ConsoleControlApi.RingBuzzer(Internal_GetBuzzerMode(buzzerMode)); }
+
+    public override void VshNotify(in string message) { ConsoleControlApi.VshNotify(ConsoleControlApi.NotifyIcon.Info, message); }
 
     public override void SetIdps(in string consoleId) { ConsoleControlApi.SetBootConsoleIds(ConsoleControlApi.ConsoleIdType.Idps, consoleId); }
 
