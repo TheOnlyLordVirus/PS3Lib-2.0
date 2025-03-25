@@ -10,8 +10,6 @@ using PS3Lib2.Base;
 using PS3Lib2.Exceptions;
 
 using ConsoleControlApi = CCAPI;
-using PS3ManagerAPI;
-using static PS3ManagerAPI.PS3MAPI.PS3_CMD;
 
 namespace PS3Lib2.Capi;
 
