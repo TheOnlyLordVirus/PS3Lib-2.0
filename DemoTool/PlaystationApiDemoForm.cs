@@ -70,7 +70,7 @@ public sealed partial class PlaystationApiDemoForm : Form
             Internal_InitMinecraftCheats(currentApi);
         });
 
-    private void ApiCheckExample_Click(object sender, EventArgs e) =>
+    private void ApiCheckExample_Click(object _, EventArgs __) =>
         Internal_ValidateApiAction(() =>
         {
             // Access apis directly 
