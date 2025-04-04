@@ -3,12 +3,8 @@ https://github.com/iMCSx/PS3Lib
 
 This project aims to re-write PS3Lib (And its base functionality) from scratch, and to interface all of the base librarys.
 
-```This Project is: Currently Working.```
-
 ```
 TODO:
-
-Enums for console actions (VSH Alert, Powermode, RingBuzzer)
 
 PS3MAPI Socket Broadcast for open webman servers (Get consoles on local ip), setup response callbacks, ect.
 
@@ -22,7 +18,7 @@ WriteString
 
 TryPatternScan
 
-Events?
+Events
 ```
 
 ![image](https://github.com/user-attachments/assets/314f807e-28a7-4c8c-a6e1-7be9a566ff90)
