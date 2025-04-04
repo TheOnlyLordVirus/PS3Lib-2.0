@@ -30,8 +30,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     private uint CurrentProcessId { get; set; } = 0;
 
     public override IEnumerable<ProcessInfo> ProcessesInfo =>
-        Api
-            .Process.GetPidProcesses()
+        Api.Process.GetPidProcesses()
                 .Select
                 (
                     p => new ProcessInfo()
