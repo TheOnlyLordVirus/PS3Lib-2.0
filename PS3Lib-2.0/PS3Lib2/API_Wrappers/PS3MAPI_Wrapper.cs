@@ -76,7 +76,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         return true;
     }
 
-    private PS3MAPI.PS3_CMD.BuzzerMode Internal_GetBuzzerMode(BuzzerMode buzzerMode)
+    private PS3MAPI.PS3_CMD.BuzzerMode Internal_GetBuzzerMode(in BuzzerMode buzzerMode)
     {
         switch (buzzerMode)
         {

@@ -171,7 +171,7 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     public override bool Disconnect() => SUCCEEDED(PS3TMAPI.Disconnect(CurrentTarget));
 
     [PlaystationApiMethodUnSupported()]
-    public override void RingBuzzer(BuzzerMode _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
+    public override void RingBuzzer(in BuzzerMode _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the RingBuzzer() call!");
 
     [PlaystationApiMethodUnSupported()]
     public override void VshNotify(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the VshNotify() call!");
@@ -183,10 +183,10 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     public override void SetPsid(in string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
 
     [PlaystationApiMethodUnSupported()]
-    public override void GetIdps(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
+    public override void GetIdps(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetIdps() call!");
 
     [PlaystationApiMethodUnSupported()]
-    public override void GetPsid(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the SetPsid() call!");
+    public override void GetPsid(out string _) => throw new PlaystationApiMethodUnSupportedException("TargetManagerApi does not support the GetPsid() call!");
 
     public override void ShutDown() => PowerOff(CurrentTarget, true);
 
