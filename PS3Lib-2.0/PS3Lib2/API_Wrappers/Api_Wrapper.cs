@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Net;
 
 namespace PS3Lib2.Base;
 
@@ -53,7 +55,13 @@ public abstract class Api_Wrapper : IPlaystationApi
     public abstract bool AttachProccess(in uint _);
 
     public abstract void ReadMemory(in uint _, in uint __, out byte[] ___);
-    public abstract byte[] ReadMemory(in uint _, in uint __);
+
+    public virtual byte[] ReadMemory(in uint address, in uint size)
+    {
+        byte[] returnMe;
+        ReadMemory(address, size, out returnMe);
+        return returnMe;
+    }
 
     public virtual void ReadMemoryI8(in uint address, out sbyte ret)
     {

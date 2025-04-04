@@ -238,13 +238,6 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
             throw new PlaystationApiObjectInstanceException(result.ToString());
     }
 
-    public override byte[] ReadMemory(in uint address, in uint size) 
-    { 
-        byte[] returnMe; 
-        ReadMemory(address, size, out returnMe); 
-        return returnMe; 
-    }
-
     [PlaystationApiMethodUnSupported()]
     public override string ReadMemoryString(in uint address)
         => throw new PlaystationApiMethodUnSupportedException("The MemoryString methods have not been added yet.");

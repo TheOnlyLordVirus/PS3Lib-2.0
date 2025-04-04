@@ -94,7 +94,7 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
         }
     }
 
-    public override void RingBuzzer(BuzzerMode buzzerMode) => CurrentPS3ManagerApi.PS3.RingBuzzer(Internal_GetBuzzerMode(buzzerMode));
+    public override void RingBuzzer(in BuzzerMode buzzerMode) => CurrentPS3ManagerApi.PS3.RingBuzzer(Internal_GetBuzzerMode(buzzerMode));
 
     public override void VshNotify(in string msg) => CurrentPS3ManagerApi.PS3.Notify(msg);
 
@@ -132,13 +132,6 @@ public sealed class PS3MAPI_Wrapper : Api_Wrapper
     {
         bytes = new byte[size];
         CurrentPS3ManagerApi.Process.Memory.Get(CurrentProcessId, address, bytes);
-    }
-
-    public override byte[] ReadMemory(in uint address, in uint size)
-    {
-        byte[] bytes = new byte[size];
-        ReadMemory(address, size, out bytes);
-        return bytes;
     }
 
     [PlaystationApiMethodUnSupported()]
