@@ -97,6 +97,19 @@ public sealed partial class PlaystationApiDemoForm : Form
                 currentApi.VshNotify("Demo tool connected to playstation 3!");
 
             MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
+
+
+
+
+
+            if (currentApi is TMAPI_Wrapper _wrapper)
+            {
+
+            }
+
+
+
+
         });
 
     private void Attach_Button_Click(object _, EventArgs __) =>

@@ -27,8 +27,6 @@ public sealed class TMAPI_Wrapper : Api_Wrapper
     private const string _LibPathX86 = @"C:\Program Files (x86)\SN Systems\PS3\bin\ps3tmapi_net.dll";
     private readonly string[] _LibLocations;
 
-    public static PS3TMAPI Api;
-
     public override bool IsConnected =>
         SUCCEEDED(GetConnectStatus(CurrentTarget, out ConnectStatus status, out _)) &&
             status is ConnectStatus.Connected;
