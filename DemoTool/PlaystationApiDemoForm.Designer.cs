@@ -37,6 +37,7 @@ public sealed partial class PlaystationApiDemoForm
             this.ps3mapiRadioButton = new System.Windows.Forms.RadioButton();
             this.cheatButtonFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.IGameCheat_Simple_Example_Button = new System.Windows.Forms.Button();
+            this.apiCheckExample = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // connect_button
@@ -126,17 +127,28 @@ public sealed partial class PlaystationApiDemoForm
             // 
             this.IGameCheat_Simple_Example_Button.Location = new System.Drawing.Point(56, 274);
             this.IGameCheat_Simple_Example_Button.Name = "IGameCheat_Simple_Example_Button";
-            this.IGameCheat_Simple_Example_Button.Size = new System.Drawing.Size(318, 72);
+            this.IGameCheat_Simple_Example_Button.Size = new System.Drawing.Size(150, 72);
             this.IGameCheat_Simple_Example_Button.TabIndex = 8;
             this.IGameCheat_Simple_Example_Button.Text = "IGameCheat Example";
             this.IGameCheat_Simple_Example_Button.UseVisualStyleBackColor = true;
             this.IGameCheat_Simple_Example_Button.Click += new System.EventHandler(this.IGameCheat_Simple_Example_Button_Click);
+            // 
+            // apiCheckExample
+            // 
+            this.apiCheckExample.Location = new System.Drawing.Point(224, 274);
+            this.apiCheckExample.Name = "apiCheckExample";
+            this.apiCheckExample.Size = new System.Drawing.Size(150, 72);
+            this.apiCheckExample.TabIndex = 9;
+            this.apiCheckExample.Text = "Api Check Example";
+            this.apiCheckExample.UseVisualStyleBackColor = true;
+            this.apiCheckExample.Click += new System.EventHandler(this.ApiCheckExample_Click);
             // 
             // PlaystationApiDemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(896, 371);
+            this.Controls.Add(this.apiCheckExample);
             this.Controls.Add(this.IGameCheat_Simple_Example_Button);
             this.Controls.Add(this.cheatButtonFlowLayout);
             this.Controls.Add(this.ps3mapiRadioButton);
@@ -164,5 +176,6 @@ public sealed partial class PlaystationApiDemoForm
     private System.Windows.Forms.RadioButton ps3mapiRadioButton;
     private System.Windows.Forms.FlowLayoutPanel cheatButtonFlowLayout;
     private System.Windows.Forms.Button IGameCheat_Simple_Example_Button;
+    private System.Windows.Forms.Button apiCheckExample;
 }
 

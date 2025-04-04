@@ -70,6 +70,27 @@ public sealed partial class PlaystationApiDemoForm : Form
             Internal_InitMinecraftCheats(currentApi);
         });
 
+    private void ApiCheckExample_Click(object sender, EventArgs e) =>
+        Internal_ValidateApiAction(() =>
+        {
+            // Access apis directly 
+            if (currentApi is CCAPI_Wrapper ccapiWrapper)
+            {
+                ccapiWrapper.Api.SetConsoleLed(CCAPI.ColorLed.Red, CCAPI.StatusLed.Blink);
+            }
+
+            else if (currentApi is PS3MAPI_Wrapper mapiWrapper)
+            {
+                mapiWrapper.Api.PS3.Led(PS3ManagerAPI.PS3MAPI.PS3_CMD.LedColor.Red, PS3ManagerAPI.PS3MAPI.PS3_CMD.LedMode.BlinkSlow);
+            }
+
+            else if (currentApi is TMAPI_Wrapper _)
+            {
+                PS3TMAPI.GetAPIVersion(out var apiVersion);
+                Console.WriteLine($"TMAPI Version: {apiVersion}");
+            }
+        });
+
     #endregion
 
     #region Connect and Attach
@@ -97,7 +118,6 @@ public sealed partial class PlaystationApiDemoForm : Form
                 currentApi.VshNotify("Demo tool connected to playstation 3!");
 
             MessageBox.Show("Demo Tool has successfully connected to your playstation 3!");
-
         });
 
     private void Attach_Button_Click(object _, EventArgs __) =>
