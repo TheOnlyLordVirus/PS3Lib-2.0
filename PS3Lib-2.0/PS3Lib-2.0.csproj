@@ -40,6 +40,39 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API_Sources\.NET\XDRPC\ArgumentType.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\CountType.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\IXDRPCArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\MarshalingUtils.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\RPCEventHandler.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCArrayArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCExecutionOptions.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCExecutionState.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCFunctionNotFoundException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvalidArgumentTypeException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvalidOperationException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvalidResponseException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvalidReturnTypeException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvalidTypeException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCInvocationFailedException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCMarshaler.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCMode.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCModuleNotFoundException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCNotSupportedException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCNullArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCPlusPlus\XDRPCPlusPlus.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCPostMethodCall.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCReference.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCReferenceMonitor.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCSizeOfArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCStringArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCStructArgumentInfo.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCStructAttribute.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCTimeoutException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCTooManyArgumentsException.cs" />
+    <Compile Include="API_Sources\.NET\XDRPC\XDRPCUnionAttribute.cs" />
     <Compile Include="PS3Lib2\.NET\Base\BuzzerMode.cs" />
     <Compile Include="PS3Lib2\.NET\Base\ConsoleInfo.cs" />
     <Compile Include="PS3Lib2\.NET\Base\IWindowsMemoryApi.cs" />
