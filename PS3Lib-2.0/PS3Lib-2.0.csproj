@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="PS3Lib2\.NET\Base\BuzzerMode.cs" />
     <Compile Include="PS3Lib2\.NET\Base\ConsoleInfo.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\IWindowsMemoryApi.cs" />
+    <Compile Include="PS3Lib2\.NET\Base\IXboxApi.cs" />
     <Compile Include="PS3Lib2\.NET\Base\ProcessInfo.cs" />
     <Compile Include="PS3Lib2\.NET\Cheats\CheatActionHandler.cs" />
     <Compile Include="PS3Lib2\.NET\Cheats\GameCheatGroup.cs" />
