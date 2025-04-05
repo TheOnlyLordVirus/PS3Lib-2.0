@@ -13,6 +13,8 @@ public interface IPlaystationApi : IMemoryApi, IDisposable
 
     public bool Connect(in string ip);
 
+    public bool AttachGameProcess();
+
     public bool Disconnect();
 
     public void ShutDown();

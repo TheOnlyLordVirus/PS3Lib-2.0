@@ -4,8 +4,6 @@
 
 public interface IMemoryApi
 {
-    public bool AttachGameProcess();
-
     public bool AttachProccess(in uint proccessId);
 
     // TODO: Refactor for TryReads / TryWrites
