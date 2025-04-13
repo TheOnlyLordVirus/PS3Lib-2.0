@@ -277,7 +277,7 @@ public sealed partial class PlaystationApiDemoForm : Form
                 Height = 40,
                 Text = minecraftCheatNames[cheat.Id]
             };
-;
+
             cheatButton.Click +=
                 (s, e) => Internal_ValidateApiAction
                     (
