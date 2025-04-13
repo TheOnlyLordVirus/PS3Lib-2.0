@@ -216,10 +216,7 @@ public sealed partial class PlaystationApiDemoForm : Form
 
             if (supportedMethods.Contains("VshNotify"))
                 currentApi!
-                .VshNotify
-                (
-                    cheatToggleString
-                );
+                    .VshNotify(cheatToggleString);
         });
     }
 
