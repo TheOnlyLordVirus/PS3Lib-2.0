@@ -198,9 +198,11 @@ public sealed partial class PlaystationApiDemoForm : Form
 
     private void Internal_HandleActivationNotification(string message, bool enabled)
     {
+        string cheatToggleString = Internal_GetCheatString(message, enabled);
+
         MessageBox.Show
             (
-                Internal_GetCheatString(message, enabled),
+                cheatToggleString,
                 Internal_GetDialogString(message),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
@@ -216,7 +218,7 @@ public sealed partial class PlaystationApiDemoForm : Form
                 currentApi!
                 .VshNotify
                 (
-                    Internal_GetCheatString(message, enabled)
+                    cheatToggleString
                 );
         });
     }
